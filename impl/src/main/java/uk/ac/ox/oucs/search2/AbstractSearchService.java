@@ -22,7 +22,7 @@ public abstract class AbstractSearchService implements SearchService {
 
     @Override
     public SearchResultList search(String searchQuery) {
-        return search(searchQuery, getAllViewableSites(), 0, defaultLength, searchFilters);
+        return search(searchQuery, getContexts(SearchContext.ALL_SITES), 0, defaultLength, searchFilters);
     }
 
     @Override
@@ -37,7 +37,7 @@ public abstract class AbstractSearchService implements SearchService {
 
     @Override
     public SearchResultList search(String searchQuery, long start, long length) {
-        return search(searchQuery, getAllViewableSites(), start, length, searchFilters);
+        return search(searchQuery, getContexts(SearchContext.ALL_SITES), start, length, searchFilters);
     }
 
     @Override
