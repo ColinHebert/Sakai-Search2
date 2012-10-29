@@ -72,7 +72,8 @@ public interface IndexEventHandler {
      * Get the action associated with the current event.
      * <p>
      * IndexActions returned by one {@link IndexEventHandler} will only affect content handled by the said {@link IndexEventHandler}.
-     * Returning {@link IndexAction#UNINDEX_ALL} will only remove entries in the index which have been added by the {@link IndexEventHandler} which added them in the first place.
+     * Returning {@link IndexAction#UNINDEX_ALL} will only remove entries in the index which have been added by the
+     * {@link IndexEventHandler} which added them in the first place (based on {@link #getName()}
      * </p>
      *
      * @param event Event requiring an indexing action
