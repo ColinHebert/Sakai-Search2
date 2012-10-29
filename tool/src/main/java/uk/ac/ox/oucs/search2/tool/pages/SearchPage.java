@@ -21,6 +21,7 @@ public class SearchPage extends SakaiPage {
 
     @SpringBean
     private SearchService searchService;
+    //TODO: Set the current site ID as the context instead of using a deprecated scope
     private Model<SearchService.SearchContext> searchContextModel = new Model<SearchService.SearchContext>(SearchService.SearchContext.CURRENT_SITE);
     private Panel resultPanel;
     private Model<String> searchQueryModel = new Model<String>();

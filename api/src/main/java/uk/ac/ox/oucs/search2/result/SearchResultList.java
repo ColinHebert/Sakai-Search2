@@ -32,9 +32,9 @@ public interface SearchResultList extends List<SearchResult> {
 
     /**
      * Get the term frequencies of the current results
-     * TODO: The term frequencies on a list of result is deprecated and should be removed
      *
      * @return term frequency for each term in the currently selected results
+     * @deprecated The term frequencies on a list of result is deprecated and should be removed
      */
     @Deprecated
     Map<String, Long> getTermFrequencies();

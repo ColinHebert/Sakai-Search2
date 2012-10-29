@@ -91,7 +91,7 @@ public interface SearchService {
         /**
          * Search in the currently displayed site.
          * <p/>
-         * Deprecated! Obtaining the current site is not recommended, instead the siteId should
+         * @deprecated Obtaining the current site is not recommended, instead the siteId should
          */
         @Deprecated
         CURRENT_SITE,
