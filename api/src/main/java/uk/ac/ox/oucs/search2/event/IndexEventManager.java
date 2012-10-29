@@ -9,5 +9,11 @@ import org.sakaiproject.event.api.NotificationAction;
  * @author Colin Hebert
  */
 public interface IndexEventManager extends NotificationAction {
+    /**
+     * Add a new {@link IndexEventHandler} to the system, making the IndexEventManager aware of the relevant events
+     * with {@link IndexEventHandler#getSupportedEventTypes()}
+     *
+     * @param indexEventHandler eventHandler to add to the system
+     */
     void addContentEventHandler(IndexEventHandler indexEventHandler);
 }
