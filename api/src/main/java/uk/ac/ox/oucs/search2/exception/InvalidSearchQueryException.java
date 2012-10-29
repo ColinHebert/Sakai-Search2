@@ -1,6 +1,8 @@
 package uk.ac.ox.oucs.search2.exception;
 
 /**
+ * Exception thrown if the search query isn't valid.
+ *
  * @author Colin Hebert
  */
 public class InvalidSearchQueryException extends RuntimeException {
