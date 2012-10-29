@@ -30,7 +30,7 @@ public abstract class AbstractIndexEventManager implements IndexEventManager {
 
     @Override
     public void notify(Notification notification, Event event) {
-        logger.debug("The event '" + event.getResource() + "' is now monitored by the index event manager.");
+        logger.debug("The event '" + event.getResource() + "' has been caught.");
         notify(event);
     }
 
