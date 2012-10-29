@@ -24,14 +24,16 @@ public class DefaultIndexEventManager extends AbstractIndexEventManager {
     }
 
     @Override
-    protected void registerEventHandlerToEvent(IndexEventHandler indexEventHandler, String eventName) {
-        super.registerEventHandlerToEvent(indexEventHandler, eventName);
-        Collection<IndexEventHandler> eventHandlers = indexEventHandlers.get(eventName);
-        if (eventHandlers == null) {
-            eventHandlers = new LinkedList<IndexEventHandler>();
-            indexEventHandlers.put(eventName, eventHandlers);
+    public void addContentEventHandler(IndexEventHandler indexEventHandler) {
+        super.addContentEventHandler(indexEventHandler);
+        for (String eventName : indexEventHandler.getSupportedEventTypes()) {
+            Collection<IndexEventHandler> eventHandlers = indexEventHandlers.get(eventName);
+            if (eventHandlers == null) {
+                eventHandlers = new LinkedList<IndexEventHandler>();
+                indexEventHandlers.put(eventName, eventHandlers);
+            }
+            eventHandlers.add(indexEventHandler);
         }
-        eventHandlers.add(indexEventHandler);
     }
 
     @Override

@@ -23,13 +23,9 @@ public abstract class AbstractIndexEventManager implements IndexEventManager {
     @Override
     public void addContentEventHandler(IndexEventHandler indexEventHandler) {
         for (String eventName : indexEventHandler.getSupportedEventTypes()) {
-            registerEventHandlerToEvent(indexEventHandler, eventName);
+            notification.addFunction(eventName);
+            logger.info("The event '" + eventName + "' is now monitored by the index event manager.");
         }
-    }
-
-    protected void registerEventHandlerToEvent(IndexEventHandler indexEventHandler, String eventName) {
-        notification.addFunction(eventName);
-        logger.info("The event '" + eventName + "' is now monitored by the index event manager.");
     }
 
     @Override
