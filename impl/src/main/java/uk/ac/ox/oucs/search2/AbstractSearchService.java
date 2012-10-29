@@ -71,6 +71,7 @@ public abstract class AbstractSearchService implements SearchService {
             case SUBSCRIBED_SITES:
                 return getAllSubscribedSites();
             case CURRENT_SITE:
+                //TODO: Handle this deprecated choice
                 if (false) {
                     //ToolManager toolManager = (ToolManager) ComponentManager.get(ToolManager.class);
                     //return Collections.singleton(toolManager.getCurrentPlacement().getContext());
