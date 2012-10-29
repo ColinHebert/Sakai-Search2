@@ -17,7 +17,7 @@ public abstract class AbstractIndexEventManager implements IndexEventManager {
         // set the filter to any site related resource
         notification.setResourceFilter("/");
         notification.setAction(this);
-        logger.info("A notification has been created");
+        logger.info("The IndexEventManager has now a notification for relevant events");
     }
 
     @Override
