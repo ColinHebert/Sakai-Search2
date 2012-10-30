@@ -48,6 +48,15 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
     }
 
     /**
+     * {@inheritDoc}
+     * An event can he handled if it is one of the event returned by {@link #getSupportedEventTypes()}
+     */
+    @Override
+    public boolean isHandled(Event event) {
+        return getSupportedEventTypes().contains(event.getEvent());
+    }
+
+    /**
      * Get content from a reference
      *
      * @param reference Reference of the wanted content
