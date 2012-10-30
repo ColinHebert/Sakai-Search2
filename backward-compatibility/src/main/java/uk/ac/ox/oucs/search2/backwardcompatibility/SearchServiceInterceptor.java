@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Intercept registered functions and {@link EntityContentProducer} and add them to the {@link IndexEventManager}
+ * Intercept registered functions (event names) and {@link EntityContentProducer}, and add them to
+ * the {@link IndexEventManager} and {@link ContentProducerRegistry}
  *
  * @author Colin Hebert
  */
