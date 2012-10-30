@@ -39,25 +39,7 @@ public class SolrIndexingService extends AbstractIndexingService {
             int i = 0;
             for (Content content : contents) {
                 SolrRequest indexRequest;
-
-                SolrInputDocument document = new SolrInputDocument();
-                document.addField(SolrSchemaConstants.ID_FIELD, content.getId());
-                document.addField(SolrSchemaConstants.TITLE_FIELD, content.getTitle());
-                document.addField(SolrSchemaConstants.REFERENCE_FIELD, content.getReference());
-                document.addField(SolrSchemaConstants.SITEID_FIELD, content.getSiteId());
-                document.addField(SolrSchemaConstants.TOOL_FIELD, content.getTool());
-                document.addField(SolrSchemaConstants.CONTAINER_FIELD, content.getContainer());
-                document.addField(SolrSchemaConstants.TYPE_FIELD, content.getType());
-                document.addField(SolrSchemaConstants.SUBTYPE_FIELD, content.getSubtype());
-                document.addField(SolrSchemaConstants.URL_FIELD, content.getUrl());
-                document.addField(SolrSchemaConstants.PORTALURL_FIELD, content.isPortalUrl());
-                document.addField(SolrSchemaConstants.EVENTHANDLER_FIELD, eventHandlerName);
-                document.addField(SolrSchemaConstants.TIMESTAMP_FIELD, System.currentTimeMillis());
-
-                //Add the custom properties
-                for (Map.Entry<String, Collection<String>> entry : content.getProperties().entrySet()) {
-                    document.addField(SolrSchemaConstants.PROPERTY_PREFIX + toSolrFieldName(entry.getKey()), entry.getValue());
-                }
+                SolrInputDocument document = generateSolrBaseDocument(content, eventHandlerName);
 
                 if (content instanceof StreamContent) {
                     indexRequest = getStreamIndexRequest(document, ((StreamContent) content).getContent());
@@ -84,6 +66,28 @@ public class SolrIndexingService extends AbstractIndexingService {
         } catch (SolrServerException e) {
             logger.error("Can't contact the search server", e);
         }
+    }
+
+    private SolrInputDocument generateSolrBaseDocument(Content content, String eventHandlerName) {
+        SolrInputDocument document = new SolrInputDocument();
+        document.addField(SolrSchemaConstants.ID_FIELD, content.getId());
+        document.addField(SolrSchemaConstants.TITLE_FIELD, content.getTitle());
+        document.addField(SolrSchemaConstants.REFERENCE_FIELD, content.getReference());
+        document.addField(SolrSchemaConstants.SITEID_FIELD, content.getSiteId());
+        document.addField(SolrSchemaConstants.TOOL_FIELD, content.getTool());
+        document.addField(SolrSchemaConstants.CONTAINER_FIELD, content.getContainer());
+        document.addField(SolrSchemaConstants.TYPE_FIELD, content.getType());
+        document.addField(SolrSchemaConstants.SUBTYPE_FIELD, content.getSubtype());
+        document.addField(SolrSchemaConstants.URL_FIELD, content.getUrl());
+        document.addField(SolrSchemaConstants.PORTALURL_FIELD, content.isPortalUrl());
+        document.addField(SolrSchemaConstants.EVENTHANDLER_FIELD, eventHandlerName);
+        document.addField(SolrSchemaConstants.TIMESTAMP_FIELD, System.currentTimeMillis());
+
+        //Add the custom properties
+        for (Map.Entry<String, Collection<String>> entry : content.getProperties().entrySet()) {
+            document.addField(SolrSchemaConstants.PROPERTY_PREFIX + toSolrFieldName(entry.getKey()), entry.getValue());
+        }
+        return document;
     }
 
     @Override
