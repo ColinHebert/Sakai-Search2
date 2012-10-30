@@ -23,8 +23,7 @@ public class BackSearchService extends AbstractSearchService {
             SearchList searchList = searchService.search(searchQuery, new ArrayList<String>(contexts), (int) start, (int) (start + length), null, null);
             return new BackSearchResultList(searchList, filterChain);
         } catch (InvalidSearchQueryException e) {
-            //TODO: Log that
-            return null;
+            throw new uk.ac.ox.oucs.search2.exception.InvalidSearchQueryException(e);
         }
     }
 
