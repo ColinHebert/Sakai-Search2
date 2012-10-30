@@ -17,6 +17,7 @@ public interface IndexingService {
      * Add a simple content to the search index.
      * <p>
      * As some contents may contain other elements (folder which contain files, etc.) an iterable is given instead of a single content.
+     * If only one entry is useful, use {@link java.util.Collections#singleton(Object)}
      * </p>
      *
      * @param eventHandlerName Name of the {@link uk.ac.ox.oucs.search2.event.IndexEventHandler} responsible for this call
