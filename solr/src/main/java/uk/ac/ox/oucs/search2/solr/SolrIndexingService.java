@@ -26,6 +26,7 @@ import java.util.Map;
  * @author Colin Hebert
  */
 public class SolrIndexingService extends AbstractIndexingService {
+    public static final int QUEUED_DOCUMENTS = 10;
     private final SolrServer solrServer;
     private static final Logger logger = LoggerFactory.getLogger(SolrIndexingService.class);
 
@@ -54,7 +55,7 @@ public class SolrIndexingService extends AbstractIndexingService {
                     continue;
                 }
                 solrServer.request(indexRequest);
-                if (i++ >= 10) {
+                if (i++ >= QUEUED_DOCUMENTS) {
                     solrServer.commit();
                     i = 0;
                 }
