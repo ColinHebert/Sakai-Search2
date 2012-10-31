@@ -57,7 +57,6 @@ public abstract class AbstractSearchService implements SearchService {
         this.searchFilters = searchFilters;
     }
 
-
     /**
      * Obtain a list of site id based on the selected context
      *

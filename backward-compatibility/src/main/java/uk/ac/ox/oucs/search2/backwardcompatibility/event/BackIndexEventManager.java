@@ -20,8 +20,8 @@ import java.util.Map;
  * @author Colin Hebert
  */
 public class BackIndexEventManager extends AbstractIndexEventManager {
-    private SearchIndexBuilder searchIndexBuilder;
     private final BackAdditionalEventHandler eventHandler;
+    private SearchIndexBuilder searchIndexBuilder;
 
     public BackIndexEventManager(NotificationService notificationService) {
         super(notificationService);

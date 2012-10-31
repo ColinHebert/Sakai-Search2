@@ -115,8 +115,8 @@ public class ThreadedIndexingService implements IndexingService {
         });
     }
 
-    private void setCurrentSessionToAdmin(){
-        Session session =  sessionManager.getCurrentSession();
+    private void setCurrentSessionToAdmin() {
+        Session session = sessionManager.getCurrentSession();
         session.setUserId("admin");
         session.setUserEid("admin");
     }

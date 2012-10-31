@@ -27,8 +27,8 @@ import java.util.Map;
  */
 public class SolrIndexingService extends AbstractIndexingService {
     public static final int MAX_QUEUED_DOCUMENTS = 10;
-    private final SolrServer solrServer;
     private static final Logger logger = LoggerFactory.getLogger(SolrIndexingService.class);
+    private final SolrServer solrServer;
 
     public SolrIndexingService(SolrServer solrServer) {
         this.solrServer = solrServer;
@@ -166,7 +166,7 @@ public class SolrIndexingService extends AbstractIndexingService {
      * @param propertyName String to filter
      * @return a filtered name more appropriate to use with solr
      */
-    private static String toSolrFieldName(String propertyName) {
+    private String toSolrFieldName(String propertyName) {
         StringBuilder sb = new StringBuilder(propertyName.length());
         boolean lastUnderscore = false;
         for (Character c : propertyName.toLowerCase().toCharArray()) {

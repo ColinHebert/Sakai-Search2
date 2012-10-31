@@ -29,9 +29,9 @@ import java.util.List;
  */
 public class SearchEntityProvider extends AbstractEntityProvider implements ActionsExecutable, Outputable, Describeable {
     private static final int DEFAULT_RESULT_COUNT = 10;
+    public UserDirectoryService userDirectoryService;
     private SearchService searchService;
     private SiteService siteService;
-    public UserDirectoryService userDirectoryService;
 
     /**
      * Name of the service, here "search"
@@ -137,6 +137,21 @@ public class SearchEntityProvider extends AbstractEntityProvider implements Acti
         return siteIds;
     }
 
+    //--------------------------
+    //Spring injected components
+    //--------------------------
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
+    public void setSiteService(SiteService siteService) {
+        this.siteService = siteService;
+    }
+
+    public void setUserDirectoryService(UserDirectoryService userDirectoryService) {
+        this.userDirectoryService = userDirectoryService;
+    }
+
     /**
      * A wrapper to customise the result sent through EntityBroker
      * <p>
@@ -177,20 +192,5 @@ public class SearchEntityProvider extends AbstractEntityProvider implements Acti
         public String getUrl() {
             return searchResult.getContent().getUrl();
         }
-    }
-
-    //--------------------------
-    //Spring injected components
-    //--------------------------
-    public void setSearchService(SearchService searchService) {
-        this.searchService = searchService;
-    }
-
-    public void setSiteService(SiteService siteService) {
-        this.siteService = siteService;
-    }
-
-    public void setUserDirectoryService(UserDirectoryService userDirectoryService) {
-        this.userDirectoryService = userDirectoryService;
     }
 }

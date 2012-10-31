@@ -11,8 +11,8 @@ import uk.ac.ox.oucs.search2.result.SearchResult;
  */
 public class SecuritySearchFilter implements SearchFilter {
     private static final Logger logger = LoggerFactory.getLogger(SecuritySearchFilter.class);
-    private ContentProducerRegistry contentProducerRegistry;
     private static final SearchResult censoredSearchResult = new SearchResult.CensoredSearchResult();
+    private ContentProducerRegistry contentProducerRegistry;
 
     @Override
     public SearchResult filter(SearchResult searchResult, FilterChain filterChain) {

@@ -19,7 +19,6 @@ import java.util.Map;
 public class BackSearchResultList extends AbstractSearchResultList<SearchList> {
     private long numberResultsFound;
     private long startCurrentSelection;
-
     private Map<String, Long> termFrequency;
 
     public BackSearchResultList(SearchList searchList) {

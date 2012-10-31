@@ -22,6 +22,13 @@ public abstract class BackContent implements Content {
         this.entityContentProducer = entityContentProducer;
     }
 
+    public static Content extractContent(String reference, EntityContentProducer entityContentProducer) {
+        if (entityContentProducer.isContentFromReader(reference))
+            return new BackReaderContent(reference, entityContentProducer);
+        else
+            return new BackStringContent(reference, entityContentProducer);
+    }
+
     @Override
     public String getTitle() {
         return entityContentProducer.getTitle(reference);
@@ -111,13 +118,6 @@ public abstract class BackContent implements Content {
 
             properties.put(propertyName, values);
         }
-    }
-
-    public static Content extractContent(String reference, EntityContentProducer entityContentProducer) {
-        if (entityContentProducer.isContentFromReader(reference))
-            return new BackReaderContent(reference, entityContentProducer);
-        else
-            return new BackStringContent(reference, entityContentProducer);
     }
 
     public static class BackReaderContent extends BackContent implements ReaderContent {

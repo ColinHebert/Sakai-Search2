@@ -9,8 +9,10 @@ import java.io.Reader;
 
 /**
  * ContentStreamReaderBase invert the default behaviour of {@link org.apache.solr.common.util.ContentStreamBase}.
+ * <p>
  * Instead of having a {@link #getReader} method based on the result of {@link #getStream()}, {@link #getStream()} uses
  * the {@link java.io.Reader} provided by {@link #getReader()}.
+ * </p>
  *
  * @author Colin Hebert
  */

@@ -14,16 +14,14 @@ import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.sakaiproject.component.cover.ComponentManager;
-import org.sakaiproject.site.api.Site;
-import org.sakaiproject.site.api.SiteService;
-import org.sakaiproject.user.api.UserDirectoryService;
 import uk.ac.ox.oucs.search2.SearchService;
 import uk.ac.ox.oucs.search2.result.SearchResult;
 import uk.ac.ox.oucs.search2.result.SearchResultList;
 import uk.ac.ox.oucs.search2.tool.TermWeigher;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Colin Hebert

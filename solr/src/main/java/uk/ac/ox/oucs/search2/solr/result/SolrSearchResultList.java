@@ -18,10 +18,10 @@ import java.util.*;
  * @author Colin Hebert
  */
 public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse> {
+    private final Map<String, Long> termFrequencies = new HashMap<String, Long>();
     private long numberResultsFound;
     private long startCurrentSelection;
     private String suggestion;
-    private final Map<String, Long> termFrequencies = new HashMap<String, Long>();
 
     public SolrSearchResultList(QueryResponse queryResponse) {
         this(queryResponse, Collections.<SearchFilter>emptyList());
@@ -68,7 +68,7 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
         }
     }
 
-    private static SolrSearchResult extractResult(long index, SolrDocument document, Map<String, List<String>> highlights) {
+    private SolrSearchResult extractResult(long index, SolrDocument document, Map<String, List<String>> highlights) {
         Content content = new SolrContent(document);
         double score = (Double) document.getFieldValue(SolrSchemaConstants.SCORE_FIELD);
         String highlightedText = getText(highlights.get(SolrSchemaConstants.CONTENT_FIELD));
@@ -108,7 +108,7 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
             return spellCheckResponse.getCollatedResult();
     }
 
-    private static String getText(Iterable<String> highlights) {
+    private String getText(Iterable<String> highlights) {
         StringBuilder sb = new StringBuilder();
         for (String highlight : highlights)
             sb.append(highlight).append("... ");

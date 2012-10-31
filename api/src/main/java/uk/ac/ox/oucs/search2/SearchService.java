@@ -90,7 +90,7 @@ public interface SearchService {
     public enum SearchContext {
         /**
          * Search in the currently displayed site.
-         * <p/>
+         *
          * @deprecated Obtaining the current site is not recommended, instead the siteId should
          */
         @Deprecated

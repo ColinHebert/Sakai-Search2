@@ -12,56 +12,6 @@ import java.util.Collection;
  */
 public interface IndexEventHandler {
     /**
-     * Actions possible with the {@link uk.ac.ox.oucs.search2.IndexingService}
-     */
-    public enum IndexAction {
-        /**
-         * Index a new specific content, if the content was already indexed, it will be reindexed and the new values
-         * will overwrite the previous values
-         */
-        INDEX_FILE,
-        /**
-         * Remove a content from the index
-         */
-        UNINDEX_FILE,
-
-        /**
-         * Index an entire site, if the content was indexed, the new version will overwrite the previous one.
-         * If the content is not available anymore, it won't be modified (or deleted) from the index.
-         */
-        INDEX_SITE,
-        /**
-         * Index an entire site, if the content was indexed, the new version will overwrite the previous one.
-         * If the content is not available anymore, it will be removed from the index.
-         */
-        REINDEX_SITE,
-        /**
-         * Remove every entry in the index related to one site
-         */
-        UNINDEX_SITE,
-
-        /**
-         * Index every content available and handled.
-         * If the content is not available anymore, it won't be modified (or deleted) from the index.
-         */
-        INDEX_ALL,
-        /**
-         * Index every content available and handled.
-         * If the content is not available anymore, it will be removed from the index.
-         */
-        REINDEX_ALL,
-        /**
-         * Remove every entry in the index
-         */
-        UNINDEX_ALL,
-
-        /**
-         * Do nothing
-         */
-        IGNORE
-    }
-
-    /**
      * Get a collection of events handled.
      *
      * @return Every event that can be handled
@@ -118,4 +68,54 @@ public interface IndexEventHandler {
      * @return true if and only if the event is handled
      */
     boolean isHandled(Event event);
+
+    /**
+     * Actions possible with the {@link uk.ac.ox.oucs.search2.IndexingService}
+     */
+    public enum IndexAction {
+        /**
+         * Index a new specific content, if the content was already indexed, it will be reindexed and the new values
+         * will overwrite the previous values
+         */
+        INDEX_FILE,
+        /**
+         * Remove a content from the index
+         */
+        UNINDEX_FILE,
+
+        /**
+         * Index an entire site, if the content was indexed, the new version will overwrite the previous one.
+         * If the content is not available anymore, it won't be modified (or deleted) from the index.
+         */
+        INDEX_SITE,
+        /**
+         * Index an entire site, if the content was indexed, the new version will overwrite the previous one.
+         * If the content is not available anymore, it will be removed from the index.
+         */
+        REINDEX_SITE,
+        /**
+         * Remove every entry in the index related to one site
+         */
+        UNINDEX_SITE,
+
+        /**
+         * Index every content available and handled.
+         * If the content is not available anymore, it won't be modified (or deleted) from the index.
+         */
+        INDEX_ALL,
+        /**
+         * Index every content available and handled.
+         * If the content is not available anymore, it will be removed from the index.
+         */
+        REINDEX_ALL,
+        /**
+         * Remove every entry in the index
+         */
+        UNINDEX_ALL,
+
+        /**
+         * Do nothing
+         */
+        IGNORE
+    }
 }
