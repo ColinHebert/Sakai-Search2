@@ -41,6 +41,7 @@ public class SolrIndexingService extends AbstractIndexingService {
             for (Content content : contents) {
                 SolrRequest indexRequest;
                 SolrInputDocument document = generateSolrBaseDocument(content, eventHandlerName);
+                logger.debug("Indexing the content of '" + content + "'");
 
                 if (content instanceof StreamContent) {
                     indexRequest = getStreamIndexRequest(document, ((StreamContent) content).getContent());
@@ -51,7 +52,10 @@ public class SolrIndexingService extends AbstractIndexingService {
                     document.addField(SolrSchemaConstants.CONTENT_FIELD, ((StringContent) content).getContent());
                     indexRequest = new UpdateRequest().add(document);
                 } else {
-                    //TODO: Log/exception??
+                    if (content == null)
+                        logger.error("Null content can't be indexed");
+                    else
+                        logger.error("Impossible to index '" + content.getClass() + "'");
                     continue;
                 }
                 solrServer.request(indexRequest);
