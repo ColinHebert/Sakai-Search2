@@ -2,7 +2,6 @@ package uk.ac.ox.oucs.search2.solr;
 
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
 import org.apache.solr.client.solrj.request.UpdateRequest;
 import org.apache.solr.common.SolrInputDocument;
@@ -55,7 +54,7 @@ public class SolrIndexingService extends AbstractIndexingService {
                     if (content == null)
                         logger.error("Null content can't be indexed");
                     else
-                        logger.error("Impossible to index '" + content.getClass() + "'");
+                        logger.error("Impossible to index '" + content + "'");
                     continue;
                 }
                 solrServer.request(indexRequest);
@@ -65,10 +64,8 @@ public class SolrIndexingService extends AbstractIndexingService {
                 }
             }
             solrServer.commit();
-        } catch (IOException e) {
-            logger.warn("Couldn't execute the request", e);
-        } catch (SolrServerException e) {
-            logger.error("Can't contact the search server", e);
+        } catch (Exception e) {
+            logger.warn("An exception occurred while indexing the documents in '" + contents + "' for '" + eventHandlerName + "'", e);
         }
     }
 
@@ -103,10 +100,8 @@ public class SolrIndexingService extends AbstractIndexingService {
             }
             solrServer.request(unindexRequest);
             solrServer.commit();
-        } catch (IOException e) {
-            logger.warn("Couldn't execute the request", e);
-        } catch (SolrServerException e) {
-            logger.error("Can't contact the search server", e);
+        } catch (Exception e) {
+            logger.error("An exception occurred while unindexing the documents in '" + contents + "' for '" + eventHandlerName + "'", e);
         }
     }
 
@@ -116,10 +111,8 @@ public class SolrIndexingService extends AbstractIndexingService {
         try {
             solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ':' + eventHandlerName +
                     " AND " + SolrSchemaConstants.SITEID_FIELD + ':' + siteId);
-        } catch (SolrServerException e) {
-            logger.warn("Couldn't clean the index for eventHandler '" + eventHandlerName + "' and siteId '" + siteId + "'", e);
-        } catch (IOException e) {
-            logger.error("Couln't access the solr server", e);
+        } catch (Exception e) {
+            logger.error("An exception occurred while unindexing the site '" + siteId + "' for '" + eventHandlerName + "'", e);
         }
     }
 
@@ -128,10 +121,8 @@ public class SolrIndexingService extends AbstractIndexingService {
         logger.info("Removing content for eventHandler '" + eventHandlerName + "'");
         try {
             solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ':' + eventHandlerName);
-        } catch (SolrServerException e) {
-            logger.warn("Couldn't clean the index for eventHandler '" + eventHandlerName + "'", e);
-        } catch (IOException e) {
-            logger.error("Couln't access the solr server", e);
+        } catch (Exception e) {
+            logger.error("An exception occurred while unindexing everything for '" + eventHandlerName + "'", e);
         }
     }
 
