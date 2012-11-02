@@ -1,5 +1,7 @@
 package uk.ac.ox.oucs.search2.event;
 
+import org.sakaiproject.event.api.Event;
+import org.sakaiproject.event.api.Notification;
 import org.sakaiproject.event.api.NotificationAction;
 
 /**
@@ -16,4 +18,14 @@ public interface IndexEventManager extends NotificationAction {
      * @param indexEventHandler eventHandler to add to the system
      */
     void addContentEventHandler(IndexEventHandler indexEventHandler);
+
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This method shouldn't let any exception propagate further
+     * </p>
+     */
+    @Override
+    void notify(Notification notification, Event event);
 }

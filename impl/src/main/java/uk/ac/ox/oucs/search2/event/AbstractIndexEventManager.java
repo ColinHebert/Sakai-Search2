@@ -31,7 +31,11 @@ public abstract class AbstractIndexEventManager implements IndexEventManager {
     @Override
     public final void notify(Notification notification, Event event) {
         logger.debug("The event '" + event.getResource() + "' has been caught.");
-        notify(event);
+        try {
+            notify(event);
+        } catch (Exception e) {
+            logger.error("An uncaught exception tried to propagate in the event system", e);
+        }
     }
 
     protected abstract void notify(Event event);
