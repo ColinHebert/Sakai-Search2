@@ -44,16 +44,7 @@ public class SolrSearchService extends AbstractSearchService {
             query.setParam("tv.tf", true);
 
             if (!contexts.isEmpty()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append('+').append(SolrSchemaConstants.SITEID_FIELD).append(":");
-                sb.append('(');
-                for (Iterator<String> contextIterator = contexts.iterator(); contextIterator.hasNext(); ) {
-                    sb.append('"').append(contextIterator.next()).append('"');
-                    if (contextIterator.hasNext())
-                        sb.append(" OR ");
-                }
-                sb.append(')');
-                query.setFilterQueries(sb.toString());
+                query.setFilterQueries(createSitesFilterQuery(contexts));
             }
 
             logger.debug("Searching with Solr : " + searchQuery);
@@ -63,6 +54,20 @@ public class SolrSearchService extends AbstractSearchService {
         } catch (SolrServerException e) {
             throw new InvalidSearchQueryException("Failed to parse Query ", e);
         }
+    }
+
+    private String createSitesFilterQuery(Collection<String> contexts) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('+').append(SolrSchemaConstants.SITEID_FIELD).append(":");
+        sb.append('(');
+        for (Iterator<String> contextIterator = contexts.iterator(); contextIterator.hasNext(); ) {
+            sb.append('"').append(contextIterator.next()).append('"');
+            if (contextIterator.hasNext())
+                sb.append(" OR ");
+        }
+        sb.append(')');
+        logger.debug("Create filter query " + sb.toString());
+        return sb.toString();
     }
 
     @Override
