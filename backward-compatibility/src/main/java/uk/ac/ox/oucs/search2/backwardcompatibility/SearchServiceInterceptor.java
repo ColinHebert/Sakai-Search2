@@ -215,42 +215,7 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
 
     @Override
     public SearchStatus getSearchStatus() {
-        return new SearchStatus() {
-            @Override
-            public String getLastLoad() {
-                return null;
-            }
-
-            @Override
-            public String getLoadTime() {
-                return null;
-            }
-
-            @Override
-            public String getCurrentWorker() {
-                return null;
-            }
-
-            @Override
-            public String getCurrentWorkerETC() {
-                return null;
-            }
-
-            @Override
-            public List getWorkerNodes() {
-                return Collections.emptyList();
-            }
-
-            @Override
-            public String getNDocuments() {
-                return null;
-            }
-
-            @Override
-            public String getPDocuments() {
-                return null;
-            }
-        };
+        return null;
     }
 
     @Override
