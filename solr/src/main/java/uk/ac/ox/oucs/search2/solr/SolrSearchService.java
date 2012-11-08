@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.AbstractSearchService;
@@ -61,7 +62,7 @@ public class SolrSearchService extends AbstractSearchService {
         sb.append('+').append(SolrSchemaConstants.SITEID_FIELD).append(":");
         sb.append('(');
         for (Iterator<String> contextIterator = contexts.iterator(); contextIterator.hasNext(); ) {
-            sb.append('"').append(contextIterator.next()).append('"');
+            sb.append(ClientUtils.escapeQueryChars(contextIterator.next()));
             if (contextIterator.hasNext())
                 sb.append(" OR ");
         }

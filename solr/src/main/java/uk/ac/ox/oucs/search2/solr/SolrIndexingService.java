@@ -4,6 +4,7 @@ import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
 import org.apache.solr.client.solrj.request.UpdateRequest;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.apache.solr.common.util.ContentStreamBase;
@@ -103,8 +104,8 @@ public class SolrIndexingService extends AbstractIndexingService {
     public void unindexSite(String eventHandlerName, String siteId) {
         logger.info("Removing content for eventHandler '" + eventHandlerName + "' and siteId '" + siteId + "'");
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ":\"" + eventHandlerName + "\"" +
-                    " AND " + SolrSchemaConstants.SITEID_FIELD + ":\"" + siteId + "\"");
+            solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ":" + ClientUtils.escapeQueryChars(eventHandlerName) +
+                    " AND " + SolrSchemaConstants.SITEID_FIELD + ":" + ClientUtils.escapeQueryChars(siteId));
         } catch (Exception e) {
             logger.error("An exception occurred while unindexing the site '" + siteId + "' for '" + eventHandlerName + "'", e);
         }
@@ -114,7 +115,7 @@ public class SolrIndexingService extends AbstractIndexingService {
     public void unindexAll(String eventHandlerName) {
         logger.info("Removing content for eventHandler '" + eventHandlerName + "'");
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ":\"" + eventHandlerName + "\"");
+            solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ":" + ClientUtils.escapeQueryChars(eventHandlerName));
         } catch (Exception e) {
             logger.error("An exception occurred while unindexing everything for '" + eventHandlerName + "'", e);
         }
