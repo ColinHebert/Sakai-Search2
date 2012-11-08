@@ -18,16 +18,15 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
     @Override
     public Iterable<Content> getContent(Event event) {
         IndexAction indexAction = getIndexAction(event);
-        String reference = event.getResource();
 
         switch (indexAction) {
             case INDEX_FILE:
             case UNINDEX_FILE:
-                return Collections.singleton(getContent(reference));
+                return Collections.singleton(getContent(event.getResource()));
             case INDEX_SITE:
             case REINDEX_SITE:
             case UNINDEX_SITE:
-                return getSiteContent(reference);
+                return getSiteContent(getSite(event));
             case INDEX_ALL:
             case REINDEX_ALL:
             case UNINDEX_ALL:
