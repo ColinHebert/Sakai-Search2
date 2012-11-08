@@ -25,7 +25,6 @@ import java.util.Map;
  * @author Colin Hebert
  */
 public class SolrIndexingService extends AbstractIndexingService {
-    public static final int MAX_QUEUED_DOCUMENTS = 10;
     private static final Logger logger = LoggerFactory.getLogger(SolrIndexingService.class);
     private final SolrServer solrServer;
 
@@ -36,7 +35,6 @@ public class SolrIndexingService extends AbstractIndexingService {
     @Override
     public void indexContent(String eventHandlerName, Iterable<Content> contents) {
         try {
-            int queued_documents = 0;
             for (Content content : contents) {
                 SolrRequest indexRequest;
                 SolrInputDocument document = generateSolrBaseDocument(content, eventHandlerName);
@@ -58,10 +56,6 @@ public class SolrIndexingService extends AbstractIndexingService {
                     continue;
                 }
                 solrServer.request(indexRequest);
-                if (queued_documents++ >= MAX_QUEUED_DOCUMENTS) {
-                    solrServer.commit();
-                    queued_documents = 0;
-                }
             }
             solrServer.commit();
         } catch (Exception e) {
