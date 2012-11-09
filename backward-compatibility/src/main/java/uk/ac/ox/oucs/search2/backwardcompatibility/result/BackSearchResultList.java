@@ -2,6 +2,8 @@ package uk.ac.ox.oucs.search2.backwardcompatibility.result;
 
 import org.sakaiproject.search.api.SearchList;
 import org.sakaiproject.search.api.TermFrequency;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.filter.FilterChain;
 import uk.ac.ox.oucs.search2.filter.SearchFilter;
 import uk.ac.ox.oucs.search2.result.AbstractSearchResultList;
@@ -17,6 +19,7 @@ import java.util.Map;
  * @author Colin Hebert
  */
 public class BackSearchResultList extends AbstractSearchResultList<SearchList> {
+    private static final Logger logger = LoggerFactory.getLogger(BackSearchResultList.class);
     private long numberResultsFound;
     private long startCurrentSelection;
     private Map<String, Long> termFrequency;
@@ -52,7 +55,7 @@ public class BackSearchResultList extends AbstractSearchResultList<SearchList> {
                 try {
                     extractResultTermFrequencies(originalSearchResult.getTerms());
                 } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    logger.error("Couldn't extract the term frequencies", e);
                 }
             }
 
