@@ -78,7 +78,9 @@ public interface SearchService {
     String getSuggestion(String searchString);
 
     /**
-     * Set filters applied on results before being returned
+     * Set filters applied on results before being returned.
+     * For obvious reasons, it's recommended to have an {@link Iterable} able to provide multiple
+     * {@link java.util.Iterator} in the same order
      *
      * @param searchFilters filters to apply on each result
      */
