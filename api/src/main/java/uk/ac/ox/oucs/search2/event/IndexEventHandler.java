@@ -4,6 +4,7 @@ import org.sakaiproject.event.api.Event;
 import uk.ac.ox.oucs.search2.content.Content;
 
 import java.util.Collection;
+import java.util.Queue;
 
 /**
  * Component able to intercept an {@link Event} and provide a {@link Content} and the appropriate course of action
@@ -34,13 +35,13 @@ public interface IndexEventHandler {
     /**
      * Get the content affected by a event.
      * <p>
-     * It's recommended to have a lazy {@link Iterable} which will generate {@link Content} instances on the fly.
+     * It's recommended to have a lazy {@link Queue} which will generate {@link Content} instances on the fly.
      * </p>
      *
      * @param event event starting the indexation process
-     * @return an {@link Iterable} going through each content affected
+     * @return a {@link Queue} going through each content affected
      */
-    Iterable<Content> getContent(Event event);
+    Queue<Content> getContent(Event event);
 
     /**
      * Get the site affected by an event.

@@ -4,6 +4,8 @@ import org.sakaiproject.search.api.SearchIndexBuilder;
 import uk.ac.ox.oucs.search2.AbstractIndexingService;
 import uk.ac.ox.oucs.search2.content.Content;
 
+import java.util.Queue;
+
 /**
  * @author Colin Hebert
  */
@@ -11,22 +13,22 @@ public class BackIndexingService extends AbstractIndexingService {
     private SearchIndexBuilder searchIndexBuilder;
 
     @Override
-    public void indexContent(String eventHandlerName, Iterable<Content> contents) {
+    public void indexContent(String eventHandlerName, Queue<Content> contents) {
         throw new UnsupportedOperationException("The previous search service doesn't support manual indexation");
     }
 
     @Override
-    public void unindexContent(String eventHandlerName, Iterable<Content> contents) {
+    public void unindexContent(String eventHandlerName, Queue<Content> contents) {
         throw new UnsupportedOperationException("The previous search service doesn't support manual removal");
     }
 
     @Override
-    public void indexSite(String eventHandlerName, Iterable<Content> contents, String site) {
+    public void indexSite(String eventHandlerName, Queue<Content> contents, String site) {
         searchIndexBuilder.refreshIndex(site);
     }
 
     @Override
-    public void reindexSite(String eventHandlerName, Iterable<Content> contents, String site) {
+    public void reindexSite(String eventHandlerName, Queue<Content> contents, String site) {
         searchIndexBuilder.rebuildIndex(site);
     }
 
@@ -36,12 +38,12 @@ public class BackIndexingService extends AbstractIndexingService {
     }
 
     @Override
-    public void indexAll(String eventHandlerName, Iterable<Content> contents) {
+    public void indexAll(String eventHandlerName, Queue<Content> contents) {
         searchIndexBuilder.refreshIndex();
     }
 
     @Override
-    public void reindexAll(String eventHandlerName, Iterable<Content> contents) {
+    public void reindexAll(String eventHandlerName, Queue<Content> contents) {
         searchIndexBuilder.rebuildIndex();
     }
 

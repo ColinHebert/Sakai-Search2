@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.content.Content;
 
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Basic implementation of {@link IndexEventHandler}
@@ -16,13 +18,13 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
     private static final Logger logger = LoggerFactory.getLogger(AbstractIndexEventHandler.class);
 
     @Override
-    public Iterable<Content> getContent(Event event) {
+    public Queue<Content> getContent(Event event) {
         IndexAction indexAction = getIndexAction(event);
 
         switch (indexAction) {
             case INDEX_FILE:
             case UNINDEX_FILE:
-                return Collections.singleton(getContent(event.getResource()));
+                return new LinkedList<Content>(Collections.singleton(getContent(event.getResource())));
             case INDEX_SITE:
             case REINDEX_SITE:
             case UNINDEX_SITE:
@@ -33,7 +35,7 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
                 return getAllContent();
             default:
                 logger.warn("Action '" + indexAction + "' isn't supported");
-                return Collections.emptyList();
+                return new LinkedList<Content>();
         }
     }
 
@@ -64,7 +66,7 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
      * Get content from a reference
      *
      * @param reference Reference of the wanted content
-     * @return a Content
+     * @return a {@link Content}
      */
     protected abstract Content getContent(String reference);
 
@@ -72,14 +74,14 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
      * Get every content possible associated with one site
      *
      * @param siteId Unique identifier of the site
-     * @return an Iterable containing every element related to the site
+     * @return a {@link Queue} containing every element related to the site
      */
-    protected abstract Iterable<Content> getSiteContent(String siteId);
+    protected abstract Queue<Content> getSiteContent(String siteId);
 
     /**
      * Get every possible content to be indexed/unindexed
      *
-     * @return an Iterable containing every element handled
+     * @return a {@link Queue} containing every element handled
      */
-    protected abstract Iterable<Content> getAllContent();
+    protected abstract Queue<Content> getAllContent();
 }

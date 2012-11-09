@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * @author Colin Hebert
@@ -34,9 +35,10 @@ public class SolrIndexingService extends AbstractIndexingService {
     }
 
     @Override
-    public void indexContent(String eventHandlerName, Iterable<Content> contents) {
+    public void indexContent(String eventHandlerName, Queue<Content> contents) {
         try {
-            for (Content content : contents) {
+            while (contents.peek() != null) {
+                Content content = contents.poll();
                 SolrRequest indexRequest;
                 SolrInputDocument document = generateSolrBaseDocument(content, eventHandlerName);
                 logger.debug("Indexing the content of '" + content + "'");
@@ -50,10 +52,7 @@ public class SolrIndexingService extends AbstractIndexingService {
                     document.addField(SolrSchemaConstants.CONTENT_FIELD, ((StringContent) content).getContent());
                     indexRequest = new UpdateRequest().add(document);
                 } else {
-                    if (content == null)
-                        logger.error("Null content can't be indexed");
-                    else
-                        logger.error("Impossible to index '" + content + "'");
+                    logger.error("Impossible to index '" + content + "'");
                     continue;
                 }
                 solrServer.request(indexRequest);
@@ -87,11 +86,11 @@ public class SolrIndexingService extends AbstractIndexingService {
     }
 
     @Override
-    public void unindexContent(String eventHandlerName, Iterable<Content> contents) {
+    public void unindexContent(String eventHandlerName, Queue<Content> contents) {
         try {
             UpdateRequest unindexRequest = new UpdateRequest();
-            for (Content content : contents) {
-                unindexRequest.deleteById(content.getId());
+            while (contents.peek() != null) {
+                unindexRequest.deleteById(contents.poll().getId());
             }
             solrServer.request(unindexRequest);
             solrServer.commit();

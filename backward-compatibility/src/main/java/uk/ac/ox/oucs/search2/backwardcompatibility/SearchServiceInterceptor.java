@@ -13,10 +13,7 @@ import uk.ac.ox.oucs.search2.event.IndexEventHandler;
 import uk.ac.ox.oucs.search2.event.IndexEventManager;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Intercept registered functions (event names) and {@link EntityContentProducer}, and add them to
@@ -47,7 +44,7 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
             }
 
             @Override
-            public Iterable<Content> getContent(Event event) {
+            public Queue<Content> getContent(Event event) {
                 return null;
             }
 

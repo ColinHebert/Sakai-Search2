@@ -186,7 +186,7 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
         }
 
         private Content getUniqueContent() {
-            return indexEventHandler.getContent(event).iterator().next();
+            return indexEventHandler.getContent(event).poll();
         }
 
         @Override

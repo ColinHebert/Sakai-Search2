@@ -6,6 +6,7 @@ import uk.ac.ox.oucs.search2.event.IndexEventHandler;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Queue;
 
 /**
  * This implementation MUST NOT be used outside the backward compatible project.
@@ -40,7 +41,7 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public Iterable<Content> getContent(Event event) {
+    public Queue<Content> getContent(Event event) {
         //Doesn't matter
         return null;
     }

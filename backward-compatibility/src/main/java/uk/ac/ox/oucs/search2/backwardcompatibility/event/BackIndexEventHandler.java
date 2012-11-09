@@ -8,6 +8,8 @@ import uk.ac.ox.oucs.search2.event.IndexEventHandler;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author Colin Hebert
@@ -43,8 +45,8 @@ public class BackIndexEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public Iterable<Content> getContent(Event event) {
-        return Collections.singleton(BackContent.extractContent(event.getResource(), ecp));
+    public Queue<Content> getContent(Event event) {
+        return new LinkedList<Content>(Collections.singleton(BackContent.extractContent(event.getResource(), ecp)));
     }
 
     @Override

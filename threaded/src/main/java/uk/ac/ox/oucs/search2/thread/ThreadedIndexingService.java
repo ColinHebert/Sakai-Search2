@@ -5,6 +5,7 @@ import org.sakaiproject.tool.api.SessionManager;
 import uk.ac.ox.oucs.search2.IndexingService;
 import uk.ac.ox.oucs.search2.content.Content;
 
+import java.util.Queue;
 import java.util.concurrent.Executor;
 
 /**
@@ -28,7 +29,7 @@ public class ThreadedIndexingService implements IndexingService {
     }
 
     @Override
-    public void indexContent(final String eventHandlerName, final Iterable<Content> contents) {
+    public void indexContent(final String eventHandlerName, final Queue<Content> contents) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -39,7 +40,7 @@ public class ThreadedIndexingService implements IndexingService {
     }
 
     @Override
-    public void unindexContent(final String eventHandlerName, final Iterable<Content> contents) {
+    public void unindexContent(final String eventHandlerName, final Queue<Content> contents) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -50,7 +51,7 @@ public class ThreadedIndexingService implements IndexingService {
     }
 
     @Override
-    public void indexSite(final String eventHandlerName, final Iterable<Content> contents, final String site) {
+    public void indexSite(final String eventHandlerName, final Queue<Content> contents, final String site) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -61,7 +62,7 @@ public class ThreadedIndexingService implements IndexingService {
     }
 
     @Override
-    public void reindexSite(final String eventHandlerName, final Iterable<Content> contents, final String site) {
+    public void reindexSite(final String eventHandlerName, final Queue<Content> contents, final String site) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +84,7 @@ public class ThreadedIndexingService implements IndexingService {
     }
 
     @Override
-    public void indexAll(final String eventHandlerName, final Iterable<Content> contents) {
+    public void indexAll(final String eventHandlerName, final Queue<Content> contents) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -94,7 +95,7 @@ public class ThreadedIndexingService implements IndexingService {
     }
 
     @Override
-    public void reindexAll(final String eventHandlerName, final Iterable<Content> contents) {
+    public void reindexAll(final String eventHandlerName, final Queue<Content> contents) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
