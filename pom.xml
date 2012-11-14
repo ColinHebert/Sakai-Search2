@@ -19,6 +19,11 @@
             <url>http://maven-repo.oucs.ox.ac.uk/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    <scm>
+        <connection>scm:git:git://github.com/ox-it/wl-search-2.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:ox-it/wl-search-2.git</developerConnection>
+        <url>https://github.com/ox-it/wl-search-2</url>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
