@@ -91,15 +91,15 @@ public abstract class BlockingTaskRunner implements TaskRunner {
         }
     }
 
-    private void unfoldNestedTaskException(MultipleTasksException e) {
-        for (TaskException t : e.getThrownExceptions()) {
-            if (t instanceof TemporaryTaskException) {
+    private void unfoldNestedTaskException(MultipleTasksException mte) {
+        for (TaskException te : mte.getThrownExceptions()) {
+            if (te instanceof TemporaryTaskException) {
                 taskRunnerLock.tryLock();
-                TemporaryTaskException tthe = (TemporaryTaskException) t;
-                logger.warn("A task failed '" + tthe.getNewTask() + "' will be tried again later.", t);
-                taskQueuing.addTaskToQueue(tthe.getNewTask());
+                TemporaryTaskException tte = (TemporaryTaskException) te;
+                logger.warn("A task failed '" + tte.getNewTask() + "' will be tried again later.", te);
+                taskQueuing.addTaskToQueue(tte.getNewTask());
             } else {
-                logger.error("An exception occured during the task execution.", t);
+                logger.error("An exception occured during the task execution.", te);
             }
         }
     }
