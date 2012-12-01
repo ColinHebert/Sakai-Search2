@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Queue;
 
 /**
- * Component able to intercept an {@link Event} and provide a {@link Content} and the appropriate course of action
+ * Component able to intercept an {@link Event} and provide a {@link Task} to execute
  *
  * @author Colin Hebert
  */
