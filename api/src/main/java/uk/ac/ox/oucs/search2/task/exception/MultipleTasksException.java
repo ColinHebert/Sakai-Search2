@@ -31,7 +31,11 @@ public class MultipleTasksException extends TaskException {
     }
 
     public void addTaskException(TaskException te) {
-        thrownExceptions.add(te);
+        if (te instanceof MultipleTasksException) {
+            thrownExceptions.addAll(((MultipleTasksException) te).getThrownExceptions());
+        } else {
+            thrownExceptions.add(te);
+        }
     }
 
     public Collection<TaskException> getThrownExceptions() {
