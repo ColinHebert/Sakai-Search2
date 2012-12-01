@@ -48,24 +48,6 @@ public class BackIndexEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public IndexAction getIndexAction(Event event) {
-        int action = ecp.getAction(event);
-        switch (action) {
-            case 1 /*SearchBuilderItem.ACTION_ADD*/:
-                return IndexAction.INDEX_FILE;
-            case 2 /*SearchBuilderItem.ACTION_DELETE*/:
-                return IndexAction.UNINDEX_FILE;
-            case 10 /*SearchBuilderItem.ACTION_REFRESH*/:
-                return IndexAction.INDEX_ALL;
-            case 11 /*SearchBuilderItem.ACTION_REBUILD*/ :
-                return IndexAction.REINDEX_ALL;
-            default:
-                //TODO: Log that
-                return null;
-        }
-    }
-
-    @Override
     public boolean isHandled(Event event) {
         if (!ecp.matches(event))
             return false;

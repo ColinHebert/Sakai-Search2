@@ -46,22 +46,6 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public IndexAction getIndexAction(Event event) {
-        String eventName = event.getEvent();
-        if (INDEX_SITE.equals(eventName)) {
-            return IndexAction.INDEX_SITE;
-        } else if (REINDEX_SITE.equals(eventName)) {
-            return IndexAction.REINDEX_SITE;
-        } else if (INDEX_ALL.equals(eventName)) {
-            return IndexAction.INDEX_ALL;
-        } else if (REINDEX_ALL.equals(eventName)) {
-            return IndexAction.REINDEX_ALL;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public boolean isHandled(Event event) {
         return SUPPORTED_EVENTS.contains(event.getEvent());
     }

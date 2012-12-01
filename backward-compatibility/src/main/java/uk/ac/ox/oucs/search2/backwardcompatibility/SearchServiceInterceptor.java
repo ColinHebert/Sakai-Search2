@@ -42,11 +42,6 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
             }
 
             @Override
-            public IndexAction getIndexAction(Event event) {
-                return null;
-            }
-
-            @Override
             public Task getTask(Event event) {
                 return new DefaultTask(DefaultTask.Type.IGNORE, new DateTime(event.getEventTime()));
             }
