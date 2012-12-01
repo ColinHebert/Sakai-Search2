@@ -52,11 +52,6 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
             }
 
             @Override
-            public String getSite(Event event) {
-                return null;
-            }
-
-            @Override
             public boolean isHandled(Event event) {
                 return false;
             }

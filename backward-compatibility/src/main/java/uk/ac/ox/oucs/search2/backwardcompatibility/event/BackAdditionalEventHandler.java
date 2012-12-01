@@ -62,11 +62,6 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public String getSite(Event event) {
-        return event.getResource();
-    }
-
-    @Override
     public String getName() {
         return this.getClass().getName();
     }

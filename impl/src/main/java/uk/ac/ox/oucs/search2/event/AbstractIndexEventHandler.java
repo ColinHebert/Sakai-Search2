@@ -75,11 +75,6 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
         return getSupportedEventTypes().contains(event.getEvent());
     }
 
-    @Override
-    public String getSite(Event event) {
-        return event.getContext();
-    }
-
     /**
      * Get content from a reference
      *

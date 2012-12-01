@@ -66,11 +66,6 @@ public class BackIndexEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public String getSite(Event event) {
-        return ecp.getSiteId(event.getResource());
-    }
-
-    @Override
     public boolean isHandled(Event event) {
         if (!ecp.matches(event))
             return false;

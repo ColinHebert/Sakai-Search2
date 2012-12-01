@@ -42,14 +42,6 @@ public interface IndexEventHandler {
     IndexAction getIndexAction(Event event);
 
     /**
-     * Get the site affected by an event.
-     *
-     * @param event event handled
-     * @return The site ID or null if there is no site affected
-     */
-    String getSite(Event event);
-
-    /**
      * Get an unique name for the current event handler.
      * <p>
      * This name will allow to keep track of which content has been indexed by the current event handler and will be
