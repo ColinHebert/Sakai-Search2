@@ -1,5 +1,6 @@
 package uk.ac.ox.oucs.search2.backwardcompatibility;
 
+import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
 import org.sakaiproject.event.api.Notification;
 import org.sakaiproject.search.api.*;
@@ -11,6 +12,8 @@ import uk.ac.ox.oucs.search2.content.ContentProducer;
 import uk.ac.ox.oucs.search2.content.ContentProducerRegistry;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;
 import uk.ac.ox.oucs.search2.event.IndexEventManager;
+import uk.ac.ox.oucs.search2.task.DefaultTask;
+import uk.ac.ox.oucs.search2.task.Task;
 
 import java.io.IOException;
 import java.util.*;
@@ -41,6 +44,11 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
             @Override
             public IndexAction getIndexAction(Event event) {
                 return null;
+            }
+
+            @Override
+            public Task getTask(Event event) {
+                return new DefaultTask(DefaultTask.Type.IGNORE, new DateTime(event.getEventTime()));
             }
 
             @Override
