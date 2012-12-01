@@ -5,6 +5,7 @@ import org.sakaiproject.event.api.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.IndexingService;
+import uk.ac.ox.oucs.search2.task.TaskQueueing;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,8 +17,8 @@ import java.util.Map;
  */
 public class DefaultIndexEventManager extends AbstractIndexEventManager {
     private static final Logger logger = LoggerFactory.getLogger(DefaultIndexEventManager.class);
-    private IndexingService indexingService;
     private Map<String, Collection<IndexEventHandler>> indexEventHandlers = new HashMap<String, Collection<IndexEventHandler>>();
+    private TaskQueueing taskQueueing;
 
     public DefaultIndexEventManager(NotificationService notificationService) {
         super(notificationService);
@@ -47,39 +48,10 @@ public class DefaultIndexEventManager extends AbstractIndexEventManager {
         if (!eventHandler.isHandled(event))
             return;
 
-        switch (eventHandler.getIndexAction(event)) {
-            case INDEX_FILE:
-                indexingService.indexContent(eventHandler.getName(), eventHandler.getContent(event));
-                break;
-            case UNINDEX_FILE:
-                indexingService.unindexContent(eventHandler.getName(), eventHandler.getContent(event));
-                break;
-
-            case INDEX_SITE:
-                indexingService.indexSite(eventHandler.getName(), eventHandler.getContent(event), eventHandler.getSite(event));
-                break;
-            case REINDEX_SITE:
-                indexingService.reindexSite(eventHandler.getName(), eventHandler.getContent(event), eventHandler.getSite(event));
-                break;
-            case UNINDEX_SITE:
-                indexingService.unindexSite(eventHandler.getName(), eventHandler.getSite(event));
-                break;
-
-            case INDEX_ALL:
-                indexingService.indexAll(eventHandler.getName(), eventHandler.getContent(event));
-                break;
-            case REINDEX_ALL:
-                indexingService.reindexAll(eventHandler.getName(), eventHandler.getContent(event));
-                break;
-            case UNINDEX_ALL:
-                indexingService.unindexAll(eventHandler.getName());
-                break;
-            default:
-                logger.warn("Action '" + eventHandler.getIndexAction(event) + "' not supported, nothing has been done.");
-        }
+        taskQueueing.addTaskToQueue(eventHandler.getTask(event));
     }
 
-    public void setIndexingService(IndexingService indexingService) {
-        this.indexingService = indexingService;
+    public void setTaskQueueing(TaskQueueing taskQueueing) {
+        this.taskQueueing = taskQueueing;
     }
 }
