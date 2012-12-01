@@ -41,4 +41,8 @@ public class MultipleTasksException extends TaskException {
     public Collection<TaskException> getThrownExceptions() {
         return Collections.unmodifiableCollection(thrownExceptions);
     }
+
+    public boolean isEmpty(){
+        return thrownExceptions.isEmpty();
+    }
 }
