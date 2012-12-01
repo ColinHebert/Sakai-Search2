@@ -4,8 +4,7 @@ import org.sakaiproject.event.api.Event;
 import org.sakaiproject.event.api.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ox.oucs.search2.IndexingService;
-import uk.ac.ox.oucs.search2.task.TaskQueueing;
+import uk.ac.ox.oucs.search2.task.TaskQueuing;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import java.util.Map;
 public class DefaultIndexEventManager extends AbstractIndexEventManager {
     private static final Logger logger = LoggerFactory.getLogger(DefaultIndexEventManager.class);
     private Map<String, Collection<IndexEventHandler>> indexEventHandlers = new HashMap<String, Collection<IndexEventHandler>>();
-    private TaskQueueing taskQueueing;
+    private TaskQueuing taskQueuing;
 
     public DefaultIndexEventManager(NotificationService notificationService) {
         super(notificationService);
@@ -48,10 +47,10 @@ public class DefaultIndexEventManager extends AbstractIndexEventManager {
         if (!eventHandler.isHandled(event))
             return;
 
-        taskQueueing.addTaskToQueue(eventHandler.getTask(event));
+        taskQueuing.addTaskToQueue(eventHandler.getTask(event));
     }
 
-    public void setTaskQueueing(TaskQueueing taskQueueing) {
-        this.taskQueueing = taskQueueing;
+    public void setTaskQueuing(TaskQueuing taskQueuing) {
+        this.taskQueuing = taskQueuing;
     }
 }
