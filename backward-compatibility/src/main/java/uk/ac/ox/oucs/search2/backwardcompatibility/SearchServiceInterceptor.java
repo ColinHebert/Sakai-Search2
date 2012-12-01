@@ -61,7 +61,7 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
         indexEventManager.addIndexEventHandler(new BackIndexEventHandler(ecp));
         contentProducerRegistry.registerContentProducer(new ContentProducer() {
             @Override
-            public Content getContent(final String reference) {
+            public Content getContent(String reference) {
                 return BackContent.extractContent(reference, ecp);
             }
 
