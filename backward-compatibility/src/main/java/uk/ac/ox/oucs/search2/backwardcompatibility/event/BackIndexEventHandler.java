@@ -3,16 +3,12 @@ package uk.ac.ox.oucs.search2.backwardcompatibility.event;
 import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
 import org.sakaiproject.search.api.EntityContentProducer;
-import uk.ac.ox.oucs.search2.backwardcompatibility.content.BackContent;
-import uk.ac.ox.oucs.search2.content.Content;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;
 import uk.ac.ox.oucs.search2.task.DefaultTask;
 import uk.ac.ox.oucs.search2.task.Task;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * @author Colin Hebert

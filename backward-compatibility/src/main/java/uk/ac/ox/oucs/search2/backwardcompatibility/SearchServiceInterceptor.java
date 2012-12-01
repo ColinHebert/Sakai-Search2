@@ -16,7 +16,10 @@ import uk.ac.ox.oucs.search2.task.DefaultTask;
 import uk.ac.ox.oucs.search2.task.Task;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Intercept registered functions (event names) and {@link EntityContentProducer}, and add them to

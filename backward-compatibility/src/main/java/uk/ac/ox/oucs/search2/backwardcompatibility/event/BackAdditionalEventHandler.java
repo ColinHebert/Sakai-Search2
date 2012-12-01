@@ -2,14 +2,12 @@ package uk.ac.ox.oucs.search2.backwardcompatibility.event;
 
 import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
-import uk.ac.ox.oucs.search2.content.Content;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;
 import uk.ac.ox.oucs.search2.task.DefaultTask;
 import uk.ac.ox.oucs.search2.task.Task;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Queue;
 
 /**
  * This implementation MUST NOT be used outside the backward compatible project.

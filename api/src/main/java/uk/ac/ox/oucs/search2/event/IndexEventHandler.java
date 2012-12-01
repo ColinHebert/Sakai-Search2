@@ -1,11 +1,9 @@
 package uk.ac.ox.oucs.search2.event;
 
 import org.sakaiproject.event.api.Event;
-import uk.ac.ox.oucs.search2.content.Content;
 import uk.ac.ox.oucs.search2.task.Task;
 
 import java.util.Collection;
-import java.util.Queue;
 
 /**
  * Component able to intercept an {@link Event} and provide a {@link Task} to execute
