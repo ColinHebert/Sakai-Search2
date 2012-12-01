@@ -49,7 +49,6 @@
         <module>tool</module>
         <module>pack</module>
         <module>solr</module>
-        <module>threaded</module>
     </modules>
 
     <dependencyManagement>
@@ -73,11 +72,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>search2-solr</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>search2-threaded</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
