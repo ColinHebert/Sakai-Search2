@@ -10,6 +10,8 @@ import java.util.Map;
  * @author Colin Hebert
  */
 public class DefaultTask implements Task {
+    public final static String DOCUMENT_REFERENCE = DefaultTask.class.getCanonicalName() + ".documentReference";
+    public final static String SITE_ID = DefaultTask.class.getCanonicalName() + ".siteId";
     private final String type;
     private final DateTime creationDate;
     private final Map<String, String> properties = new HashMap<String, String>();

@@ -1,9 +1,12 @@
 package uk.ac.ox.oucs.search2.event;
 
+import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.content.Content;
+import uk.ac.ox.oucs.search2.task.DefaultTask;
+import uk.ac.ox.oucs.search2.task.Task;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,6 +19,43 @@ import java.util.Queue;
  */
 public abstract class AbstractIndexEventHandler implements IndexEventHandler {
     private static final Logger logger = LoggerFactory.getLogger(AbstractIndexEventHandler.class);
+
+    @Override
+    public Task getTask(Event event) {
+        IndexAction indexAction = getIndexAction(event);
+        Task task;
+
+        switch (indexAction){
+            case INDEX_FILE:
+                task = new DefaultTask(DefaultTask.Type.INDEX_FILE, new DateTime(event.getEventTime())).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
+                break;
+            case UNINDEX_FILE:
+                task = new DefaultTask(DefaultTask.Type.UNINDEX_FILE, new DateTime(event.getEventTime())).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
+                break;
+            case INDEX_SITE:
+                task = new DefaultTask(DefaultTask.Type.INDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, getSite(event));
+                break;
+            case REINDEX_SITE:
+                task = new DefaultTask(DefaultTask.Type.REINDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, getSite(event));
+                break;
+            case UNINDEX_SITE:
+                task = new DefaultTask(DefaultTask.Type.UNINDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, getSite(event));
+                break;
+            case INDEX_ALL:
+                task = new DefaultTask(DefaultTask.Type.INDEX_ALL, new DateTime(event.getEventTime()));
+                break;
+            case REINDEX_ALL:
+                task = new DefaultTask(DefaultTask.Type.REINDEX_ALL, new DateTime(event.getEventTime()));
+                break;
+            case UNINDEX_ALL:
+                task = new DefaultTask(DefaultTask.Type.UNINDEX_ALL, new DateTime(event.getEventTime()));
+                break;
+            default:
+                logger.error("Action '" + indexAction + "' isn't supported");
+                task = new DefaultTask(DefaultTask.Type.IGNORE, new DateTime(event.getEventTime()));
+        }
+        return task;
+    }
 
     @Override
     public Queue<Content> getContent(Event event) {
