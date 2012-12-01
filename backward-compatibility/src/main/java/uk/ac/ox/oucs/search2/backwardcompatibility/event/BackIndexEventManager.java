@@ -107,9 +107,9 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
         @Override
         public Integer getAction(Event event) {
             Task task = indexEventHandler.getTask(event);
-            if (DefaultTask.Type.INDEX_FILE.getTypeName().equals(task.getType()))
+            if (DefaultTask.Type.INDEX_DOCUMENT.getTypeName().equals(task.getType()))
                 return SearchBuilderItem.ACTION_ADD;
-            else if (DefaultTask.Type.UNINDEX_FILE.getTypeName().equals(task.getType()))
+            else if (DefaultTask.Type.UNINDEX_DOCUMENT.getTypeName().equals(task.getType()))
                 return SearchBuilderItem.ACTION_DELETE;
             else
                 return SearchBuilderItem.ACTION_UNKNOWN;

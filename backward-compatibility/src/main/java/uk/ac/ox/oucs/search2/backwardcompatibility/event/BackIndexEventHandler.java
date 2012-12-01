@@ -35,9 +35,9 @@ public class BackIndexEventHandler implements IndexEventHandler {
         DateTime creationDate = new DateTime(event.getEventTime());
         switch (action) {
             case 1 /*SearchBuilderItem.ACTION_ADD*/:
-                return new DefaultTask(DefaultTask.Type.INDEX_FILE, creationDate).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
+                return new DefaultTask(DefaultTask.Type.INDEX_DOCUMENT, creationDate).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
             case 2 /*SearchBuilderItem.ACTION_DELETE*/:
-                return new DefaultTask(DefaultTask.Type.UNINDEX_FILE, creationDate).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
+                return new DefaultTask(DefaultTask.Type.UNINDEX_DOCUMENT, creationDate).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
             case 10 /*SearchBuilderItem.ACTION_REFRESH*/:
                 return new DefaultTask(DefaultTask.Type.INDEX_ALL, creationDate);
             case 11 /*SearchBuilderItem.ACTION_REBUILD*/ :

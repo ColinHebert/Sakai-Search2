@@ -57,11 +57,11 @@ public class DefaultTask implements Task {
          * Index a new specific content, if the content was already indexed, it will be reindexed and the new values
          * will overwrite the previous values
          */
-        INDEX_FILE,
+        INDEX_DOCUMENT,
         /**
          * Remove a content from the index
          */
-        UNINDEX_FILE,
+        UNINDEX_DOCUMENT,
 
         /**
          * Index an entire site, if the content was indexed, the new version will overwrite the previous one.
