@@ -10,6 +10,9 @@ import uk.ac.ox.oucs.search2.content.ReaderContent;
 import uk.ac.ox.oucs.search2.content.StringContent;
 import uk.ac.ox.oucs.search2.event.AbstractIndexEventManager;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;
+import uk.ac.ox.oucs.search2.task.DefaultTask;
+import uk.ac.ox.oucs.search2.task.Task;
+import uk.ac.ox.oucs.search2.task.TaskQueuing;
 
 import java.io.Reader;
 import java.util.Collections;
@@ -22,6 +25,7 @@ import java.util.Map;
 public class BackIndexEventManager extends AbstractIndexEventManager {
     private final BackAdditionalEventHandler eventHandler;
     private SearchIndexBuilder searchIndexBuilder;
+    private TaskQueuing taskQueuing;
 
     public BackIndexEventManager(NotificationService notificationService) {
         super(notificationService);
@@ -40,29 +44,17 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
 
     @Override
     protected void notify(Event event) {
-        if (eventHandler.isHandled(event)) {
-            switch (eventHandler.getIndexAction(event)) {
-                case INDEX_SITE:
-                    searchIndexBuilder.rebuildIndex(event.getContext());
-                    break;
-                case REINDEX_SITE:
-                    searchIndexBuilder.refreshIndex(event.getContext());
-                    break;
-                case INDEX_ALL:
-                    searchIndexBuilder.rebuildIndex();
-                    break;
-                case REINDEX_ALL:
-                    searchIndexBuilder.refreshIndex();
-                    break;
-                default:
-                    //TODO: Log
-            }
-        }
+        if (eventHandler.isHandled(event))
+            taskQueuing.addTaskToQueue(eventHandler.getTask(event));
         searchIndexBuilder.addResource(null, event);
     }
 
     public void setSearchIndexBuilder(SearchIndexBuilder searchIndexBuilder) {
         this.searchIndexBuilder = searchIndexBuilder;
+    }
+
+    public void setTaskQueuing(TaskQueuing taskQueuing) {
+        this.taskQueuing = taskQueuing;
     }
 
     private class BackEventEntityContentProducer implements EntityContentProducer {
@@ -114,16 +106,13 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
 
         @Override
         public Integer getAction(Event event) {
-            switch (indexEventHandler.getIndexAction(event)) {
-                case INDEX_FILE:
-                    return SearchBuilderItem.ACTION_ADD;
-                case UNINDEX_FILE:
-                    return SearchBuilderItem.ACTION_DELETE;
-                default:
-                    // The wrapper can't understand operations such as site indexation or tool indexation
-                    // The previous implementation was only able to handle one file at the time
-                    return SearchBuilderItem.ACTION_UNKNOWN;
-            }
+            Task task = indexEventHandler.getTask(event);
+            if (DefaultTask.Type.INDEX_FILE.getTypeName().equals(task.getType()))
+                return SearchBuilderItem.ACTION_ADD;
+            else if (DefaultTask.Type.UNINDEX_FILE.getTypeName().equals(task.getType()))
+                return SearchBuilderItem.ACTION_DELETE;
+            else
+                return SearchBuilderItem.ACTION_UNKNOWN;
         }
 
         @Override
@@ -186,7 +175,8 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
         }
 
         private Content getUniqueContent() {
-            return indexEventHandler.getContent(event).poll();
+            //TODO: Check this
+            return null;//indexEventHandler.getContent(event).peek();
         }
 
         @Override
