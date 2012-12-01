@@ -99,7 +99,7 @@ public abstract class BlockingTaskRunner implements TaskRunner {
                 logger.warn("A task failed '" + tte.getNewTask() + "' will be tried again later.", te);
                 taskQueuing.addTaskToQueue(tte.getNewTask());
             } else {
-                logger.error("An exception occured during the task execution.", te);
+                logger.error("An exception occurred during the task execution.", te);
             }
         }
     }
