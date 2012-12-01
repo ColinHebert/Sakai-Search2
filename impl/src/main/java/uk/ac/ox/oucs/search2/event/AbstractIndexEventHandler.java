@@ -33,13 +33,13 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
                 task = new DefaultTask(DefaultTask.Type.UNINDEX_FILE, new DateTime(event.getEventTime())).setProperty(DefaultTask.DOCUMENT_REFERENCE, event.getResource());
                 break;
             case INDEX_SITE:
-                task = new DefaultTask(DefaultTask.Type.INDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, getSite(event));
+                task = new DefaultTask(DefaultTask.Type.INDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, event.getContext());
                 break;
             case REINDEX_SITE:
-                task = new DefaultTask(DefaultTask.Type.REINDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, getSite(event));
+                task = new DefaultTask(DefaultTask.Type.REINDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, event.getContext());
                 break;
             case UNINDEX_SITE:
-                task = new DefaultTask(DefaultTask.Type.UNINDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, getSite(event));
+                task = new DefaultTask(DefaultTask.Type.UNINDEX_SITE, new DateTime(event.getEventTime())).setProperty(DefaultTask.SITE_ID, event.getContext());
                 break;
             case INDEX_ALL:
                 task = new DefaultTask(DefaultTask.Type.INDEX_ALL, new DateTime(event.getEventTime()));

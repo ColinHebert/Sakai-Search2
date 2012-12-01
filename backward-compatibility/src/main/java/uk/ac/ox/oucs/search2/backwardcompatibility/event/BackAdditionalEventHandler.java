@@ -33,9 +33,9 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
         String eventName = event.getEvent();
         DateTime creationDate = new DateTime(event.getEventTime());
         if (INDEX_SITE.equals(eventName)) {
-            return new DefaultTask(DefaultTask.Type.INDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, getSite(event));
+            return new DefaultTask(DefaultTask.Type.INDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, event.getContext());
         } else if (REINDEX_SITE.equals(eventName)) {
-            return new DefaultTask(DefaultTask.Type.REINDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, getSite(event));
+            return new DefaultTask(DefaultTask.Type.REINDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, event.getContext());
         } else if (INDEX_ALL.equals(eventName)) {
             return new DefaultTask(DefaultTask.Type.INDEX_ALL, creationDate);
         } else if (REINDEX_ALL.equals(eventName)) {

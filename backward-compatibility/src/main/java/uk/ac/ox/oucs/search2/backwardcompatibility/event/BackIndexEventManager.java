@@ -43,10 +43,10 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
         if (eventHandler.isHandled(event)) {
             switch (eventHandler.getIndexAction(event)) {
                 case INDEX_SITE:
-                    searchIndexBuilder.rebuildIndex(eventHandler.getSite(event));
+                    searchIndexBuilder.rebuildIndex(event.getContext());
                     break;
                 case REINDEX_SITE:
-                    searchIndexBuilder.refreshIndex(eventHandler.getSite(event));
+                    searchIndexBuilder.refreshIndex(event.getContext());
                     break;
                 case INDEX_ALL:
                     searchIndexBuilder.rebuildIndex();
