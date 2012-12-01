@@ -57,28 +57,6 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
         return task;
     }
 
-    @Override
-    public Queue<Content> getContent(Event event) {
-        IndexAction indexAction = getIndexAction(event);
-
-        switch (indexAction) {
-            case INDEX_FILE:
-            case UNINDEX_FILE:
-                return new LinkedList<Content>(Collections.singleton(getContent(event.getResource())));
-            case INDEX_SITE:
-            case REINDEX_SITE:
-            case UNINDEX_SITE:
-                return getSiteContent(getSite(event));
-            case INDEX_ALL:
-            case REINDEX_ALL:
-            case UNINDEX_ALL:
-                return getAllContent();
-            default:
-                logger.warn("Action '" + indexAction + "' isn't supported");
-                return new LinkedList<Content>();
-        }
-    }
-
     /**
      * {@inheritDoc}
      * Get the current class canonical name as the unique name

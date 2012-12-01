@@ -62,12 +62,6 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public Queue<Content> getContent(Event event) {
-        //Doesn't matter
-        return null;
-    }
-
-    @Override
     public String getSite(Event event) {
         return event.getResource();
     }

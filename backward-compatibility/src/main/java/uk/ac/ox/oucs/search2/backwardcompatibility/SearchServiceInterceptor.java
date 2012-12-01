@@ -52,11 +52,6 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
             }
 
             @Override
-            public Queue<Content> getContent(Event event) {
-                return null;
-            }
-
-            @Override
             public String getSite(Event event) {
                 return null;
             }

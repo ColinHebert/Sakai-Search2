@@ -66,11 +66,6 @@ public class BackIndexEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public Queue<Content> getContent(Event event) {
-        return new LinkedList<Content>(Collections.singleton(BackContent.extractContent(event.getResource(), ecp)));
-    }
-
-    @Override
     public String getSite(Event event) {
         return ecp.getSiteId(event.getResource());
     }

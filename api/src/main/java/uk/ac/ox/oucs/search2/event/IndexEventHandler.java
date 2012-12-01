@@ -42,17 +42,6 @@ public interface IndexEventHandler {
     IndexAction getIndexAction(Event event);
 
     /**
-     * Get the content affected by a event.
-     * <p>
-     * It's recommended to have a lazy {@link Queue} which will generate {@link Content} instances on the fly.
-     * </p>
-     *
-     * @param event event starting the indexation process
-     * @return a {@link Queue} going through each content affected
-     */
-    Queue<Content> getContent(Event event);
-
-    /**
      * Get the site affected by an event.
      *
      * @param event event handled
