@@ -27,6 +27,12 @@ import java.util.concurrent.locks.ReentrantLock;
 public abstract class BlockingTaskRunner implements TaskRunner {
     public static final int BASE_WAITING_TIME = 1000;
     private static final Logger logger = LoggerFactory.getLogger(BlockingTaskRunner.class);
+    public static final SecurityAdvisor GRANT_ALL_SECURITY_ADVISOR = new SecurityAdvisor() {
+        @Override
+        public SecurityAdvice isAllowed(String userId, String function, String reference) {
+            return SecurityAdvice.ALLOWED;
+        }
+    };
     private final ReentrantLock taskRunnerLock = new ReentrantLock();
     /**
      * Maximum wait
@@ -80,6 +86,8 @@ public abstract class BlockingTaskRunner implements TaskRunner {
                 taskRunnerLock.notifyAll();
                 taskRunnerLock.unlock();
             }
+
+            removePermissions();
         }
     }
 
@@ -97,12 +105,11 @@ public abstract class BlockingTaskRunner implements TaskRunner {
     }
 
     private void unlockPermissions() {
-        securityService.pushAdvisor(new SecurityAdvisor() {
-            @Override
-            public SecurityAdvice isAllowed(String userId, String function, String reference) {
-                return SecurityAdvice.ALLOWED;
-            }
-        });
+        securityService.pushAdvisor(GRANT_ALL_SECURITY_ADVISOR);
+    }
+
+    private void removePermissions() {
+        securityService.popAdvisor(GRANT_ALL_SECURITY_ADVISOR);
     }
 
     public void setSecurityService(SecurityService securityService) {
