@@ -1,8 +1,11 @@
 package uk.ac.ox.oucs.search2.backwardcompatibility.event;
 
+import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
 import uk.ac.ox.oucs.search2.content.Content;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;
+import uk.ac.ox.oucs.search2.task.DefaultTask;
+import uk.ac.ox.oucs.search2.task.Task;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,6 +26,23 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     @Override
     public Collection<String> getSupportedEventTypes() {
         return SUPPORTED_EVENTS;
+    }
+
+    @Override
+    public Task getTask(Event event) {
+        String eventName = event.getEvent();
+        DateTime creationDate = new DateTime(event.getEventTime());
+        if (INDEX_SITE.equals(eventName)) {
+            return new DefaultTask(DefaultTask.Type.INDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, getSite(event));
+        } else if (REINDEX_SITE.equals(eventName)) {
+            return new DefaultTask(DefaultTask.Type.REINDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, getSite(event));
+        } else if (INDEX_ALL.equals(eventName)) {
+            return new DefaultTask(DefaultTask.Type.INDEX_ALL, creationDate);
+        } else if (REINDEX_ALL.equals(eventName)) {
+            return new DefaultTask(DefaultTask.Type.REINDEX_ALL, creationDate);
+        } else {
+            return new DefaultTask(DefaultTask.Type.IGNORE, creationDate);
+        }
     }
 
     @Override
