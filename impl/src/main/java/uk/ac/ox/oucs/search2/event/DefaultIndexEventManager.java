@@ -39,15 +39,8 @@ public class DefaultIndexEventManager extends AbstractIndexEventManager {
     @Override
     protected void notify(Event event) {
         for (IndexEventHandler eventHandler : indexEventHandlers.get(event.getEvent())) {
-            handleEvent(event, eventHandler);
+            taskQueuing.addTaskToQueue(eventHandler.getTask(event));
         }
-    }
-
-    protected void handleEvent(Event event, IndexEventHandler eventHandler) {
-        if (!eventHandler.isHandled(event))
-            return;
-
-        taskQueuing.addTaskToQueue(eventHandler.getTask(event));
     }
 
     public void setTaskQueuing(TaskQueuing taskQueuing) {
