@@ -30,12 +30,12 @@ public class BackIndexEventManager extends AbstractIndexEventManager {
     public BackIndexEventManager(NotificationService notificationService) {
         super(notificationService);
         eventHandler = new BackAdditionalEventHandler();
-        super.addContentEventHandler(eventHandler);
+        super.addIndexEventHandler(eventHandler);
     }
 
     @Override
-    public void addContentEventHandler(IndexEventHandler indexEventHandler) {
-        super.addContentEventHandler(indexEventHandler);
+    public void addIndexEventHandler(IndexEventHandler indexEventHandler) {
+        super.addIndexEventHandler(indexEventHandler);
         if (indexEventHandler instanceof BackIndexEventHandler)
             searchIndexBuilder.registerEntityContentProducer(((BackIndexEventHandler) indexEventHandler).getEntityContentProducer());
         else

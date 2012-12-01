@@ -30,8 +30,8 @@ public class BackDefaultIndexEventManager extends DefaultIndexEventManager {
     }
 
     @Override
-    public void addContentEventHandler(IndexEventHandler indexEventHandler) {
-        super.addContentEventHandler(indexEventHandler);
+    public void addIndexEventHandler(IndexEventHandler indexEventHandler) {
+        super.addIndexEventHandler(indexEventHandler);
         if (indexEventHandler.getSupportedEventTypes().size() <= 0) {
             indexEventHandlers.add(indexEventHandler);
         }

@@ -38,7 +38,7 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
 
     @Override
     public void registerFunction(final String function) {
-        indexEventManager.addContentEventHandler(new IndexEventHandler() {
+        indexEventManager.addIndexEventHandler(new IndexEventHandler() {
             @Override
             public Collection<String> getSupportedEventTypes() {
                 return Collections.singleton(function);
@@ -58,7 +58,7 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
 
     @Override
     public void registerEntityContentProducer(final EntityContentProducer ecp) {
-        indexEventManager.addContentEventHandler(new BackIndexEventHandler(ecp));
+        indexEventManager.addIndexEventHandler(new BackIndexEventHandler(ecp));
         contentProducerRegistry.registerContentProducer(new ContentProducer() {
             @Override
             public Content getContent(final String reference) {

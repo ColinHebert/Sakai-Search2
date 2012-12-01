@@ -17,7 +17,7 @@ public interface IndexEventManager extends NotificationAction {
      *
      * @param indexEventHandler eventHandler to add to the system
      */
-    void addContentEventHandler(IndexEventHandler indexEventHandler);
+    void addIndexEventHandler(IndexEventHandler indexEventHandler);
 
 
     /**

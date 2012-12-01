@@ -24,8 +24,8 @@ public class DefaultIndexEventManager extends AbstractIndexEventManager {
     }
 
     @Override
-    public void addContentEventHandler(IndexEventHandler indexEventHandler) {
-        super.addContentEventHandler(indexEventHandler);
+    public void addIndexEventHandler(IndexEventHandler indexEventHandler) {
+        super.addIndexEventHandler(indexEventHandler);
         for (String eventName : indexEventHandler.getSupportedEventTypes()) {
             Collection<IndexEventHandler> eventHandlers = indexEventHandlers.get(eventName);
             if (eventHandlers == null) {
