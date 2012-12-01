@@ -62,11 +62,6 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     }
 
     @Override
-    public String getName() {
-        return this.getClass().getName();
-    }
-
-    @Override
     public boolean isHandled(Event event) {
         return SUPPORTED_EVENTS.contains(event.getEvent());
     }

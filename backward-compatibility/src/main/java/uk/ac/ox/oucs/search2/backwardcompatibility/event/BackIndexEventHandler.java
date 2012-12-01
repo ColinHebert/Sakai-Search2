@@ -74,11 +74,6 @@ public class BackIndexEventHandler implements IndexEventHandler {
         return reference == null || ecp.isForIndex(reference);
     }
 
-    @Override
-    public String getName() {
-        return ecp.getClass().getCanonicalName();
-    }
-
     public EntityContentProducer getEntityContentProducer() {
         return ecp;
     }

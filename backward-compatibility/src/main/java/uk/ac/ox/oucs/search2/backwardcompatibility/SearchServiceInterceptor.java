@@ -55,12 +55,6 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
             public boolean isHandled(Event event) {
                 return false;
             }
-
-            @Override
-            public String getName() {
-                //Doesn't matter as it won't be used
-                return this.getClass().getCanonicalName();
-            }
         });
     }
 

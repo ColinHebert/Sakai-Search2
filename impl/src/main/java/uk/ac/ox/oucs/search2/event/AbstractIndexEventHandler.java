@@ -59,15 +59,6 @@ public abstract class AbstractIndexEventHandler implements IndexEventHandler {
 
     /**
      * {@inheritDoc}
-     * Get the current class canonical name as the unique name
-     */
-    @Override
-    public String getName() {
-        return this.getClass().getCanonicalName();
-    }
-
-    /**
-     * {@inheritDoc}
      * An event can he handled if it is one of the event returned by {@link #getSupportedEventTypes()}
      */
     @Override
