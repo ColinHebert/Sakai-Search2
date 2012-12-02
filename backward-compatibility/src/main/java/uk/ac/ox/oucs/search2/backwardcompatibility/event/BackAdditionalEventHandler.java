@@ -18,10 +18,11 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
     private final static String REINDEX_SITE = "search2.reindex.site";
     private final static String INDEX_ALL = "search2.index.all";
     private final static String REINDEX_ALL = "search2.reindex.all";
+    public static final Collection<String> SUPPORTED_EVENTS = Arrays.asList(INDEX_SITE, REINDEX_SITE, INDEX_ALL, REINDEX_ALL);
 
     @Override
     public Collection<String> getSupportedEventTypes() {
-        return Arrays.asList(INDEX_SITE, REINDEX_SITE, INDEX_ALL, REINDEX_ALL);
+        return SUPPORTED_EVENTS;
     }
 
     @Override
@@ -58,7 +59,6 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
 
     @Override
     public boolean isHandled(Event event) {
-        String eventName = event.getEvent();
-        return INDEX_SITE.equals(eventName) || REINDEX_SITE.equals(eventName) || INDEX_ALL.equals(eventName) || REINDEX_ALL.equals(eventName);
+        return SUPPORTED_EVENTS.contains(event.getEvent());
     }
 }
