@@ -69,11 +69,6 @@ public class DefaultTask implements Task {
          */
         INDEX_SITE,
         /**
-         * Index an entire site, if the content was indexed, the new version will overwrite the previous one.
-         * If the content is not available anymore, it will be removed from the index.
-         */
-        REINDEX_SITE,
-        /**
          * Remove every entry in the index related to one site
          */
         UNINDEX_SITE,
@@ -83,11 +78,6 @@ public class DefaultTask implements Task {
          * If the content is not available anymore, it won't be modified (or deleted) from the index.
          */
         INDEX_ALL,
-        /**
-         * Index every content available and handled.
-         * If the content is not available anymore, it will be removed from the index.
-         */
-        REINDEX_ALL,
         /**
          * Remove every entry in the index
          */

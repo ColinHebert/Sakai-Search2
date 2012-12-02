@@ -53,15 +53,6 @@ public interface IndexingService {
     void indexSite(String eventHandlerName, Queue<Content> contents, String site);
 
     /**
-     * Cleanup and re-add site content to the search index.
-     *
-     * @param eventHandlerName Name of the {@link uk.ac.ox.oucs.search2.event.IndexEventHandler} responsible for this call
-     * @param contents         content to index in a {@link Queue}.
-     * @param site             indexed site.
-     */
-    void reindexSite(String eventHandlerName, Queue<Content> contents, String site);
-
-    /**
      * Remove content related to a site from the search index.
      *
      * @param eventHandlerName Name of the {@link uk.ac.ox.oucs.search2.event.IndexEventHandler} responsible for this call
@@ -79,14 +70,6 @@ public interface IndexingService {
      * @param contents         content to index in a {@link Queue}.
      */
     void indexAll(String eventHandlerName, Queue<Content> contents);
-
-    /**
-     * Cleanup and re-add content to the search index.
-     *
-     * @param eventHandlerName Name of the {@link uk.ac.ox.oucs.search2.event.IndexEventHandler} responsible for this call
-     * @param contents         content to index in a {@link Queue}.
-     */
-    void reindexAll(String eventHandlerName, Queue<Content> contents);
 
     /**
      * Remove every content available from the search index

@@ -17,16 +17,4 @@ public abstract class AbstractIndexingService implements IndexingService {
     public void indexAll(String eventHandlerName, Queue<Content> contents) {
         indexContent(eventHandlerName, contents);
     }
-
-    @Override
-    public void reindexSite(String eventHandlerName, Queue<Content> contents, String site) {
-        unindexSite(eventHandlerName, site);
-        indexSite(eventHandlerName, contents, site);
-    }
-
-    @Override
-    public void reindexAll(String eventHandlerName, Queue<Content> contents) {
-        unindexAll(eventHandlerName);
-        indexAll(eventHandlerName, contents);
-    }
 }

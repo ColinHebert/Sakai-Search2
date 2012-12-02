@@ -14,25 +14,17 @@ public interface IndexService {
 
     void indexSiteDocuments(String siteId);
 
-    void reindexSiteDocuments(String siteId);
-
     void unindexSiteDocuments(String siteId);
 
     void queueIndexSiteDocuments(String siteId);
-
-    void queueReindexSiteDocuments(String siteId);
 
     void queueUnindexSiteDocuments(String siteId);
 
     void indexEveryDocuments();
 
-    void reindexEveryDocuments();
-
     void unindexEveryDocuments();
 
     void queueIndexEveryDocuments();
-
-    void queueReindexEveryDocuments();
 
     void queueUnindexEveryDocuments();
 }

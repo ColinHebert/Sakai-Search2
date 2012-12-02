@@ -47,12 +47,6 @@ public class DefaultIndexService implements IndexService {
     }
 
     @Override
-    public void reindexSiteDocuments(String siteId) {
-        Task task = new DefaultTask(REINDEX_SITE).setProperty(SITE_ID, siteId);
-        taskHandler.executeTask(task);
-    }
-
-    @Override
     public void unindexSiteDocuments(String siteId) {
         Task task = new DefaultTask(UNINDEX_SITE).setProperty(SITE_ID, siteId);
         taskHandler.executeTask(task);
@@ -61,12 +55,6 @@ public class DefaultIndexService implements IndexService {
     @Override
     public void queueIndexSiteDocuments(String siteId) {
         Task task = new DefaultTask(INDEX_SITE).setProperty(SITE_ID, siteId);
-        taskQueuing.addTaskToQueue(task);
-    }
-
-    @Override
-    public void queueReindexSiteDocuments(String siteId) {
-        Task task = new DefaultTask(REINDEX_SITE).setProperty(SITE_ID, siteId);
         taskQueuing.addTaskToQueue(task);
     }
 
@@ -83,12 +71,6 @@ public class DefaultIndexService implements IndexService {
     }
 
     @Override
-    public void reindexEveryDocuments() {
-        Task task = new DefaultTask(REINDEX_ALL);
-        taskHandler.executeTask(task);
-    }
-
-    @Override
     public void unindexEveryDocuments() {
         Task task = new DefaultTask(UNINDEX_ALL);
         taskHandler.executeTask(task);
@@ -97,12 +79,6 @@ public class DefaultIndexService implements IndexService {
     @Override
     public void queueIndexEveryDocuments() {
         Task task = new DefaultTask(INDEX_ALL);
-        taskQueuing.addTaskToQueue(task);
-    }
-
-    @Override
-    public void queueReindexEveryDocuments() {
-        Task task = new DefaultTask(REINDEX_ALL);
         taskQueuing.addTaskToQueue(task);
     }
 

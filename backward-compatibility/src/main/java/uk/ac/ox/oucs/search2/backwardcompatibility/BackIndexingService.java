@@ -24,11 +24,6 @@ public class BackIndexingService extends AbstractIndexingService {
 
     @Override
     public void indexSite(String eventHandlerName, Queue<Content> contents, String site) {
-        searchIndexBuilder.refreshIndex(site);
-    }
-
-    @Override
-    public void reindexSite(String eventHandlerName, Queue<Content> contents, String site) {
         searchIndexBuilder.rebuildIndex(site);
     }
 
@@ -39,11 +34,6 @@ public class BackIndexingService extends AbstractIndexingService {
 
     @Override
     public void indexAll(String eventHandlerName, Queue<Content> contents) {
-        searchIndexBuilder.refreshIndex();
-    }
-
-    @Override
-    public void reindexAll(String eventHandlerName, Queue<Content> contents) {
         searchIndexBuilder.rebuildIndex();
     }
 
