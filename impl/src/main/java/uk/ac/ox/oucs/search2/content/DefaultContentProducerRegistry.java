@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Colin Hebert
@@ -30,5 +31,10 @@ public class DefaultContentProducerRegistry implements ContentProducerRegistry {
         }
         logger.warn("Couldn't find a content producer for the reference '" + reference + "'.");
         return null;
+    }
+
+    @Override
+    public Collection<ContentProducer> getContentProducers() {
+        return Collections.unmodifiableCollection(contentProducers);
     }
 }

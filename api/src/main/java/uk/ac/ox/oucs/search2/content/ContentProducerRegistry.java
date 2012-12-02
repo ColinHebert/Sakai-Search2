@@ -1,5 +1,7 @@
 package uk.ac.ox.oucs.search2.content;
 
+import java.util.Collection;
+
 /**
  * Class to which every {@link ContentProducer} has to register.
  * <p>
@@ -23,4 +25,11 @@ public interface ContentProducerRegistry {
      * @return the first contentProducer able to handle the given reference
      */
     ContentProducer getContentProducer(String reference);
+
+    /**
+     * Lists all registered ContentProducer
+     *
+     * @return an immutable Collection of {@link ContentProducer}
+     */
+    Collection<ContentProducer> getContentProducers();
 }
