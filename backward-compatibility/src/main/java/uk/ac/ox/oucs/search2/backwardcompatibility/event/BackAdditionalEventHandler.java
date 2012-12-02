@@ -15,11 +15,9 @@ import java.util.Collection;
  * @author Colin Hebert
  */
 public class BackAdditionalEventHandler implements IndexEventHandler {
-    private final static String INDEX_SITE = "search2.index.site";
-    private final static String REINDEX_SITE = "search2.reindex.site";
-    private final static String INDEX_ALL = "search2.index.all";
-    private final static String REINDEX_ALL = "search2.reindex.all";
-    public static final Collection<String> SUPPORTED_EVENTS = Arrays.asList(INDEX_SITE, REINDEX_SITE, INDEX_ALL, REINDEX_ALL);
+    private static final String INDEX_SITE = "search2.index.site";
+    private static final String INDEX_ALL = "search2.index.all";
+    private static final Collection<String> SUPPORTED_EVENTS = Arrays.asList(INDEX_SITE, INDEX_ALL);
 
     @Override
     public Collection<String> getSupportedEventTypes() {
@@ -32,12 +30,8 @@ public class BackAdditionalEventHandler implements IndexEventHandler {
         DateTime creationDate = new DateTime(event.getEventTime());
         if (INDEX_SITE.equals(eventName)) {
             return new DefaultTask(DefaultTask.Type.INDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, event.getContext());
-        } else if (REINDEX_SITE.equals(eventName)) {
-            return new DefaultTask(DefaultTask.Type.REINDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, event.getContext());
         } else if (INDEX_ALL.equals(eventName)) {
             return new DefaultTask(DefaultTask.Type.INDEX_ALL, creationDate);
-        } else if (REINDEX_ALL.equals(eventName)) {
-            return new DefaultTask(DefaultTask.Type.REINDEX_ALL, creationDate);
         } else {
             return new DefaultTask(DefaultTask.Type.IGNORE, creationDate);
         }
