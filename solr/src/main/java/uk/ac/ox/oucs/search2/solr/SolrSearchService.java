@@ -59,7 +59,7 @@ public class SolrSearchService extends AbstractSearchService {
 
     private String createSitesFilterQuery(Collection<String> contexts) {
         StringBuilder sb = new StringBuilder();
-        sb.append('+').append(SolrSchemaConstants.SITEID_FIELD).append(":");
+        sb.append('+').append(SolrSchemaConstants.SITE_ID_FIELD).append(":");
         sb.append('(');
         for (Iterator<String> contextIterator = contexts.iterator(); contextIterator.hasNext(); ) {
             sb.append(ClientUtils.escapeQueryChars(contextIterator.next()));

@@ -68,14 +68,14 @@ public class SolrIndexingService extends AbstractIndexingService {
         document.addField(SolrSchemaConstants.ID_FIELD, content.getId());
         document.addField(SolrSchemaConstants.TITLE_FIELD, content.getTitle());
         document.addField(SolrSchemaConstants.REFERENCE_FIELD, content.getReference());
-        document.addField(SolrSchemaConstants.SITEID_FIELD, content.getSiteId());
+        document.addField(SolrSchemaConstants.SITE_ID_FIELD, content.getSiteId());
         document.addField(SolrSchemaConstants.TOOL_FIELD, content.getTool());
         document.addField(SolrSchemaConstants.CONTAINER_FIELD, content.getContainer());
         document.addField(SolrSchemaConstants.TYPE_FIELD, content.getType());
         document.addField(SolrSchemaConstants.SUBTYPE_FIELD, content.getSubtype());
         document.addField(SolrSchemaConstants.URL_FIELD, content.getUrl());
-        document.addField(SolrSchemaConstants.PORTALURL_FIELD, content.isPortalUrl());
-        document.addField(SolrSchemaConstants.EVENTHANDLER_FIELD, eventHandlerName);
+        document.addField(SolrSchemaConstants.PORTAL_URL_FIELD, content.isPortalUrl());
+        document.addField(SolrSchemaConstants.EVENT_HANDLER_FIELD, eventHandlerName);
         document.addField(SolrSchemaConstants.TIMESTAMP_FIELD, System.currentTimeMillis());
 
         //Add the custom properties
@@ -103,8 +103,8 @@ public class SolrIndexingService extends AbstractIndexingService {
     public void unindexSite(String eventHandlerName, String siteId) {
         logger.info("Removing content for eventHandler '" + eventHandlerName + "' and siteId '" + siteId + "'");
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ":" + ClientUtils.escapeQueryChars(eventHandlerName) +
-                    " AND " + SolrSchemaConstants.SITEID_FIELD + ":" + ClientUtils.escapeQueryChars(siteId));
+            solrServer.deleteByQuery(SolrSchemaConstants.EVENT_HANDLER_FIELD + ":" + ClientUtils.escapeQueryChars(eventHandlerName) +
+                    " AND " + SolrSchemaConstants.SITE_ID_FIELD + ":" + ClientUtils.escapeQueryChars(siteId));
         } catch (Exception e) {
             logger.error("An exception occurred while unindexing the site '" + siteId + "' for '" + eventHandlerName + "'", e);
         }
@@ -114,16 +114,16 @@ public class SolrIndexingService extends AbstractIndexingService {
     public void unindexAll(String eventHandlerName) {
         logger.info("Removing content for eventHandler '" + eventHandlerName + "'");
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.EVENTHANDLER_FIELD + ":" + ClientUtils.escapeQueryChars(eventHandlerName));
+            solrServer.deleteByQuery(SolrSchemaConstants.EVENT_HANDLER_FIELD + ":" + ClientUtils.escapeQueryChars(eventHandlerName));
         } catch (Exception e) {
             logger.error("An exception occurred while unindexing everything for '" + eventHandlerName + "'", e);
         }
     }
 
     private ContentStreamUpdateRequest getStreamIndexRequest(SolrInputDocument document, final InputStream contentStrean) {
-        ContentStreamUpdateRequest contentStreamUpdateRequest = new ContentStreamUpdateRequest(SolrSchemaConstants.SOLRCELL_PATH);
+        ContentStreamUpdateRequest contentStreamUpdateRequest = new ContentStreamUpdateRequest(SolrSchemaConstants.SOLR_CELL_PATH);
         contentStreamUpdateRequest.setParam("fmap.content", SolrSchemaConstants.CONTENT_FIELD);
-        contentStreamUpdateRequest.setParam("uprefix", SolrSchemaConstants.SOLRCELL_UPREFIX);
+        contentStreamUpdateRequest.setParam("uprefix", SolrSchemaConstants.SOLR_CELL_UPREFIX);
         ContentStreamBase contentStreamBase = new ContentStreamBase() {
             @Override
             public InputStream getStream() throws IOException {
@@ -139,7 +139,7 @@ public class SolrIndexingService extends AbstractIndexingService {
         for (SolrInputField field : document) {
             contentStreamUpdateRequest.setParam("fmap.sakai_" + field.getName(), field.getName());
             for (Object o : field) {
-                contentStreamUpdateRequest.setParam(SolrSchemaConstants.SOLRCELL_LITERAL + "sakai_" + field.getName(), o.toString());
+                contentStreamUpdateRequest.setParam(SolrSchemaConstants.SOLR_CELL_LITERAL + "sakai_" + field.getName(), o.toString());
             }
         }
         return contentStreamUpdateRequest;

@@ -36,7 +36,7 @@ public class SolrContent implements Content {
 
     @Override
     public boolean isPortalUrl() {
-        return (Boolean) document.getFieldValue(SolrSchemaConstants.PORTALURL_FIELD);
+        return (Boolean) document.getFieldValue(SolrSchemaConstants.PORTAL_URL_FIELD);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SolrContent implements Content {
 
     @Override
     public String getSiteId() {
-        return (String) document.getFieldValue(SolrSchemaConstants.SITEID_FIELD);
+        return (String) document.getFieldValue(SolrSchemaConstants.SITE_ID_FIELD);
     }
 
     @Override
