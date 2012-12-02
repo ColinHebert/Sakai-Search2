@@ -11,6 +11,10 @@
     <artifactId>search2-tool</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <wicket.version>1.4.21</wicket.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>uk.ac.ox.oucs.search2</groupId>
@@ -38,6 +42,7 @@
         <dependency>
             <groupId>org.apache.wicket</groupId>
             <artifactId>wicket-spring</artifactId>
+            <version>${wicket.version}</version>
         </dependency>
 
         <dependency>
