@@ -2,7 +2,6 @@ package uk.ac.ox.oucs.search2;
 
 import org.sakaiproject.site.api.Site;
 import org.sakaiproject.site.api.SiteService;
-import org.sakaiproject.user.api.UserDirectoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.filter.SearchFilter;
@@ -17,7 +16,6 @@ public abstract class AbstractSearchService implements SearchService {
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchService.class);
     private int defaultLength = 10;
     private Iterable<SearchFilter> searchFilters;
-    private UserDirectoryService userDirectoryService;
     private SiteService siteService;
 
     @Override
@@ -128,10 +126,6 @@ public abstract class AbstractSearchService implements SearchService {
 
     public void setDefaultLength(int defaultLength) {
         this.defaultLength = defaultLength;
-    }
-
-    public void setUserDirectoryService(UserDirectoryService userDirectoryService) {
-        this.userDirectoryService = userDirectoryService;
     }
 
     public void setSiteService(SiteService siteService) {
