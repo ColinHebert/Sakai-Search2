@@ -94,7 +94,7 @@ public abstract class AbstractSearchService implements SearchService {
 
     private Collection<String> getAllViewableSites() {
         try {
-            logger.info("Finding every site to in which the current user is a member.");
+            logger.info("Finding every site the current user can browse.");
             //TODO: Check that PUBVIEW and ACCESS aren't redundant
             List<Site> publicSites = siteService.getSites(SiteService.SelectionType.PUBVIEW, null, null, null, null, null);
             Collection<String> siteIds = new HashSet<String>(getAllSubscribedSites());
@@ -110,16 +110,20 @@ public abstract class AbstractSearchService implements SearchService {
     }
 
     private Collection<String> getAllSubscribedSites() {
-        List<Site> subscribedSites = siteService.getSites(SiteService.SelectionType.ACCESS, null, null, null, null, null);
-        List<String> siteIds = new ArrayList<String>(subscribedSites.size() + 1);
+        try {
+            logger.info("Finding every site in which the current user is a member.");
+            List<Site> subscribedSites = siteService.getSites(SiteService.SelectionType.ACCESS, null, null, null, null, null);
+            List<String> siteIds = new ArrayList<String>(subscribedSites.size() + 1);
+            for (Site site : subscribedSites) {
+                siteIds.add(site.getId());
+            }
+            logger.debug("Found " + siteIds.size() + " userSites: " + siteIds);
 
-        return siteIds;
-
-    }
-
-    private String getUserSite() {
-        String userId = userDirectoryService.getCurrentUser().getId();
-        return siteService.getUserSiteId(userId);
+            return siteIds;
+        } catch (Exception e) {
+            logger.warn("Couldn't get every site for the current user.", e);
+            return Collections.emptyList();
+        }
     }
 
     public void setDefaultLength(int defaultLength) {
