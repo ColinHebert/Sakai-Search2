@@ -6,6 +6,7 @@ import org.sakaiproject.event.api.Notification;
 import org.sakaiproject.search.api.*;
 import org.sakaiproject.search.model.SearchBuilderItem;
 import uk.ac.ox.oucs.search2.backwardcompatibility.content.BackContent;
+import uk.ac.ox.oucs.search2.backwardcompatibility.content.BackContentProducer;
 import uk.ac.ox.oucs.search2.backwardcompatibility.event.BackIndexEventHandler;
 import uk.ac.ox.oucs.search2.content.Content;
 import uk.ac.ox.oucs.search2.content.ContentProducer;
@@ -16,10 +17,7 @@ import uk.ac.ox.oucs.search2.task.DefaultTask;
 import uk.ac.ox.oucs.search2.task.Task;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Intercept registered functions (event names) and {@link EntityContentProducer}, and add them to
@@ -59,22 +57,7 @@ public class SearchServiceInterceptor implements SearchService, SearchIndexBuild
     @Override
     public void registerEntityContentProducer(final EntityContentProducer ecp) {
         indexEventManager.addIndexEventHandler(new BackIndexEventHandler(ecp));
-        contentProducerRegistry.registerContentProducer(new ContentProducer() {
-            @Override
-            public Content getContent(String reference) {
-                return BackContent.extractContent(reference, ecp);
-            }
-
-            @Override
-            public boolean isHandled(String reference) {
-                return ecp.matches(reference);
-            }
-
-            @Override
-            public boolean isReadable(String reference) {
-                return ecp.canRead(reference);
-            }
-        });
+        contentProducerRegistry.registerContentProducer(new BackContentProducer(ecp));
     }
 
     //-------------------------------------------------------------------------------

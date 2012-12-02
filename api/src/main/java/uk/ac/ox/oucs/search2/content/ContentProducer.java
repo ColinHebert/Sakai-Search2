@@ -1,5 +1,7 @@
 package uk.ac.ox.oucs.search2.content;
 
+import java.util.Queue;
+
 /**
  * Generate {@link Content} elements based on a reference
  *
@@ -13,6 +15,14 @@ public interface ContentProducer {
      * @return a content object containing the actual data and metadata associated
      */
     Content getContent(String reference);
+
+    /**
+     * Obtains all possible contents for a unique site
+     *
+     * @param siteId site containing elements
+     * @return content from the given site as a queue
+     */
+    Queue<Content> getSiteContents(String siteId);
 
     /**
      * Check if the given reference can be read by the current producer
