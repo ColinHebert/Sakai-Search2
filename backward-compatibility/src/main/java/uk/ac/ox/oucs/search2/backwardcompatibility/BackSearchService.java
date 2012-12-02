@@ -28,8 +28,8 @@ public class BackSearchService extends AbstractSearchService {
     }
 
     @Override
-    public String getSuggestion(String searchString) {
-        return searchService.getSearchSuggestion(searchString);
+    public String getSpellCheck(String searchQuery) {
+        return searchService.getSearchSuggestion(searchQuery);
     }
 
     public void setSearchService(SearchService searchService) {

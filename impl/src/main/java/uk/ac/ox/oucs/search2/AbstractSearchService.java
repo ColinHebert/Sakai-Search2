@@ -53,6 +53,16 @@ public abstract class AbstractSearchService implements SearchService {
     protected abstract SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<SearchFilter> filterChain);
 
     @Override
+    public String getSpellCheck(String searchQuery) {
+        return null;
+    }
+
+    @Override
+    public List<String> getSuggestions(String searchString) {
+        return Collections.emptyList();
+    }
+
+    @Override
     public void setSearchFilters(Iterable<SearchFilter> searchFilters) {
         this.searchFilters = searchFilters;
     }

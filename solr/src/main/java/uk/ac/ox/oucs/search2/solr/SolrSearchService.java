@@ -70,9 +70,4 @@ public class SolrSearchService extends AbstractSearchService {
         logger.debug("Create filter query " + sb.toString());
         return sb.toString();
     }
-
-    @Override
-    public String getSuggestion(String searchString) {
-        return null;
-    }
 }
