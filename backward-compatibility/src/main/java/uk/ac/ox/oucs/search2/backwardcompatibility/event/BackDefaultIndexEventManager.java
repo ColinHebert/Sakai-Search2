@@ -41,7 +41,7 @@ public class BackDefaultIndexEventManager extends DefaultIndexEventManager {
     protected void notify(Event event) {
         super.notify(event);
         for (IndexEventHandler eventHandler : indexEventHandlers) {
-            handleEvent(event, eventHandler);
+            addTask(eventHandler.getTask(event));
         }
     }
 }

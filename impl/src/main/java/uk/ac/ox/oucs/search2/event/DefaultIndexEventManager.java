@@ -4,6 +4,7 @@ import org.sakaiproject.event.api.Event;
 import org.sakaiproject.event.api.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ox.oucs.search2.task.Task;
 import uk.ac.ox.oucs.search2.task.TaskQueuing;
 
 import java.util.Collection;
@@ -39,8 +40,12 @@ public class DefaultIndexEventManager extends AbstractIndexEventManager {
     @Override
     protected void notify(Event event) {
         for (IndexEventHandler eventHandler : indexEventHandlers.get(event.getEvent())) {
-            taskQueuing.addTaskToQueue(eventHandler.getTask(event));
+            addTask(eventHandler.getTask(event));
         }
+    }
+
+    protected void addTask(Task task){
+        taskQueuing.addTaskToQueue(task);
     }
 
     public void setTaskQueuing(TaskQueuing taskQueuing) {
