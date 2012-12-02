@@ -20,8 +20,8 @@ import java.util.Map;
  */
 public class BackSearchResultList extends AbstractSearchResultList<SearchList> {
     private static final Logger logger = LoggerFactory.getLogger(BackSearchResultList.class);
-    private long numberResultsFound;
-    private long startCurrentSelection;
+    private final long numberResultsFound;
+    private final long startCurrentSelection;
     private Map<String, Long> termFrequency;
 
     public BackSearchResultList(SearchList searchList) {
