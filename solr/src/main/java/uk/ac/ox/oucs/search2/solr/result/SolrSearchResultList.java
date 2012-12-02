@@ -30,7 +30,7 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
     public SolrSearchResultList(QueryResponse queryResponse, Iterable<SearchFilter> searchFilters) {
         super(queryResponse, searchFilters);
         numberResultsFound = queryResponse.getResults().getNumFound();
-        startCurrentSelection = extractStartCurrentSelection(queryResponse);
+        startCurrentSelection = queryResponse.getResults().getStart();
         suggestion = extractSuggestion(queryResponse);
     }
 
@@ -93,11 +93,6 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
     @Override
     public Map<String, Long> getTermFrequencies() {
         return termFrequencies;
-    }
-
-    private long extractStartCurrentSelection(QueryResponse queryResponse) {
-        String expectedStart = ((NamedList<String>) queryResponse.getHeader().get("params")).get("start");
-        return (expectedStart != null) ? Integer.parseInt(expectedStart) : 0;
     }
 
     private String extractSuggestion(QueryResponse queryResponse) {
