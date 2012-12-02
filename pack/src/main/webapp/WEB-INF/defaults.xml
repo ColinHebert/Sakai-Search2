@@ -26,6 +26,6 @@
     </bean>
 
     <bean id="uk.ac.ox.oucs.search2.DefaultContentProducerRegistry"
-          class="uk.ac.ox.oucs.search2.event.DefaultContentProducerRegistry"/>
+          class="uk.ac.ox.oucs.search2.content.DefaultContentProducerRegistry"/>
 
 </beans>
