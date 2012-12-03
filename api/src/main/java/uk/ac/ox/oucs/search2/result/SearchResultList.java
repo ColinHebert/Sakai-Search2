@@ -1,41 +1,43 @@
 package uk.ac.ox.oucs.search2.result;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Result of a search query, consisting in a list of {@link SearchResult}
+ * List of results returned by a search query.
+ * <p>
+ * This list contains a portion of {@link SearchResult} returned during the last search query.<br />
+ * This list isn't expected to be exhaustive, and may contain only one page of results.
+ * </p>
  *
  * @author Colin Hebert
  */
 public interface SearchResultList extends List<SearchResult> {
     /**
-     * Get the number of entries found overall even if paging is done
+     * Gets the number of results found overall.
+     * <p>
+     * This number ISN'T the number of results in this list but the number of results matching the search query overall.
+     * </p>
      *
-     * @return number of entries
+     * @return number of results.
      */
     long getNumberResultsFound();
 
     /**
-     * Get the position of the first result in the current selection
+     * Gets the position of the first result in this selection.
      *
-     * @return the index of the first entry of the current selection
+     * @return the index overall of the first entry of the current selection.
      */
     long getStartCurrentSelection();
 
     /**
-     * Get a suggested search query
+     * Gets a spellCheck on the current search query.
+     * <p>
+     * This spellCheck is usually the one used to create the "did you mean: ..." section.<br />
+     * The spellchecking system is optional, if it isn't provided this method should always return null.<br />
+     * Usually the spellCheck will be the same as the one provided by {@link uk.ac.ox.oucs.search2.SearchService#getSpellCheck(String)}.
+     * </p>
      *
-     * @return a suggestion for another search query, null if none can be provided
+     * @return a spellcheck for a better search query, null if it doesn't need to be modified.
      */
-    String getSuggestion();
-
-    /**
-     * Get the term frequencies of the current results
-     *
-     * @return term frequency for each term in the currently selected results
-     * @deprecated The term frequencies on a list of result is deprecated and should be removed
-     */
-    @Deprecated
-    Map<String, Long> getTermFrequencies();
+    String getSpellCheck();
 }
