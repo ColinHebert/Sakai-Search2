@@ -1,6 +1,6 @@
 package uk.ac.ox.oucs.search2.result;
 
-import uk.ac.ox.oucs.search2.content.Content;
+import uk.ac.ox.oucs.search2.document.Document;
 
 import java.io.Serializable;
 
@@ -10,44 +10,67 @@ import java.io.Serializable;
  * @author Colin Hebert
  */
 public interface SearchResult extends Serializable {
-    Content getContent();
+    /**
+     * Gets the indexed document.
+     * <p>
+     * Gets the {@link Document} indexed and found as a result for a query.<br />
+     * The document can either be generated from its reference with a {@link uk.ac.ox.oucs.search2.document.DocumentProducer}
+     * or if every useful information is already available, from the result returned by the search engine.
+     * </p>
+     *
+     * @return The Document found as a result for a query.
+     */
+    Document getDocument();
 
     /**
-     * Score of the entry
+     * Gets the score of the result.
      *
-     * @return score
+     * @return The score of the result.
      */
     double getScore();
 
     /**
-     * Index of the entry in the entire list of results
+     * Get the position of this result in the list of all results.
+     * <p>
+     * When paging is used, this position is the position of the result over all possible results.
+     * </p>
      *
-     * @return Current position in the list of results
+     * @return Position of this result in the list of all results.
      */
     long getIndex();
 
     /**
-     * Should the entry be displayed/used
-     * A censored entry is usually empty (see {@link CensoredSearchResult}) and shouldn't be used
+     * Checks if the result should be censored.
+     * <p>
+     * A censored result should never be displayed to the user.<br />
+     * For security reasons, it's recommended to use {@link CensoredSearchResult} to represent a censoredResult.
+     * </p>
      *
-     * @return true if the result is censored, false otherwise
+     * @return true if the result is censored, false otherwise.
      */
     boolean isCensored();
 
     /**
-     * Short text accompanying the result
-     * Usually a relevant part of the content, containing the searched keywords
+     * Gets the text that should be displayed with the result.
+     * <p>
+     * The displayed text usually contains a relevant part of the document, showing the reason making this document
+     * eligible as a result.
+     * </p>
+     * <p>
+     * The expected format for this text is Markdown, but isn't guaranteed.<br />
+     * An implementation returning a format other than Markdown should document it.
+     * </p>
      *
-     * @return A short text specific to the result
+     * @return A text describing the result.
      */
     String getDisplayedText();
 
     /**
-     * Implementation of {@link SearchResult} used to censor a result.
+     * Censored implementation of {@link SearchResult}.
      */
     public static final class CensoredSearchResult implements SearchResult {
         @Override
-        public Content getContent() {
+        public Document getDocument() {
             return null;
         }
 
