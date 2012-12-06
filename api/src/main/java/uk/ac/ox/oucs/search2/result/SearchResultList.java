@@ -34,7 +34,7 @@ public interface SearchResultList extends List<SearchResult> {
      * <p>
      * This spellCheck is usually the one used to create the "did you mean: ..." section.<br />
      * The spellchecking system is optional, if it isn't provided this method should always return null.<br />
-     * Usually the spellCheck will be the same as the one provided by {@link uk.ac.ox.oucs.search2.SearchService#getSpellCheck(String)}.
+     * Usually the spellCheck will be the same as the one provided by {@link uk.ac.ox.oucs.search2.service.SearchService#getSpellCheck(String)}.
      * </p>
      *
      * @return a spellcheck for a better search query, null if it doesn't need to be modified.
