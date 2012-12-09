@@ -1,24 +1,51 @@
 package uk.ac.ox.oucs.search2.result;
 
-import uk.ac.ox.oucs.search2.filter.SearchFilter;
+import uk.ac.ox.oucs.search2.result.filter.ResultFilter;
 
 import java.util.*;
 
 /**
+ * Abstract implementation of SearchResultList using an instance of List to store the results.
+ * <p>
+ * Every call to methods provided by the {@link List} interface are delegated to the actual list of results.<br />
+ * </p>
+ *
+ * @param <T> Type of object returned after a search query (depends on the tools used to do a search).
  * @author Colin Hebert
  */
 public abstract class AbstractSearchResultList<T> implements SearchResultList {
     private final List<SearchResult> results;
 
+    /**
+     * Creates a result list based on the result provided by the search tools.
+     * <p>
+     * Do not apply filters on the result.
+     * </p>
+     *
+     * @param result result given by the search tool.
+     */
     protected AbstractSearchResultList(T result) {
-        this(result, Collections.<SearchFilter>emptyList());
+        this(result, Collections.<ResultFilter>emptyList());
     }
 
-    protected AbstractSearchResultList(T result, Iterable<SearchFilter> searchFilters) {
+    /**
+     * Creates a result list based on the result provided by the search tools.
+     *
+     * @param result        result given by the search tool.
+     * @param searchFilters filters to apply on each result.
+     */
+    protected AbstractSearchResultList(T result, Iterable<ResultFilter> searchFilters) {
         this.results = Collections.unmodifiableList(getSearchResults(result, searchFilters));
     }
 
-    protected abstract List<? extends SearchResult> getSearchResults(T result, Iterable<SearchFilter> filters);
+    /**
+     * Extracts {@link SearchResult} from the given entity.
+     *
+     * @param result  result of the search query.
+     * @param filters filters to apply on each result.
+     * @return a list of results filtered.
+     */
+    protected abstract List<? extends SearchResult> getSearchResults(T result, Iterable<ResultFilter> filters);
 
     //----------------------------------------
     // Methods from List delegated internally
