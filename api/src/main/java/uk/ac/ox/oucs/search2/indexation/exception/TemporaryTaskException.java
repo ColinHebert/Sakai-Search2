@@ -1,16 +1,22 @@
-package uk.ac.ox.oucs.search2.task.exception;
+package uk.ac.ox.oucs.search2.indexation.exception;
 
-import uk.ac.ox.oucs.search2.task.Task;
+import uk.ac.ox.oucs.search2.indexation.Task;
 
 /**
- * Exception thrown during the execution of a {@link Task} when the problem was temporary and the task should be run again.
+ * Thrown when a temporary or easily recoverable problem was encountered during the execution of the {@link Task}.
  * <p>
- * Provides a new Task to run (usually the exact same task)
+ * In most cases, an exception due to network issues shouldn't prevent the Task to be executed at all and only
+ * requires the system to try again later.<br />
+ * Each TemporaryTaskException provides a new Task to execute. In most cases, the new Task will have the same properties
+ * as the Task that just failed.
  * </p>
  *
  * @author Colin Hebert
  */
 public class TemporaryTaskException extends TaskException {
+    /**
+     * New Task to execute.
+     */
     private final Task newTask;
 
     public TemporaryTaskException(Task newTask) {
@@ -32,6 +38,11 @@ public class TemporaryTaskException extends TaskException {
         this.newTask = newTask;
     }
 
+    /**
+     * Gets the new {@link Task} to execute.
+     *
+     * @return the new Task to execute.
+     */
     public Task getNewTask() {
         return newTask;
     }

@@ -1,6 +1,8 @@
-package uk.ac.ox.oucs.search2.task.exception;
+package uk.ac.ox.oucs.search2.indexation.exception;
 
 /**
+ * Exception thrown during the execution of a {@link uk.ac.ox.oucs.search2.indexation.Task}.
+ *
  * @author Colin Hebert
  */
 public class TaskException extends RuntimeException {
