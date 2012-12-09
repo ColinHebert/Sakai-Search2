@@ -1,7 +1,7 @@
 package uk.ac.ox.oucs.search2.event;
 
 import org.sakaiproject.event.api.Event;
-import uk.ac.ox.oucs.search2.task.Task;
+import uk.ac.ox.oucs.search2.indexation.Task;
 
 import java.util.Collection;
 
