@@ -49,6 +49,7 @@
         <module>tool</module>
         <module>pack</module>
         <module>solr</module>
+        <module>tika</module>
     </modules>
 
     <dependencyManagement>
