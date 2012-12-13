@@ -27,6 +27,7 @@ import uk.ac.ox.oucs.search2.indexation.exception.TaskException;
 import uk.ac.ox.oucs.search2.indexation.exception.TemporaryTaskException;
 import uk.ac.ox.oucs.search2.solr.SolrSchemaConstants;
 import uk.ac.ox.oucs.search2.solr.request.ReaderUpdateRequest;
+import uk.ac.ox.oucs.search2.tika.document.TikaDocument;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -423,14 +424,15 @@ public class SolrTaskHandler implements TaskHandler {
             logger.debug("Create a solr request to add '" + document + "' to the index");
 
         if (document instanceof StreamDocument) {
+            StreamDocument streamDocument = (StreamDocument) document;
             if (solrCellEnabled) {
                 if (logger.isDebugEnabled())
                     logger.debug("Create a SolrCell request");
-                return getStreamIndexRequest((StreamDocument) document, solrDocument);
+                return getStreamIndexRequest(streamDocument, solrDocument);
             } else {
                 if (logger.isDebugEnabled())
                     logger.debug("Transform the document with tika");
-                document = null;//TODO: Use tika to generate a Reader or String document
+                document = new TikaDocument(streamDocument);
             }
         }
 
