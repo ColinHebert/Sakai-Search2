@@ -2,15 +2,13 @@ package uk.ac.ox.oucs.search2.solr.result;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.util.NamedList;
-import uk.ac.ox.oucs.search2.content.Content;
-import uk.ac.ox.oucs.search2.filter.FilterChain;
-import uk.ac.ox.oucs.search2.filter.SearchFilter;
+import uk.ac.ox.oucs.search2.document.Document;
 import uk.ac.ox.oucs.search2.result.AbstractSearchResultList;
 import uk.ac.ox.oucs.search2.result.SearchResult;
+import uk.ac.ox.oucs.search2.result.filter.FilterChain;
+import uk.ac.ox.oucs.search2.result.filter.ResultFilter;
 import uk.ac.ox.oucs.search2.solr.SolrSchemaConstants;
-import uk.ac.ox.oucs.search2.solr.content.SolrContent;
+import uk.ac.ox.oucs.search2.solr.document.SolrDocument;
 
 import java.util.*;
 
@@ -18,16 +16,15 @@ import java.util.*;
  * @author Colin Hebert
  */
 public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse> {
-    private final Map<String, Long> termFrequencies = new HashMap<String, Long>();
     private long numberResultsFound;
     private long startCurrentSelection;
     private String suggestion;
 
     public SolrSearchResultList(QueryResponse queryResponse) {
-        this(queryResponse, Collections.<SearchFilter>emptyList());
+        this(queryResponse, Collections.<ResultFilter>emptyList());
     }
 
-    public SolrSearchResultList(QueryResponse queryResponse, Iterable<SearchFilter> searchFilters) {
+    public SolrSearchResultList(QueryResponse queryResponse, Iterable<ResultFilter> searchFilters) {
         super(queryResponse, searchFilters);
         numberResultsFound = queryResponse.getResults().getNumFound();
         startCurrentSelection = queryResponse.getResults().getStart();
@@ -35,44 +32,24 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
     }
 
     @Override
-    protected List<? extends SearchResult> getSearchResults(QueryResponse queryResponse, Iterable<SearchFilter> filters) {
+    protected List<? extends SearchResult> getSearchResults(QueryResponse queryResponse, Iterable<ResultFilter> filters) {
         List<SearchResult> searchResults = new ArrayList<SearchResult>(queryResponse.getResults().size());
-        TermVectorExtractor termVectorExtractor = new TermVectorExtractor(queryResponse);
-        Map<String, Map<String, Map<String, TermVectorExtractor.TermInfo>>> termsPerDocument = termVectorExtractor.getTermVectorInfo();
         long index = 0;
 
-        for (SolrDocument document : queryResponse.getResults()) {
-            String id = (String) document.getFieldValue(SolrSchemaConstants.ID_FIELD);
-            SolrSearchResult solrResult = extractResult(index++, document, queryResponse.getHighlighting().get(id));
+        for (org.apache.solr.common.SolrDocument document : queryResponse.getResults()) {
+            String reference = (String) document.getFieldValue(SolrSchemaConstants.REFERENCE_FIELD);
+            SolrSearchResult solrResult = extractResult(index++, document, queryResponse.getHighlighting().get(reference));
             SearchResult searchResult = new FilterChain(filters).filter(solrResult);
             searchResults.add(searchResult);
-
-            if (!searchResult.isCensored()) {
-                extractDocumentTermFrequencies(termsPerDocument.get(id));
-            }
-
         }
         return searchResults;
     }
 
-    private void extractDocumentTermFrequencies(Map<String, Map<String, TermVectorExtractor.TermInfo>> terms) {
-        for (Map.Entry<String, Map<String, TermVectorExtractor.TermInfo>> fieldTerms : terms.entrySet()) {
-            for (Map.Entry<String, TermVectorExtractor.TermInfo> term : fieldTerms.getValue().entrySet()) {
-                Long frequency = termFrequencies.get(term.getKey());
-                if (frequency == null)
-                    frequency = term.getValue().getDocumentFrequency();
-                else
-                    frequency += term.getValue().getDocumentFrequency();
-                termFrequencies.put(term.getKey(), frequency);
-            }
-        }
-    }
-
-    private SolrSearchResult extractResult(long index, SolrDocument document, Map<String, List<String>> highlights) {
-        Content content = new SolrContent(document);
-        double score = (Double) document.getFieldValue(SolrSchemaConstants.SCORE_FIELD);
+    private SolrSearchResult extractResult(long index, org.apache.solr.common.SolrDocument solrDocument, Map<String, List<String>> highlights) {
+        Document document = new SolrDocument(solrDocument);
+        double score = (Double) solrDocument.getFieldValue(SolrSchemaConstants.SCORE_FIELD);
         String highlightedText = getText(highlights.get(SolrSchemaConstants.CONTENT_FIELD));
-        return new SolrSearchResult(content, score, index, highlightedText);
+        return new SolrSearchResult(document, score, index, highlightedText);
     }
 
     @Override
@@ -86,13 +63,8 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
     }
 
     @Override
-    public String getSuggestion() {
+    public String getSpellCheck() {
         return suggestion;
-    }
-
-    @Override
-    public Map<String, Long> getTermFrequencies() {
-        return termFrequencies;
     }
 
     private String extractSuggestion(QueryResponse queryResponse) {
