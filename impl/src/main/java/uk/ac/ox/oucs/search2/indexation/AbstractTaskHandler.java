@@ -27,6 +27,9 @@ public abstract class AbstractTaskHandler implements TaskHandler {
 
     @Override
     public void executeTask(Task task) {
+        if (logger.isDebugEnabled())
+            logger.debug("Execute the task '" + task + "'");
+
         try {
             String type = task.getType();
             DateTime taskCreationDate = new DateTime(task.getCreationDate());
