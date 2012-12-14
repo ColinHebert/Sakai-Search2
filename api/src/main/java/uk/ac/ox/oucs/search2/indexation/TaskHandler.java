@@ -12,8 +12,11 @@ public interface TaskHandler {
     /**
      * Executes a Task.
      *
-     * @throws uk.ac.ox.oucs.search2.indexation.exception.TaskException if the execution wasn't successful.
      * @param task task to execute.
+     * @throws uk.ac.ox.oucs.search2.indexation.exception.TaskException
+     *          if the execution wasn't successful.
+     * @throws uk.ac.ox.oucs.search2.indexation.exception.UnsupportedTaskException
+     *          if the {@link Task} can't be handled.
      */
     void executeTask(Task task);
 }
