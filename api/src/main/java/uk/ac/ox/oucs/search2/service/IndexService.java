@@ -1,5 +1,10 @@
 package uk.ac.ox.oucs.search2.service;
 
+import org.sakaiproject.site.api.Site;
+import uk.ac.ox.oucs.search2.document.Document;
+
+import java.util.Collection;
+
 /**
  * Point of entry for every user order related to the indexation.
  * <p>
@@ -71,4 +76,26 @@ public interface IndexService {
      * @param now clean the index on the spot if true, queue it for later otherwise.
      */
     void unindexEveryDocuments(boolean now);
+
+    /**
+     * Checks whether a site is indexable or not.
+     *
+     * @param site site to check.
+     * @return true if the site is indexable, false otherwise.
+     */
+    boolean isSiteIndexable(Site site);
+
+    /**
+     * Obtains the identifier for every indexable site.
+     *
+     * @return every id for indexable sites.
+     */
+    Collection<String> getIndexableSiteIds();
+
+    /**
+     * Obtains the indexable documents present in a site.
+     *
+     * @return a collection of indexable documents in a site. An empty collection if the site isn't indexable.
+     */
+    Collection<Document> getIndexableDocumentsForSite(String siteId);
 }
