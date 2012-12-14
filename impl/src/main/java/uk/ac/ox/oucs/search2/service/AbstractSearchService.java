@@ -1,26 +1,33 @@
-package uk.ac.ox.oucs.search2;
+package uk.ac.ox.oucs.search2.service;
 
 import org.sakaiproject.site.api.Site;
 import org.sakaiproject.site.api.SiteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ox.oucs.search2.filter.SearchFilter;
 import uk.ac.ox.oucs.search2.result.SearchResultList;
+import uk.ac.ox.oucs.search2.result.filter.ResultFilter;
 
 import java.util.*;
 
 /**
+ * Abstract implementation of the search service.
+ * <p>
+ * Provides a basic search system and handling the queries context.
+ * </p>
+ * TODO: Rethink the context system. It may work with a context containing a few sites, but with many it will cause some problems.
+ *
  * @author Colin Hebert
  */
 public abstract class AbstractSearchService implements SearchService {
     private static final Logger logger = LoggerFactory.getLogger(AbstractSearchService.class);
+    private Iterable<ResultFilter> searchFilters;
     private int defaultLength = 10;
-    private Iterable<SearchFilter> searchFilters;
     private SiteService siteService;
 
     @Override
     public SearchResultList search(String searchQuery) {
-        return search(searchQuery, getContexts(SearchContext.ALL_SITES), 0, defaultLength, searchFilters);
+        //TODO: Think of using an infinite searchResultList, creating solr requests on the fly if needed?
+        return search(searchQuery, getContextSiteIds(Context.EVERY_SITES), 0, defaultLength, searchFilters);
     }
 
     @Override
@@ -29,13 +36,13 @@ public abstract class AbstractSearchService implements SearchService {
     }
 
     @Override
-    public SearchResultList search(String searchQuery, SearchContext context) {
-        return search(searchQuery, getContexts(context), 0, defaultLength, searchFilters);
+    public SearchResultList search(String searchQuery, Context context) {
+        return search(searchQuery, getContextSiteIds(context), 0, defaultLength, searchFilters);
     }
 
     @Override
     public SearchResultList search(String searchQuery, long start, long length) {
-        return search(searchQuery, getContexts(SearchContext.ALL_SITES), start, length, searchFilters);
+        return search(searchQuery, getContextSiteIds(Context.EVERY_SITES), start, length, searchFilters);
     }
 
     @Override
@@ -44,11 +51,11 @@ public abstract class AbstractSearchService implements SearchService {
     }
 
     @Override
-    public SearchResultList search(String searchQuery, SearchContext context, long start, long length) {
-        return search(searchQuery, getContexts(context), start, length, searchFilters);
+    public SearchResultList search(String searchQuery, Context context, long start, long length) {
+        return search(searchQuery, getContextSiteIds(context), start, length, searchFilters);
     }
 
-    protected abstract SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<SearchFilter> filterChain);
+    protected abstract SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<ResultFilter> filterChain);
 
     @Override
     public String getSpellCheck(String searchQuery) {
@@ -57,39 +64,30 @@ public abstract class AbstractSearchService implements SearchService {
 
     @Override
     public List<String> getSuggestions(String searchString) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public void setSearchFilters(Iterable<SearchFilter> searchFilters) {
-        this.searchFilters = searchFilters;
+        return null;
     }
 
     /**
-     * Obtain a list of site id based on the selected context
+     * Obtains the identifiers of sites available withing a specific context.
      *
-     * @param context
-     * @return
+     * @param context context within the sites are available
+     * @return Every site ID in the content.
      */
-    private Collection<String> getContexts(SearchContext context) {
+    private Collection<String> getContextSiteIds(Context context) {
         switch (context) {
-            case ALL_SITES:
+            case EVERY_SITES:
                 return getAllViewableSites();
             case SUBSCRIBED_SITES:
-                return getAllSubscribedSites();
-            case CURRENT_SITE:
-                //TODO: Handle this deprecated choice
-                if (false) {
-                    //ToolManager toolManager = (ToolManager) ComponentManager.get(ToolManager.class);
-                    //return Collections.singleton(toolManager.getCurrentPlacement().getContext());
-                } else {
-                    logger.info("Couldn't find the current website, switching back to the default context");
-                }
             default:
                 return getAllSubscribedSites();
         }
     }
 
+    /**
+     * Obtains the identifiers of every site viewable by the current user.
+     *
+     * @return a collection of every site identifier viewable by the current user.
+     */
     private Collection<String> getAllViewableSites() {
         try {
             logger.info("Finding every site the current user can browse.");
@@ -99,7 +97,8 @@ public abstract class AbstractSearchService implements SearchService {
             for (Site site : publicSites) {
                 siteIds.add(site.getId());
             }
-            logger.debug("Found " + siteIds.size() + " userSites: " + siteIds);
+            if (logger.isDebugEnabled())
+                logger.debug("Found " + siteIds.size() + " userSites: " + siteIds);
             return siteIds;
         } catch (Exception e) {
             logger.warn("Couldn't get every site for the current user.", e);
@@ -107,6 +106,11 @@ public abstract class AbstractSearchService implements SearchService {
         }
     }
 
+    /**
+     * Obtains the identifier of every site in which the user is a member.
+     *
+     * @return a collection of every site identifier in which the current user is a member.
+     */
     private Collection<String> getAllSubscribedSites() {
         try {
             logger.info("Finding every site in which the current user is a member.");
@@ -115,7 +119,8 @@ public abstract class AbstractSearchService implements SearchService {
             for (Site site : subscribedSites) {
                 siteIds.add(site.getId());
             }
-            logger.debug("Found " + siteIds.size() + " userSites: " + siteIds);
+            if (logger.isDebugEnabled())
+                logger.debug("Found " + siteIds.size() + " userSites: " + siteIds);
 
             return siteIds;
         } catch (Exception e) {
@@ -124,11 +129,16 @@ public abstract class AbstractSearchService implements SearchService {
         }
     }
 
-    public void setDefaultLength(int defaultLength) {
-        this.defaultLength = defaultLength;
+    @Override
+    public void setSearchFilters(Iterable<ResultFilter> searchFilters) {
+        this.searchFilters = searchFilters;
     }
 
     public void setSiteService(SiteService siteService) {
         this.siteService = siteService;
+    }
+
+    public void setDefaultLength(int defaultLength) {
+        this.defaultLength = defaultLength;
     }
 }
