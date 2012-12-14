@@ -1,4 +1,4 @@
-package uk.ac.ox.oucs.search2.solr;
+package uk.ac.ox.oucs.search2.solr.service;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -7,16 +7,19 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.ox.oucs.search2.AbstractSearchService;
 import uk.ac.ox.oucs.search2.exception.InvalidSearchQueryException;
-import uk.ac.ox.oucs.search2.filter.SearchFilter;
 import uk.ac.ox.oucs.search2.result.SearchResultList;
+import uk.ac.ox.oucs.search2.result.filter.ResultFilter;
+import uk.ac.ox.oucs.search2.service.AbstractSearchService;
+import uk.ac.ox.oucs.search2.solr.SolrSchemaConstants;
 import uk.ac.ox.oucs.search2.solr.result.SolrSearchResultList;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 /**
+ * Search implementation using solr as an index.
+ *
  * @author Colin Hebert
  */
 public class SolrSearchService extends AbstractSearchService {
@@ -27,7 +30,8 @@ public class SolrSearchService extends AbstractSearchService {
         this.solrServer = solrServer;
     }
 
-    protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<SearchFilter> filterChain) {
+    @Override
+    protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<ResultFilter> filterChain) {
         try {
             SolrQuery query = new SolrQuery();
 
@@ -40,15 +44,12 @@ public class SolrSearchService extends AbstractSearchService {
             query.setParam("hl.mergeContiguous", true);
             query.setParam("hl.fl", SolrSchemaConstants.CONTENT_FIELD);
 
-            query.setParam("tv", true);
-            query.setParam("tv.fl", SolrSchemaConstants.CONTENT_FIELD);
-            query.setParam("tv.tf", true);
-
             if (!contexts.isEmpty()) {
                 query.setFilterQueries(createSitesFilterQuery(contexts));
             }
 
-            logger.debug("Searching with Solr : " + searchQuery);
+            if (logger.isDebugEnabled())
+                logger.debug("Searching with Solr : " + searchQuery);
             query.setQuery(searchQuery);
             QueryResponse rsp = solrServer.query(query);
             return new SolrSearchResultList(rsp, filterChain);
@@ -57,6 +58,12 @@ public class SolrSearchService extends AbstractSearchService {
         }
     }
 
+    /**
+     * Creates a solr filter query containing every site id in the current context.
+     *
+     * @param contexts site ids of the current search context.
+     * @return a solr filter query.
+     */
     private String createSitesFilterQuery(Collection<String> contexts) {
         StringBuilder sb = new StringBuilder();
         sb.append('+').append(SolrSchemaConstants.SITE_ID_FIELD).append(":");
@@ -67,7 +74,8 @@ public class SolrSearchService extends AbstractSearchService {
                 sb.append(" OR ");
         }
         sb.append(')');
-        logger.debug("Create filter query " + sb.toString());
+        if (logger.isDebugEnabled())
+            logger.debug("Create filter query " + sb);
         return sb.toString();
     }
 }
