@@ -14,17 +14,16 @@ import org.apache.solr.common.util.ContentStreamBase;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.sakaiproject.site.api.Site;
-import org.sakaiproject.site.api.SiteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.document.*;
+import uk.ac.ox.oucs.search2.indexation.AbstractTaskHandler;
 import uk.ac.ox.oucs.search2.indexation.DefaultTask;
 import uk.ac.ox.oucs.search2.indexation.Task;
-import uk.ac.ox.oucs.search2.indexation.TaskHandler;
 import uk.ac.ox.oucs.search2.indexation.exception.MultipleTasksException;
 import uk.ac.ox.oucs.search2.indexation.exception.TaskException;
 import uk.ac.ox.oucs.search2.indexation.exception.TemporaryTaskException;
+import uk.ac.ox.oucs.search2.indexation.exception.UnsupportedTaskException;
 import uk.ac.ox.oucs.search2.solr.SolrSchemaConstants;
 import uk.ac.ox.oucs.search2.solr.request.ReaderUpdateRequest;
 import uk.ac.ox.oucs.search2.tika.document.TikaDocument;
@@ -32,9 +31,7 @@ import uk.ac.ox.oucs.search2.tika.document.TikaDocument;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 import static uk.ac.ox.oucs.search2.indexation.DefaultTask.Type.*;
 import static uk.ac.ox.oucs.search2.solr.indexation.SolrTask.Type.COMMIT;
@@ -50,7 +47,7 @@ import static uk.ac.ox.oucs.search2.solr.indexation.SolrTask.Type.OPTIMISE;
  *
  * @author Colin Hebert
  */
-public class SolrTaskHandler implements TaskHandler {
+public class SolrTaskHandler extends AbstractTaskHandler {
     private static final Logger logger = LoggerFactory.getLogger(SolrTaskHandler.class);
     /**
      * DateTime format used in Solr requests.
@@ -61,14 +58,6 @@ public class SolrTaskHandler implements TaskHandler {
      */
     private SolrServer solrServer;
     /**
-     * Registry of {@link DocumentProducer} used to build a {@link Document} before indexing it.
-     */
-    private DocumentProducerRegistry documentProducerRegistry;
-    /**
-     *
-     */
-    private SiteService siteService;
-    /**
      * Status of SolrCell, if enabled, the TaskHandler will send binary streams directly to the Solr server.
      * If it is disabled, Tika will be run directly by the TaskHandler to obtain a {@link StringDocument}.
      */
@@ -76,41 +65,25 @@ public class SolrTaskHandler implements TaskHandler {
 
     @Override
     public void executeTask(Task task) {
-        if (logger.isDebugEnabled())
-            logger.debug("Execute the task '" + task + "'");
-
         try {
+            super.executeTask(task);
+        } catch (UnsupportedTaskException e) {
             String type = task.getType();
-            DateTime taskCreationDate = new DateTime(task.getCreationDate());
             try {
-                if (INDEX_DOCUMENT.getTypeName().equals(type)) {
-                    String documentReference = task.getProperty(DefaultTask.DOCUMENT_REFERENCE);
-                    Document document = documentProducerRegistry.getDocumentProducer(documentReference).getDocument(documentReference);
-                    indexDocument(document, taskCreationDate);
-                } else if (UNINDEX_DOCUMENT.getTypeName().equals(type)) {
-                    unindexDocument(task.getProperty(DefaultTask.DOCUMENT_REFERENCE), taskCreationDate);
-                } else if (INDEX_SITE.getTypeName().equals(type)) {
-                    indexSite(task.getProperty(DefaultTask.SITE_ID), taskCreationDate);
-                } else if (UNINDEX_SITE.getTypeName().equals(type)) {
-                    unindexSite(task.getProperty(DefaultTask.SITE_ID), taskCreationDate);
-                } else if (INDEX_ALL.getTypeName().equals(type)) {
-                    indexAll(taskCreationDate);
-                } else if (UNINDEX_ALL.getTypeName().equals(type)) {
-                    unindexAll(taskCreationDate);
-                } else if (OPTIMISE.getTypeName().equals(type)) {
+                if (OPTIMISE.getTypeName().equals(type)) {
                     optimise();
                 } else if (COMMIT.getTypeName().equals(type)) {
                     //Don't do anything, the commit is done automatically in the finally.
                 } else if (IGNORE.getTypeName().equals(type)) {
                     logger.debug("Task '" + task + "', was ignored as expected");
                 } else {
-                    throw new TaskException("Task '" + task + "' can't be handled");
+                    throw e;
                 }
-            } finally {
-                commit();
+            } catch (Exception ex) {
+                throw wrapException(ex, "An exception occurred while handling the task '" + task + "'", task);
             }
-        } catch (Exception e) {
-            throw wrapException(e, "An exception occurred while handling the task '" + task + "'", task);
+        } finally {
+            commit();
         }
     }
 
@@ -123,7 +96,8 @@ public class SolrTaskHandler implements TaskHandler {
      * @param document         the document to index.
      * @param taskCreationDate creation date of the {@link Task}.
      */
-    private void indexDocument(Document document, DateTime taskCreationDate) {
+    @Override
+    protected void indexDocument(Document document, DateTime taskCreationDate) {
         if (logger.isDebugEnabled())
             logger.debug("Add '" + document.getReference() + "' to the index");
 
@@ -153,7 +127,8 @@ public class SolrTaskHandler implements TaskHandler {
      * @param documentReference reference of the document to remove.
      * @param taskCreationDate  creation date of the {@link Task}.
      */
-    private void unindexDocument(String documentReference, DateTime taskCreationDate) {
+    @Override
+    protected void unindexDocument(String documentReference, DateTime taskCreationDate) {
         if (logger.isDebugEnabled())
             logger.debug("Remove '" + documentReference + "' from the index");
 
@@ -172,17 +147,13 @@ public class SolrTaskHandler implements TaskHandler {
      * @param siteId           identifier of the site to index.
      * @param taskCreationDate creation date of the {@link Task}.
      */
-    private void indexSite(String siteId, DateTime taskCreationDate) {
-        logger.info("Rebuilding the index for '" + siteId + "'");
-
+    @Override
+    protected void indexSite(String siteId, DateTime taskCreationDate) {
         MultipleTasksException mte = new MultipleTasksException("An exception occurred while indexing the site '" + siteId + "'");
-        Queue<Document> documents = getSiteDocuments(siteId);
-        while (documents.peek() != null) {
-            try {
-                indexDocument(documents.poll(), taskCreationDate);
-            } catch (TaskException e) {
-                mte.addTaskException(e);
-            }
+        try {
+            super.indexSite(siteId, taskCreationDate);
+        } catch (TaskException e) {
+            mte.addTaskException(e);
         }
 
         try {
@@ -203,7 +174,8 @@ public class SolrTaskHandler implements TaskHandler {
      * @param siteId           identifier of the site to unindex.
      * @param taskCreationDate creation date of the {@code Task}.
      */
-    private void unindexSite(String siteId, DateTime taskCreationDate) {
+    @Override
+    protected void unindexSite(String siteId, DateTime taskCreationDate) {
         logger.info("Remove old documents from '" + siteId + "'");
 
         try {
@@ -223,17 +195,13 @@ public class SolrTaskHandler implements TaskHandler {
      *
      * @param taskCreationDate creation date of the {@code Task}.
      */
-    private void indexAll(DateTime taskCreationDate) {
-        logger.info("Rebuilding the index for every indexable site");
-
+    @Override
+    protected void indexAll(DateTime taskCreationDate) {
         MultipleTasksException mte = new MultipleTasksException();
-        Queue<String> siteIds = getIndexableSiteIds();
-        while (siteIds.peek() != null) {
-            try {
-                indexSite(siteIds.poll(), taskCreationDate);
-            } catch (TaskException e) {
-                mte.addTaskException(e);
-            }
+        try {
+            super.indexAll(taskCreationDate);
+        } catch (TaskException e) {
+            mte.addTaskException(e);
         }
 
         try {
@@ -241,6 +209,7 @@ public class SolrTaskHandler implements TaskHandler {
         } catch (TaskException e) {
             mte.addTaskException(e);
         }
+
         try {
             optimise();
         } catch (TaskException e) {
@@ -258,7 +227,8 @@ public class SolrTaskHandler implements TaskHandler {
      *
      * @param taskCreationDate creation date of the {@code Task}.
      */
-    private void unindexAll(DateTime taskCreationDate) {
+    @Override
+    protected void unindexAll(DateTime taskCreationDate) {
         logger.info("Remove old documents from every sites");
         try {
             solrServer.deleteByQuery(SolrSchemaConstants.TIMESTAMP_FIELD + ":{* TO " + DATE_TIME_FORMATTER.print(taskCreationDate) + "}");
@@ -358,20 +328,6 @@ public class SolrTaskHandler implements TaskHandler {
                 .setRows(0);
         //If there is a result, then the document is already up to date.
         return solrServer.query(query).getResults().getNumFound() != 0;
-    }
-
-    /**
-     * Obtains a lists of every identifier for indexable sites.
-     * TODO: Move this method in a more global position, indexable sites should probably be determined by the indexService
-     *
-     * @return a queue of indexable site Ids.
-     */
-    private Queue<String> getIndexableSiteIds() {
-        Queue<String> refreshedSites = new LinkedList<String>();
-        for (Site s : siteService.getSites(SiteService.SelectionType.ANY, null, null, null, SiteService.SortType.NONE, null)) {
-            refreshedSites.offer(s.getId());
-        }
-        return refreshedSites;
     }
 
     /**
@@ -506,22 +462,8 @@ public class SolrTaskHandler implements TaskHandler {
         return contentStreamUpdateRequest;
     }
 
-    /**
-     * Gets every document available in a site.
-     *
-     * @param siteId site in which the documents are.
-     * @return every document available in the given site.
-     */
-    public Queue<Document> getSiteDocuments(String siteId) {
-        return new SiteDocumentsQueue(siteId, documentProducerRegistry);
-    }
-
     public void setSolrServer(SolrServer solrServer) {
         this.solrServer = solrServer;
-    }
-
-    public void setDocumentProducerRegistry(DocumentProducerRegistry documentProducerRegistry) {
-        this.documentProducerRegistry = documentProducerRegistry;
     }
 
     public void setSolrCellEnabled(boolean solrCellEnabled) {
