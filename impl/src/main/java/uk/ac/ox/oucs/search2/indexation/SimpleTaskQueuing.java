@@ -10,7 +10,7 @@ package uk.ac.ox.oucs.search2.indexation;
  *
  * @author Colin Hebert
  */
-public class SimpleQueuingSystem extends AbstractTaskRunner implements TaskQueuing {
+public class SimpleTaskQueuing extends AbstractTaskRunner implements TaskQueuing {
     public void init() {
         setTaskQueuing(this);
     }
