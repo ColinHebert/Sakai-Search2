@@ -1,4 +1,4 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.service;
+package uk.ac.ox.oucs.search2.compatibility.service;
 
 import org.sakaiproject.event.api.Event;
 import org.sakaiproject.event.api.EventTrackingService;
@@ -6,9 +6,9 @@ import org.sakaiproject.event.api.Notification;
 import org.sakaiproject.search.api.EntityContentProducer;
 import org.sakaiproject.search.api.SearchIndexBuilder;
 import org.sakaiproject.search.model.SearchBuilderItem;
-import uk.ac.ox.oucs.search2.compatibility.backward.document.Search1EntityContentProducer;
-import uk.ac.ox.oucs.search2.compatibility.backward.document.Search2DocumentProducer;
-import uk.ac.ox.oucs.search2.compatibility.backward.event.Search2EventHandler;
+import uk.ac.ox.oucs.search2.compatibility.document.Search1EntityContentProducer;
+import uk.ac.ox.oucs.search2.compatibility.document.Search2DocumentProducer;
+import uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler;
 import uk.ac.ox.oucs.search2.document.DocumentProducer;
 import uk.ac.ox.oucs.search2.document.DocumentProducerRegistry;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;

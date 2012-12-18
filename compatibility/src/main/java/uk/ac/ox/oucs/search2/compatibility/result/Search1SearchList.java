@@ -1,4 +1,4 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.result;
+package uk.ac.ox.oucs.search2.compatibility.result;
 
 import org.sakaiproject.search.api.SearchList;
 import org.sakaiproject.search.api.SearchResult;

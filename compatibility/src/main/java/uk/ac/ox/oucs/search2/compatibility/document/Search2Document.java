@@ -1,4 +1,4 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.document;
+package uk.ac.ox.oucs.search2.compatibility.document;
 
 import org.sakaiproject.search.api.EntityContentProducer;
 import org.sakaiproject.search.api.PortalUrlEnabledProducer;

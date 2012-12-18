@@ -1,4 +1,4 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.event;
+package uk.ac.ox.oucs.search2.compatibility.event;
 
 import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;

@@ -1,8 +1,8 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.service;
+package uk.ac.ox.oucs.search2.compatibility.service;
 
 import org.sakaiproject.search.api.InvalidSearchQueryException;
 import org.sakaiproject.search.api.SearchService;
-import uk.ac.ox.oucs.search2.compatibility.backward.result.Search2SearchResultList;
+import uk.ac.ox.oucs.search2.compatibility.result.Search2SearchResultList;
 import uk.ac.ox.oucs.search2.result.EmptySearchResultList;
 import uk.ac.ox.oucs.search2.result.SearchResultList;
 import uk.ac.ox.oucs.search2.result.filter.ResultFilter;

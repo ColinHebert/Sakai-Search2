@@ -1,9 +1,9 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.service;
+package uk.ac.ox.oucs.search2.compatibility.service;
 
 import org.sakaiproject.search.api.*;
 import org.sakaiproject.search.model.SearchBuilderItem;
-import uk.ac.ox.oucs.search2.compatibility.backward.event.Search2EventHandler;
-import uk.ac.ox.oucs.search2.compatibility.backward.result.Search1SearchList;
+import uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler;
+import uk.ac.ox.oucs.search2.compatibility.result.Search1SearchList;
 import uk.ac.ox.oucs.search2.result.SearchResultList;
 import uk.ac.ox.oucs.search2.service.SearchService;
 

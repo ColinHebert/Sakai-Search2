@@ -1,4 +1,4 @@
-package uk.ac.ox.oucs.search2.compatibility.backward.service;
+package uk.ac.ox.oucs.search2.compatibility.service;
 
 import org.sakaiproject.search.api.SearchIndexBuilder;
 import uk.ac.ox.oucs.search2.service.AbstractIndexService;
