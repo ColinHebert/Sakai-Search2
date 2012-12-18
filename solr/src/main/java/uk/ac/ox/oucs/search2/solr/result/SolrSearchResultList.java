@@ -10,7 +10,10 @@ import uk.ac.ox.oucs.search2.result.filter.ResultFilter;
 import uk.ac.ox.oucs.search2.solr.SolrSchemaConstants;
 import uk.ac.ox.oucs.search2.solr.document.SolrDocument;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Colin Hebert

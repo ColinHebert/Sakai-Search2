@@ -159,7 +159,7 @@ public class Search1SearchList implements SearchList {
     @Override
     public Iterator<SearchResult> iterator(int startAt) {
         Iterator<SearchResult> iterator = iterator();
-        for(int i = 0; i < startAt && iterator.hasNext(); i++)
+        for (int i = 0; i < startAt && iterator.hasNext(); i++)
             iterator.next();
         return iterator;
     }

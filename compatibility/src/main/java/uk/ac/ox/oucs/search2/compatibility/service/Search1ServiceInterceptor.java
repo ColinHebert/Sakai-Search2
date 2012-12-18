@@ -21,7 +21,7 @@ public class Search1ServiceInterceptor implements org.sakaiproject.search.api.Se
     private Search2EventHandler search2EventHandler = new Search2EventHandler();
     private SearchIndexBuilder searchIndexBuilder;
 
-    public void init(){
+    public void init() {
 
     }
 

@@ -5,7 +5,8 @@ import uk.ac.ox.oucs.search2.result.AbstractSearchResultList;
 import uk.ac.ox.oucs.search2.result.SearchResult;
 import uk.ac.ox.oucs.search2.result.filter.ResultFilter;
 
-import java.util.*;
+import java.util.AbstractList;
+import java.util.List;
 
 /**
  * @author Colin Hebert

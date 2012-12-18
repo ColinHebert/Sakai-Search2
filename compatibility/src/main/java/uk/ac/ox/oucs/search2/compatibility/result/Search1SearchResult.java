@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Transforms a result from search2 into a result for search1
+ *
  * @author Colin Hebert
  */
 public class Search1SearchResult implements SearchResult {
@@ -42,7 +43,7 @@ public class Search1SearchResult implements SearchResult {
     @Override
     public Map<String, String[]> getValueMap() {
         Map<String, String[]> valueMap = new HashMap<String, String[]>();
-        for(Map.Entry<String, Collection<String>> entry : searchResult.getDocument().getProperties().entrySet()){
+        for (Map.Entry<String, Collection<String>> entry : searchResult.getDocument().getProperties().entrySet()) {
             valueMap.put(entry.getKey(), entry.getValue().toArray(new String[0]));
         }
         return valueMap;

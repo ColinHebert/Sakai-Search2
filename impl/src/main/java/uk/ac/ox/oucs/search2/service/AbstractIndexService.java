@@ -17,6 +17,7 @@ public abstract class AbstractIndexService implements IndexService {
     private DocumentProducerRegistry documentProducerRegistry;
     private boolean indexSiteWithSearchToolOnly;
     private boolean excludeUserSites;
+
     @Override
     public boolean isSiteIndexable(Site site) {
         return !(siteService.isSpecialSite(site.getId())

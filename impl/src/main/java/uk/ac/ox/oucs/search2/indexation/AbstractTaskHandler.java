@@ -136,6 +136,7 @@ public abstract class AbstractTaskHandler implements TaskHandler {
 
         if (!nthe.isEmpty()) throw nthe;
     }
+
     /**
      * Empties the entire index.
      *

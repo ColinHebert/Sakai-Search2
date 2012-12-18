@@ -1,7 +1,6 @@
 package uk.ac.ox.oucs.search2.event;
 
 import org.sakaiproject.event.api.Event;
-import org.sakaiproject.event.api.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.indexation.Task;
