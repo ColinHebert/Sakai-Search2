@@ -24,6 +24,8 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
     private Search2EventHandler search2EventHandler;
     private DocumentProducerRegistry documentProducerRegistry;
     private EventTrackingService eventTrackingService;
+    private boolean excludeUserSites;
+    private boolean onlyIndexSearchToolSites;
 
     @Override
     public void addResource(Notification notification, Event event) {
@@ -114,12 +116,31 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     @Override
     public boolean isOnlyIndexSearchToolSites() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return onlyIndexSearchToolSites;
+    }
+
+    public void setOnlyIndexSearchToolSites(boolean onlyIndexSearchToolSites) {
+        this.onlyIndexSearchToolSites = onlyIndexSearchToolSites;
     }
 
     @Override
     public boolean isExcludeUserSites() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return excludeUserSites;
     }
 
+    public void setExcludeUserSites(boolean excludeUserSites) {
+        this.excludeUserSites = excludeUserSites;
+    }
+
+    public void setSearch2EventHandler(Search2EventHandler search2EventHandler) {
+        this.search2EventHandler = search2EventHandler;
+    }
+
+    public void setDocumentProducerRegistry(DocumentProducerRegistry documentProducerRegistry) {
+        this.documentProducerRegistry = documentProducerRegistry;
+    }
+
+    public void setEventTrackingService(EventTrackingService eventTrackingService) {
+        this.eventTrackingService = eventTrackingService;
+    }
 }
