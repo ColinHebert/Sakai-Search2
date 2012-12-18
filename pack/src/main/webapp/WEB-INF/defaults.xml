@@ -68,8 +68,8 @@
           class="uk.ac.ox.oucs.search2.service.AbstractIndexService" abstract="true">
         <property name="siteService" ref="org.sakaiproject.site.api.SiteService"/>
         <property name="documentProducerRegistry" ref="uk.ac.ox.oucs.search2.DocumentProducerRegistry"/>
-        <property name="excludeUserSites" value="${search.usersites.ignored}"/>
-        <property name="indexSiteWithSearchToolOnly" value="${search.tool.required}"/>
+        <property name="excludeUserSites" value="${search2.usersites.ignored}"/>
+        <property name="indexSiteWithSearchToolOnly" value="${search2.tool.required}"/>
     </bean>
 
     <bean id="uk.ac.ox.oucs.search2.service.AbstractSearchService"

@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-lazy-init="true">
-    <bean id="uk.ac.ox.oucs.search2.backwardcompatibility.BackIndexingService"
-          class="uk.ac.ox.oucs.search2.backwardcompatibility.BackIndexingService">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-lazy-init="true">
+    <!-- Provides an implementation of Search1 using Search2 -->
+    <bean id="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchIndexBuilder"
+          class="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchIndexBuilder">
+        <property name="eventTrackingService" ref="org.sakaiproject.event.api.EventTrackingService"/>
+        <property name="search2EventHandler" ref="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"/>
+        <property name="documentProducerRegistry" ref="uk.ac.ox.oucs.search2.DocumentProducerRegistry"/>
+        <property name="excludeUserSites" value="${search.usersites.ignored}"/>
+        <property name="onlyIndexSearchToolSites" value="${search.tool.required}"/>
+    </bean>
+    <bean id="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchService"
+          class="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchService">
+        <property name="actualSearchService" ref="uk.ac.ox.oucs.search2.SearchService"/>
+        <property name="search2EventHandler" ref="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"/>
+        <property name="searchIndexBuilder" ref="org.sakaiproject.search.api.SearchIndexBuilder"/>
+    </bean>
+    <bean id="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"
+          class="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"/>
+
+
+    <!-- Provides an implementation of Search2 using Search1 -->
+    <bean id="uk.ac.ox.oucs.search2.compatibility.service.Search2IndexService"
+          class="uk.ac.ox.oucs.search2.compatibility.service.Search2IndexService"
+          parent="uk.ac.ox.oucs.search2.service.AbstractIndexService">
         <property name="searchIndexBuilder" ref="${search2.search1.indexbuilder}"/>
     </bean>
-    <bean id="uk.ac.ox.oucs.search2.backwardcompatibility.BackSearchService"
-          class="uk.ac.ox.oucs.search2.backwardcompatibility.BackSearchService"
-          parent="uk.ac.ox.oucs.search2.backwardcompatibility.AbstractSearchService">
+    <bean id="uk.ac.ox.oucs.search2.compatibility.service.Search2SearchService"
+          class="uk.ac.ox.oucs.search2.compatibility.service.Search2SearchService"
+          parent="uk.ac.ox.oucs.search2.service.AbstractSearchService">
         <property name="searchService" ref="${search2.search1.searchservice}"/>
     </bean>
-    <bean id="uk.ac.ox.oucs.search2.backwardcompatibility.SearchServiceInterceptor"
-          class="uk.ac.ox.oucs.search2.backwardcompatibility.SearchServiceInterceptor">
-        <constructor-arg ref="uk.ac.ox.oucs.search2.event.IndexEventManager"/>
-        <constructor-arg ref="uk.ac.ox.oucs.search2.ContentProducerRegistry"/>
-    </bean>
-    <bean id="uk.ac.ox.oucs.search2.backwardcompatibility.event.BackIndexEventManager"
-          class="uk.ac.ox.oucs.search2.backwardcompatibility.event.BackIndexEventManager"
-          parent="uk.ac.ox.oucs.search2.event.AbstractIndexEventManager">
+    <bean id="uk.ac.ox.oucs.search2.compatibility.document.Search2DocumentProducerRegistry"
+          class="uk.ac.ox.oucs.search2.compatibility.document.Search2DocumentProducerRegistry"
+          parent="uk.ac.ox.oucs.search2.document.DefaultDocumentProducerRegistry">
         <property name="searchIndexBuilder" ref="${search2.search1.indexbuilder}"/>
     </bean>
-    <bean id="uk.ac.ox.oucs.search2.backwardcompatibility.event.BackDefaultIndexEventManager"
-          class="uk.ac.ox.oucs.search2.backwardcompatibility.event.BackDefaultIndexEventManager"
-          parent="uk.ac.ox.oucs.search2.event.DefaultIndexEventManager"/>
+    <bean id="uk.ac.ox.oucs.search2.compatibility.event.Search2EventManager"
+          class="uk.ac.ox.oucs.search2.compatibility.event.Search2EventManager"
+          parent="uk.ac.ox.oucs.search2.event.AbstractEventManager">
+        <property name="searchIndexBuilder" ref="${search2.search1.indexbuilder}"/>
+    </bean>
 </beans>

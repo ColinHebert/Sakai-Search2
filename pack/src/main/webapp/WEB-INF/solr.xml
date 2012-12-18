@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-lazy-init="true">
-    <bean id="uk.ac.ox.oucs.search2.solr.SolrIndexingService"
-          class="uk.ac.ox.oucs.search2.solr.SolrIndexingService">
-        <constructor-arg ref="uk.ac.ox.oucs.search2.solr.indexingServer"/>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+       default-lazy-init="true">
+    <bean id="uk.ac.ox.oucs.search2.solr.service.SolrSearchService"
+          class="uk.ac.ox.oucs.search2.solr.service.SolrSearchService"
+          parent="uk.ac.ox.oucs.search2.service.AbstractSearchService">
+        <property name="solrServer" ref="uk.ac.ox.oucs.search2.solr.searchServer"/>
     </bean>
-    <bean id="uk.ac.ox.oucs.search2.solr.SolrSearchService"
-          class="uk.ac.ox.oucs.search2.solr.SolrSearchService"
-          parent="uk.ac.ox.oucs.search2.backwardcompatibility.AbstractSearchService">
-        <constructor-arg ref="uk.ac.ox.oucs.search2.solr.searchServer"/>
+    <bean id="uk.ac.ox.oucs.search2.solr.indexation.SolrTaskHandler"
+          class="uk.ac.ox.oucs.search2.solr.indexation.SolrTaskHandler"
+          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskHandler">
+        <property name="solrServer" ref="uk.ac.ox.oucs.search2.solr.indexingServer"/>
+        <property name="solrCellEnabled" value="false"/>
     </bean>
 
     <bean id="uk.ac.ox.oucs.search2.solr.indexingServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
