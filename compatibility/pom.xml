@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>search2-backward-compatibility</artifactId>
+    <artifactId>search2-compatibility</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -25,6 +25,10 @@
         <dependency>
             <groupId>uk.ac.ox.oucs.search2</groupId>
             <artifactId>search2-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ox.oucs.search2</groupId>
+            <artifactId>search2-tika</artifactId>
         </dependency>
 
         <dependency>
