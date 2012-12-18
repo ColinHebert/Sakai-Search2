@@ -16,8 +16,9 @@ import org.w3c.dom.Element;
 public abstract class AbstractEventManager implements EventManager {
     private static final Logger logger = LoggerFactory.getLogger(AbstractEventManager.class);
     private NotificationEdit notification;
+    private NotificationService notificationService;
 
-    public AbstractEventManager(NotificationService notificationService) {
+    public void init(){
         notification = notificationService.addTransientNotification();
         // set the filter to any site related resource
         notification.setResourceFilter("/");
@@ -71,5 +72,9 @@ public abstract class AbstractEventManager implements EventManager {
 
     @Override
     public void toXml(Element element) {
+    }
+
+    public void setNotificationService(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 }

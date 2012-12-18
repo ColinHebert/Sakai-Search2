@@ -32,10 +32,6 @@ public class DefaultEventManager extends AbstractEventManager {
      */
     private TaskQueuing taskQueuing;
 
-    public DefaultEventManager(NotificationService notificationService) {
-        super(notificationService);
-    }
-
     @Override
     public void addEventHandler(EventHandler eventHandler) {
         logger.info("Registering '" + eventHandler + "' for future events.");
