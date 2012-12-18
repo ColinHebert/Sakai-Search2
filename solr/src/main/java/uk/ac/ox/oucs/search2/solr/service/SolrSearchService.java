@@ -24,11 +24,7 @@ import java.util.Iterator;
  */
 public class SolrSearchService extends AbstractSearchService {
     private final static Logger logger = LoggerFactory.getLogger(SolrSearchService.class);
-    private final SolrServer solrServer;
-
-    public SolrSearchService(SolrServer solrServer) {
-        this.solrServer = solrServer;
-    }
+    private SolrServer solrServer;
 
     @Override
     protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<ResultFilter> filterChain) {
@@ -77,5 +73,9 @@ public class SolrSearchService extends AbstractSearchService {
         if (logger.isDebugEnabled())
             logger.debug("Create filter query " + sb);
         return sb.toString();
+    }
+
+    public void setSolrServer(SolrServer solrServer) {
+        this.solrServer = solrServer;
     }
 }
