@@ -1,31 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-lazy-init="true">
-    <bean id="uk.ac.ox.oucs.search2.backwardcompatibility.AbstractSearchService"
-          class="uk.ac.ox.oucs.search2.AbstractSearchService" abstract="true">
-        <property name="userDirectoryService" ref="org.sakaiproject.user.api.UserDirectoryService"/>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+       default-lazy-init="true">
+    <bean id="uk.ac.ox.oucs.search2.document.DefaultDocumentProducerRegistry"
+          class="uk.ac.ox.oucs.search2.document.DefaultDocumentProducerRegistry"/>
+
+    <bean id="uk.ac.ox.oucs.search2.event.AbstractEventManager" class="uk.ac.ox.oucs.search2.event.AbstractEventManager"
+          abstract="true" init-method="init">
+        <property name="notificationService" ref="org.sakaiproject.event.api.NotificationService"/>
+    </bean>
+
+    <bean id="uk.ac.ox.oucs.search2.event.DefaultEventManager"
+          class="uk.ac.ox.oucs.search2.event.DefaultEventManager"
+          parent="uk.ac.ox.oucs.search2.event.AbstractEventManager">
+        <property name="taskQueuing" ref="${search2.taskqueuing.impl}"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
+        <property name="targetObject" ref="uk.ac.ox.oucs.search2.event.EventManager"/>
+        <property name="targetMethod" value="addEventHandler"/>
+        <property name="arguments">
+            <list>
+                <bean class="uk.ac.ox.oucs.search2.event.IndexEventHandler"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="uk.ac.ox.oucs.search2.indexation.AbstractTaskHandler"
+          class="uk.ac.ox.oucs.search2.indexation.AbstractTaskHandler" abstract="true">
+        <property name="indexService" ref="uk.ac.ox.oucs.search2.IndexService"/>
+        <property name="documentProducerRegistry" ref="uk.ac.ox.oucs.search2.DocumentProducerRegistry"/>
+    </bean>
+
+    <bean id="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner"
+          class="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner" abstract="true">
+        <property name="securityService" ref="org.sakaiproject.authz.api.SecurityService"/>
+        <property name="taskHandler" ref="uk.ac.ox.oucs.search2.indexation.TaskHandler"/>
+        <property name="taskQueuing" ref="uk.ac.ox.oucs.search2.indexation.TaskQueuing"/>
+        <property name="threadLocalManager" ref="org.sakaiproject.thread_local.api.ThreadLocalManager"/>
+        <!-- wait for 5 minutes max -->
+        <property name="maximumWaitingTime" value="300000"/>
+    </bean>
+
+    <bean id="uk.ac.ox.oucs.search2.indexation.DefaultTaskQueuing"
+          class="uk.ac.ox.oucs.search2.indexation.DefaultTaskQueuing"
+          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner" init-method="init" destroy-method="destroy">
+
+        <property name="simpleTasksExecutor" ref="simpleTasksExecutor"/>
+        <property name="heavyTasksExecutor" ref="heavyTasksExecutor"/>
+        <property name="simpleTaskTypes">
+            <list>
+                <value>uk.ac.ox.oucs.search2.indexation.DefaultTask.Type.INDEX_DOCUMENT</value>
+                <value>uk.ac.ox.oucs.search2.indexation.DefaultTask.Type.UNINDEX_DOCUMENT</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="uk.ac.ox.oucs.search2.indexation.SimpleTaskQueuing"
+          class="uk.ac.ox.oucs.search2.indexation.SimpleTaskQueuing"
+          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner" init-method="init"/>
+
+    <bean id="uk.ac.ox.oucs.search2.service.AbstractIndexService"
+          class="uk.ac.ox.oucs.search2.service.AbstractIndexService" abstract="true">
+        <property name="siteService" ref="org.sakaiproject.site.api.SiteService"/>
+        <property name="documentProducerRegistry" ref="uk.ac.ox.oucs.search2.DocumentProducerRegistry"/>
+        <property name="excludeUserSites" value="${search.usersites.ignored}"/>
+        <property name="indexSiteWithSearchToolOnly" value="${search.tool.required}"/>
+    </bean>
+
+    <bean id="uk.ac.ox.oucs.search2.service.AbstractSearchService"
+          class="uk.ac.ox.oucs.search2.service.AbstractSearchService" abstract="true">
         <property name="siteService" ref="org.sakaiproject.site.api.SiteService"/>
         <property name="searchFilters">
             <list>
-                <bean class="uk.ac.ox.oucs.search2.filter.SecuritySearchFilter">
-                    <property name="contentProducerRegistry" ref="uk.ac.ox.oucs.search2.ContentProducerRegistry"/>
-                </bean>
+                <bean class="uk.ac.ox.oucs.search2.result.filter.SecurityResultFilter"/>
             </list>
         </property>
-        <property name="defaultLength" value="25"/>
+        <property name="defaultLength" value="10"/>
     </bean>
 
-    <bean id="uk.ac.ox.oucs.search2.event.AbstractIndexEventManager"
-          class="uk.ac.ox.oucs.search2.event.AbstractIndexEventManager" abstract="true">
-        <constructor-arg ref="org.sakaiproject.event.api.NotificationService"/>
-    </bean>
-    <bean id="uk.ac.ox.oucs.search2.event.DefaultIndexEventManager"
-          class="uk.ac.ox.oucs.search2.event.DefaultIndexEventManager"
-          parent="uk.ac.ox.oucs.search2.event.AbstractIndexEventManager">
-        <property name="indexingService" ref="uk.ac.ox.oucs.search2.IndexingService"/>
+    <bean id="uk.ac.ox.oucs.search2.service.DefaultIndexService"
+          class="uk.ac.ox.oucs.search2.service.DefaultIndexService"
+            parent="uk.ac.ox.oucs.search2.service.AbstractIndexService">
+        <property name="taskHandler" ref="uk.ac.ox.oucs.search2.indexation.TaskHandler"/>
+        <property name="taskQueuing" ref="uk.ac.ox.oucs.search2.indexation.TaskQueuing"/>
     </bean>
 
-    <bean id="uk.ac.ox.oucs.search2.DefaultContentProducerRegistry"
-          class="uk.ac.ox.oucs.search2.content.DefaultContentProducerRegistry"/>
 
+    <!-- Executors responsible for handling indexation requests -->
+    <bean id="simpleTasksExecutor" class="java.util.concurrent.ThreadPoolExecutor"
+          destroy-method="shutdownNow">
+        <constructor-arg index="0" value="5"/>
+        <constructor-arg index="1" value="8"/>
+        <constructor-arg index="2" value="60"/>
+        <constructor-arg index="3">
+            <util:constant static-field="java.util.concurrent.TimeUnit.SECONDS"/>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <bean class="java.util.concurrent.LinkedBlockingQueue">
+                <constructor-arg index="0" value="1000000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="heavyTasksExecutor" class="java.util.concurrent.ThreadPoolExecutor"
+          destroy-method="shutdownNow">
+        <constructor-arg index="0" value="5"/>
+        <constructor-arg index="1" value="8"/>
+        <constructor-arg index="2" value="60"/>
+        <constructor-arg index="3">
+            <util:constant static-field="java.util.concurrent.TimeUnit.SECONDS"/>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <bean class="java.util.concurrent.LinkedBlockingQueue">
+                <constructor-arg index="0" value="100000"/>
+            </bean>
+        </constructor-arg>
+    </bean>
 </beans>
