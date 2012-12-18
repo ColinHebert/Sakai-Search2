@@ -18,12 +18,9 @@ import java.util.Map;
  */
 public class Search1SearchService implements org.sakaiproject.search.api.SearchService {
     private SearchService actualSearchService;
-    private Search2EventHandler search2EventHandler = new Search2EventHandler();
+    private Search2EventHandler search2EventHandler;
     private SearchIndexBuilder searchIndexBuilder;
 
-    public void init() {
-
-    }
 
     @Override
     public SearchList search(String searchTerms, List<String> contexts, int searchStart, int searchEnd) throws InvalidSearchQueryException {
@@ -151,5 +148,17 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
     @Override
     public boolean hasDiagnostics() {
         return false;
+    }
+
+    public void setActualSearchService(SearchService actualSearchService) {
+        this.actualSearchService = actualSearchService;
+    }
+
+    public void setSearch2EventHandler(Search2EventHandler search2EventHandler) {
+        this.search2EventHandler = search2EventHandler;
+    }
+
+    public void setSearchIndexBuilder(SearchIndexBuilder searchIndexBuilder) {
+        this.searchIndexBuilder = searchIndexBuilder;
     }
 }
