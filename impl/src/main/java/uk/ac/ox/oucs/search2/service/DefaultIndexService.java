@@ -1,16 +1,9 @@
 package uk.ac.ox.oucs.search2.service;
 
-import org.sakaiproject.site.api.Site;
-import org.sakaiproject.site.api.SiteService;
-import uk.ac.ox.oucs.search2.document.Document;
-import uk.ac.ox.oucs.search2.document.DocumentProducerRegistry;
 import uk.ac.ox.oucs.search2.indexation.DefaultTask;
 import uk.ac.ox.oucs.search2.indexation.Task;
 import uk.ac.ox.oucs.search2.indexation.TaskHandler;
 import uk.ac.ox.oucs.search2.indexation.TaskQueuing;
-
-import java.util.Collection;
-import java.util.LinkedList;
 
 import static uk.ac.ox.oucs.search2.indexation.DefaultTask.DOCUMENT_REFERENCE;
 import static uk.ac.ox.oucs.search2.indexation.DefaultTask.SITE_ID;
@@ -25,14 +18,9 @@ import static uk.ac.ox.oucs.search2.indexation.DefaultTask.Type.*;
  *
  * @author Colin Hebert
  */
-public class DefaultIndexService implements IndexService {
-    public static final String SEARCH_TOOL_ID = "sakai.search";
+public class DefaultIndexService extends AbstractIndexService {
     private TaskHandler taskHandler;
     private TaskQueuing taskQueuing;
-    private SiteService siteService;
-    private DocumentProducerRegistry documentProducerRegistry;
-    private boolean indexSiteWithSearchToolOnly;
-    private boolean excludeUserSites;
 
     @Override
     public void indexDocument(String documentReference, boolean now) {
@@ -70,29 +58,6 @@ public class DefaultIndexService implements IndexService {
         addTask(task, now);
     }
 
-    @Override
-    public boolean isSiteIndexable(Site site) {
-        return !(siteService.isSpecialSite(site.getId())
-                || (indexSiteWithSearchToolOnly && site.getToolForCommonId(SEARCH_TOOL_ID) == null)
-                || (excludeUserSites && siteService.isUserSite(site.getId())));
-    }
-
-    @Override
-    public Collection<String> getIndexableSiteIds() {
-        Collection<String> indexableSiteIds = new LinkedList<String>();
-        for (Site s : siteService.getSites(SiteService.SelectionType.ANY, null, null, null, SiteService.SortType.NONE, null)) {
-            if (isSiteIndexable(s)) {
-                indexableSiteIds.add(s.getId());
-            }
-        }
-        return indexableSiteIds;
-    }
-
-    @Override
-    public Collection<Document> getIndexableDocumentsForSite(String siteId) {
-        return new SiteDocumentsQueue(siteId, documentProducerRegistry);
-    }
-
     /**
      * Add a new {@link Task} by either sending it to a {@link TaskHandler} or a {@link TaskQueuing}
      *
@@ -114,19 +79,4 @@ public class DefaultIndexService implements IndexService {
         this.taskQueuing = taskQueuing;
     }
 
-    public void setSiteService(SiteService siteService) {
-        this.siteService = siteService;
-    }
-
-    public void setIndexSiteWithSearchToolOnly(boolean indexSiteWithSearchToolOnly) {
-        this.indexSiteWithSearchToolOnly = indexSiteWithSearchToolOnly;
-    }
-
-    public void setExcludeUserSites(boolean excludeUserSites) {
-        this.excludeUserSites = excludeUserSites;
-    }
-
-    public void setDocumentProducerRegistry(DocumentProducerRegistry documentProducerRegistry) {
-        this.documentProducerRegistry = documentProducerRegistry;
-    }
 }
