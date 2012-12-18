@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Colin Hebert
  */
-public class Search1ServiceInterceptor implements org.sakaiproject.search.api.SearchService {
+public class Search1SearchService implements org.sakaiproject.search.api.SearchService {
     private SearchService actualSearchService;
     private Search2EventHandler search2EventHandler = new Search2EventHandler();
     private SearchIndexBuilder searchIndexBuilder;
