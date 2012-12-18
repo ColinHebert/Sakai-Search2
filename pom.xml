@@ -46,7 +46,6 @@
         <module>api</module>
         <module>impl</module>
         <module>compatibility</module>
-        <module>tool</module>
         <module>pack</module>
         <module>solr</module>
         <module>tika</module>
