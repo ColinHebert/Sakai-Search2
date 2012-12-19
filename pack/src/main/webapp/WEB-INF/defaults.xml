@@ -48,7 +48,7 @@
 
     <bean id="uk.ac.ox.oucs.search2.indexation.DefaultTaskQueuing"
           class="uk.ac.ox.oucs.search2.indexation.DefaultTaskQueuing"
-          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner" init-method="init" destroy-method="destroy">
+          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner" destroy-method="destroy">
 
         <property name="simpleTasksExecutor" ref="simpleTasksExecutor"/>
         <property name="heavyTasksExecutor" ref="heavyTasksExecutor"/>

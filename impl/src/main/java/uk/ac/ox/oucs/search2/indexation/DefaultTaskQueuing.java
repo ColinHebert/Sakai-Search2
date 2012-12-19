@@ -35,10 +35,6 @@ public class DefaultTaskQueuing extends AbstractTaskRunner implements TaskQueuin
      */
     private ExecutorService heavyTasksExecutor;
 
-    public void init() {
-        setTaskQueuing(this);
-    }
-
     public void destroy() {
         simpleTasksExecutor.shutdownNow();
         heavyTasksExecutor.shutdownNow();
