@@ -14,11 +14,21 @@ import java.util.Collection;
  * @author Colin Hebert
  */
 public class IndexEventHandler implements EventHandler {
-    public static final String INDEX_SITE_EVENT = IndexEventHandler.class.getCanonicalName() + ".indexSiteEvent";
-    public static final String UNINDEX_SITE_EVENT = IndexEventHandler.class.getCanonicalName() + ".unindexSiteEvent";
-    public static final String INDEX_ALL_EVENT = IndexEventHandler.class.getCanonicalName() + ".indexAllEvent";
-    public static final String UNINDEX_ALL_EVENT = IndexEventHandler.class.getCanonicalName() + ".unindexAllEvent";
+    public static final String INDEX_SITE_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".indexSiteEvent");
+    public static final String UNINDEX_SITE_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexSiteEvent");
+    public static final String INDEX_ALL_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".indexAllEvent");
+    public static final String UNINDEX_ALL_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexAllEvent");
     private static final Collection<String> HANDLED_EVENTS = Arrays.asList(INDEX_SITE_EVENT, UNINDEX_SITE_EVENT, INDEX_ALL_EVENT, UNINDEX_ALL_EVENT);
+
+    /**
+     * Truncates an event name to be 32 chars max
+     *
+     * @param eventName eventName to truncate
+     * @return
+     */
+    private static String truncateEventName(String eventName) {
+        return (eventName.length() > 32) ? eventName.substring(eventName.length() - 32) : eventName;
+    }
 
     @Override
     public Collection<String> getSupportedEventTypes() {
