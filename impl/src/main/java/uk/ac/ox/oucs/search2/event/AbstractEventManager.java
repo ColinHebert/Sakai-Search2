@@ -29,9 +29,18 @@ public abstract class AbstractEventManager implements EventManager {
     public void addEventHandler(EventHandler eventHandler) {
         logger.info("Adding '" + eventHandler + "' event types to the list of monitored ones.");
         for (String eventName : eventHandler.getSupportedEventTypes()) {
-            notification.addFunction(eventName);
-            logger.info("The event '" + eventName + "' is now monitored by the event manager.");
+            addEventType(eventName);
         }
+    }
+
+    /**
+     * Adds a new event type to watch.
+     *
+     * @param eventType event type to watch.
+     */
+    protected void addEventType(String eventType) {
+        notification.addFunction(eventType);
+        logger.info("The event '" + eventType + "' is now monitored by the event manager.");
     }
 
     @Override
