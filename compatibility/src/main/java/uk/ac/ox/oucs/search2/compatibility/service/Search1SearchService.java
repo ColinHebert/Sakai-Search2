@@ -8,6 +8,7 @@ import uk.ac.ox.oucs.search2.result.SearchResultList;
 import uk.ac.ox.oucs.search2.service.SearchService;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -85,17 +86,52 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
 
     @Override
     public List<SearchBuilderItem> getSiteMasterSearchItems() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<SearchBuilderItem> getGlobalMasterSearchItems() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public SearchStatus getSearchStatus() {
-        return null;
+        return new SearchStatus() {
+            @Override
+            public String getLastLoad() {
+                return "";
+            }
+
+            @Override
+            public String getLoadTime() {
+                return "";
+            }
+
+            @Override
+            public String getCurrentWorker() {
+                return "";
+            }
+
+            @Override
+            public String getCurrentWorkerETC() {
+                return "";
+            }
+
+            @Override
+            public List getWorkerNodes() {
+                return Collections.emptyList();
+            }
+
+            @Override
+            public String getNDocuments() {
+                return null;
+            }
+
+            @Override
+            public String getPDocuments() {
+                return null;
+            }
+        };
     }
 
     @Override
@@ -105,7 +141,7 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
 
     @Override
     public List getSegmentInfo() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
