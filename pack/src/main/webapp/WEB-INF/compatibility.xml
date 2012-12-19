@@ -20,7 +20,7 @@
     </bean>
 
     <bean id="search2EventHandler"
-          class="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler">
+          class="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler" init-method="init">
         <property name="eventManager" ref="uk.ac.ox.oucs.search2.event.EventManager"/>
     </bean>
 

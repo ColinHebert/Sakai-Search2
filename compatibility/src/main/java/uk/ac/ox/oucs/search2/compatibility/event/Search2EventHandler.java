@@ -21,13 +21,17 @@ import java.util.Map;
 public class Search2EventHandler implements EventHandler {
     private Map<String, Collection<EntityContentProducer>> eventTypes = new HashMap<String, Collection<EntityContentProducer>>();
     private Collection<EntityContentProducer> entityContentProducers = new LinkedList<EntityContentProducer>();
-    private EventManager eventManager;
+    private Search2EventManager eventManager;
+
+    public void init(){
+        eventManager.addEventHandler(this);
+    }
 
     public void addEventType(String eventType) {
         if (!eventTypes.containsKey(eventType)){
             eventTypes.put(eventType, new LinkedList<EntityContentProducer>());
             //Update the event handler with the new events to watch
-            eventManager.addEventHandler(this);
+            eventManager.addEventType(eventType);
         }
     }
 
@@ -99,7 +103,7 @@ public class Search2EventHandler implements EventHandler {
         return null;
     }
 
-    public void setEventManager(EventManager eventManager) {
+    public void setEventManager(Search2EventManager eventManager) {
         this.eventManager = eventManager;
     }
 }
