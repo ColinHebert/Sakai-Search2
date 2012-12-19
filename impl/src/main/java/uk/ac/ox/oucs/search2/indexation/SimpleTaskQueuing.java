@@ -11,10 +11,6 @@ package uk.ac.ox.oucs.search2.indexation;
  * @author Colin Hebert
  */
 public class SimpleTaskQueuing extends AbstractTaskRunner implements TaskQueuing {
-    public void init() {
-        setTaskQueuing(this);
-    }
-
     @Override
     public void addTaskToQueue(Task task) {
         runTask(task);

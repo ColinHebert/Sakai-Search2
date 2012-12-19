@@ -62,7 +62,7 @@
 
     <bean id="uk.ac.ox.oucs.search2.indexation.SimpleTaskQueuing"
           class="uk.ac.ox.oucs.search2.indexation.SimpleTaskQueuing"
-          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner" init-method="init"/>
+          parent="uk.ac.ox.oucs.search2.indexation.AbstractTaskRunner"/>
 
     <bean id="uk.ac.ox.oucs.search2.service.AbstractIndexService"
           class="uk.ac.ox.oucs.search2.service.AbstractIndexService" abstract="true">
