@@ -11,6 +11,6 @@
     <alias alias="uk.ac.ox.oucs.search2.SearchService" name="${search2.searchservice.impl}"/>
 
     <import resource="defaults.xml"/>
-    <import resource="backward-compatibility.xml"/>
+    <import resource="compatibility.xml"/>
     <import resource="solr.xml"/>
 </beans>
