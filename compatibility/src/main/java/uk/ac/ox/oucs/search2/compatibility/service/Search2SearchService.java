@@ -2,6 +2,8 @@ package uk.ac.ox.oucs.search2.compatibility.service;
 
 import org.sakaiproject.search.api.InvalidSearchQueryException;
 import org.sakaiproject.search.api.SearchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.ac.ox.oucs.search2.compatibility.result.Search2SearchResultList;
 import uk.ac.ox.oucs.search2.result.EmptySearchResultList;
 import uk.ac.ox.oucs.search2.result.SearchResultList;
@@ -15,6 +17,7 @@ import java.util.Collection;
  * @author Colin Hebert
  */
 public class Search2SearchService extends AbstractSearchService {
+    private final static Logger logger = LoggerFactory.getLogger(Search2SearchService.class);
     private SearchService searchService;
 
     @Override
@@ -22,6 +25,7 @@ public class Search2SearchService extends AbstractSearchService {
         try {
             return new Search2SearchResultList(searchService.search(searchQuery, new ArrayList<String>(contexts), (int) start, (int) (start + length)));
         } catch (InvalidSearchQueryException e) {
+            logger.error("Couldn't get a result from the search query '" + searchQuery + "'", e);
             return EmptySearchResultList.instance;
         }
     }
