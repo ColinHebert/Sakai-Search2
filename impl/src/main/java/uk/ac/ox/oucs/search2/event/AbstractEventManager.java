@@ -21,7 +21,6 @@ public abstract class AbstractEventManager implements EventManager {
     public void init() {
         notification = notificationService.addTransientNotification();
         // set the filter to any site related resource
-        notification.setResourceFilter("/");
         notification.setAction(this);
         logger.info("The EventManager has now a notification for relevant events");
     }
