@@ -7,7 +7,7 @@
     <bean id="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchIndexBuilder"
           class="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchIndexBuilder">
         <property name="eventTrackingService" ref="org.sakaiproject.event.api.EventTrackingService"/>
-        <property name="search2EventHandler" ref="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"/>
+        <property name="search2EventHandler" ref="search2EventHandler"/>
         <property name="documentProducerRegistry" ref="uk.ac.ox.oucs.search2.DocumentProducerRegistry"/>
         <property name="excludeUserSites" value="${search.usersites.ignored}"/>
         <property name="onlyIndexSearchToolSites" value="${search.tool.required}"/>
@@ -15,11 +15,14 @@
     <bean id="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchService"
           class="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchService">
         <property name="actualSearchService" ref="uk.ac.ox.oucs.search2.SearchService"/>
-        <property name="search2EventHandler" ref="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"/>
+        <property name="search2EventHandler" ref="search2EventHandler"/>
         <property name="searchIndexBuilder" ref="org.sakaiproject.search.api.SearchIndexBuilder"/>
     </bean>
-    <bean id="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"
-          class="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler"/>
+
+    <bean id="search2EventHandler"
+          class="uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler">
+        <property name="eventManager" ref="uk.ac.ox.oucs.search2.event.EventManager"/>
+    </bean>
 
 
     <!-- Provides an implementation of Search2 using Search1 -->

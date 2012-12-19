@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
 import org.sakaiproject.search.api.EntityContentProducer;
 import uk.ac.ox.oucs.search2.event.EventHandler;
+import uk.ac.ox.oucs.search2.event.EventManager;
 import uk.ac.ox.oucs.search2.indexation.DefaultTask;
 import uk.ac.ox.oucs.search2.indexation.Task;
 
@@ -20,10 +21,14 @@ import java.util.Map;
 public class Search2EventHandler implements EventHandler {
     private Map<String, Collection<EntityContentProducer>> eventTypes = new HashMap<String, Collection<EntityContentProducer>>();
     private Collection<EntityContentProducer> entityContentProducers = new LinkedList<EntityContentProducer>();
+    private EventManager eventManager;
 
     public void addEventType(String eventType) {
-        if (!eventTypes.containsKey(eventType))
+        if (!eventTypes.containsKey(eventType)){
             eventTypes.put(eventType, new LinkedList<EntityContentProducer>());
+            //Update the event handler with the new events to watch
+            eventManager.addEventHandler(this);
+        }
     }
 
     public void addEntityContentProducer(EntityContentProducer entityContentProducer) {
@@ -92,5 +97,9 @@ public class Search2EventHandler implements EventHandler {
         }
 
         return null;
+    }
+
+    public void setEventManager(EventManager eventManager) {
+        this.eventManager = eventManager;
     }
 }
