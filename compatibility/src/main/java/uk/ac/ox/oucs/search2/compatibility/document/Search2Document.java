@@ -99,9 +99,14 @@ public class Search2Document implements Document {
                 propertyValue = Arrays.asList((String[]) originalPropertyValue);
             } else if (originalPropertyValue instanceof String) {
                 propertyValue = Collections.singleton((String) originalPropertyValue);
+            } else if (originalPropertyValue instanceof Object[]) {
+                Object[] originalPropertyValues = (Object[]) originalPropertyValue;
+                propertyValue = new ArrayList<String>(originalPropertyValues.length);
+                for (Object originalPropertySubValue : originalPropertyValues)
+                    propertyValue.add(originalPropertySubValue.toString());
             } else {
-                logger.warn("Couldn't find what the value for '" + originalProperty.getKey() + "' was. It has been ignored: " + originalPropertyValue);
-                propertyValue = Collections.emptyList();
+                logger.info("Couldn't find what the value for '" + originalProperty.getKey() + "' was. The String version has been used instead: " + originalPropertyValue);
+                propertyValue = Collections.singleton(originalPropertyValue.toString());
             }
 
             properties.put(originalProperty.getKey(), propertyValue);
