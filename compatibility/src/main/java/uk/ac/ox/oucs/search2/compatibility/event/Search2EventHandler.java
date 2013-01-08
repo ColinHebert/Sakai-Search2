@@ -31,7 +31,7 @@ public class Search2EventHandler implements EventHandler {
         if (!eventTypes.containsKey(eventType)){
             eventTypes.put(eventType, new LinkedList<EntityContentProducer>());
             //Update the event handler with the new events to watch
-            eventManager.addEventType(eventType);
+            eventManager.addEventHandlerForEvent(this, eventType);
         }
     }
 

@@ -29,28 +29,21 @@ public class Search2EventManager extends AbstractEventManager {
     public void addEventHandler(EventHandler eventHandler) {
         logger.info("Adding '" + eventHandler + "' event types to the list of monitored ones.");
         for (String eventName : eventHandler.getSupportedEventTypes()) {
-            addEventType(eventName);
-            logger.info("The event '" + eventName + "' is now monitored by the event manager.");
-
-            Collection<EventHandler> eventHandlers = this.eventHandlers.get(eventName);
-            if (eventHandlers == null) {
-                eventHandlers = new LinkedList<EventHandler>();
-                this.eventHandlers.put(eventName, eventHandlers);
-            }
-            eventHandlers.add(eventHandler);
+            addEventHandlerForEvent(eventHandler, eventName);
         }
         logger.info("Registering '" + eventHandler + "' for future events.");
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * This overridden method doesn't do anything special, it's only there to set the protected visibility so {@link Search2EventManager} can call it
-     * </p>
-     */
-    @Override
-    protected void addEventType(String eventType) {
-        super.addEventType(eventType);
+    protected void addEventHandlerForEvent(EventHandler eventHandler, String eventName) {
+        addEventType(eventName);
+        logger.info("The event '" + eventName + "' is now monitored by the event manager.");
+
+        Collection<EventHandler> eventHandlers = this.eventHandlers.get(eventName);
+        if (eventHandlers == null) {
+            eventHandlers = new LinkedList<EventHandler>();
+            this.eventHandlers.put(eventName, eventHandlers);
+        }
+        eventHandlers.add(eventHandler);
     }
 
     @Override
