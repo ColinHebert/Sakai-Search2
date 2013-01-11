@@ -2,8 +2,10 @@ package uk.ac.ox.oucs.search2.compatibility.event;
 
 import org.sakaiproject.event.api.Event;
 import org.sakaiproject.search.api.SearchIndexBuilder;
+import org.sakaiproject.search.model.SearchBuilderItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ox.oucs.search2.document.DocumentProducer;
 import uk.ac.ox.oucs.search2.event.AbstractEventManager;
 import uk.ac.ox.oucs.search2.event.EventHandler;
 import uk.ac.ox.oucs.search2.indexation.DefaultTask;
@@ -69,6 +71,37 @@ public class Search2EventManager extends AbstractEventManager {
             searchIndexBuilder.rebuildIndex();
         else if (DefaultTask.Type.INDEX_DOCUMENT.getTypeName().equals(task.getType()) || DefaultTask.Type.UNINDEX_DOCUMENT.getTypeName().equals(task.getType()))
             searchIndexBuilder.addResource(null, event);
+    }
+
+    public boolean isProducerForEvent(Event event, DocumentProducer documentProducer) {
+        return getTaskForEventAndDocumentProducer(event, documentProducer) != null;
+    }
+
+    public int getActionForEvent(Event event, DocumentProducer documentProducer) {
+        Task task = getTaskForEventAndDocumentProducer(event, documentProducer);
+
+        if(task == null)
+            return SearchBuilderItem.ACTION_UNKNOWN;
+
+        if (DefaultTask.Type.INDEX_DOCUMENT.getTypeName().equals(task.getType())) {
+            return SearchBuilderItem.ACTION_ADD;
+        } else if (DefaultTask.Type.UNINDEX_DOCUMENT.getTypeName().equals(task.getType())) {
+            return SearchBuilderItem.ACTION_DELETE;
+        } else
+            return SearchBuilderItem.ACTION_UNKNOWN;
+    }
+
+    private Task getTaskForEventAndDocumentProducer(Event event, DocumentProducer documentProducer) {
+        Collection<EventHandler> eventHandlers = this.eventHandlers.get(event.getEvent());
+        for (EventHandler eventHandler : eventHandlers) {
+            if (eventHandler.isHandled(event)) {
+                Task task = eventHandler.getTask(event);
+                String reference = task.getProperty(DefaultTask.DOCUMENT_REFERENCE);
+                if(documentProducer.isHandled(reference))
+                    return task;
+            }
+        }
+        return null;
     }
 
     public void setSearchIndexBuilder(SearchIndexBuilder searchIndexBuilder) {
