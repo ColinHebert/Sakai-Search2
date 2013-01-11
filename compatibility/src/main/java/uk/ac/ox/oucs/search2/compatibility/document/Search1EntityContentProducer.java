@@ -96,10 +96,19 @@ public class Search1EntityContentProducer implements EntityContentProducer {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * As getTool doesn't provide a reference to work with, instead of giving the tool of the reference,
+     * the documentProducer name is returned.
+     * </p>
+     */
     @Override
     public String getTool() {
-        //TODO: Check if the getTool method is used
-        return null;
+        if (documentProducer instanceof Search2DocumentProducer)
+            return ((Search2DocumentProducer) documentProducer).getEntityContentProducer().getTool();
+        else
+            return documentProducer.getClass().getSimpleName();
     }
 
     @Override

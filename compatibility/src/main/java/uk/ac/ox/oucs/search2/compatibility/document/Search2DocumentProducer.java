@@ -20,6 +20,10 @@ public class Search2DocumentProducer implements DocumentProducer {
         this.entityContentProducer = entityContentProducer;
     }
 
+    public EntityContentProducer getEntityContentProducer() {
+        return entityContentProducer;
+    }
+
     @Override
     public Document getDocument(String reference) {
         return Search2Document.generateDocument(entityContentProducer, reference);
