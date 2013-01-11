@@ -4,6 +4,7 @@ import org.sakaiproject.event.api.Event;
 import org.sakaiproject.search.api.EntityContentProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.ac.ox.oucs.search2.compatibility.event.Search2EventManager;
 import uk.ac.ox.oucs.search2.document.*;
 import uk.ac.ox.oucs.search2.tika.document.TikaDocument;
 
@@ -20,9 +21,11 @@ import java.util.Queue;
 public class Search1EntityContentProducer implements EntityContentProducer {
     private final static Logger logger = LoggerFactory.getLogger(Search1EntityContentProducer.class);
     private final DocumentProducer documentProducer;
+    private final Search2EventManager search2EventManager;
 
-    public Search1EntityContentProducer(DocumentProducer documentProducer) {
+    public Search1EntityContentProducer(DocumentProducer documentProducer, Search2EventManager search2EventManager) {
         this.documentProducer = documentProducer;
+        this.search2EventManager = search2EventManager;
     }
 
     @Override
@@ -82,18 +85,12 @@ public class Search1EntityContentProducer implements EntityContentProducer {
 
     @Override
     public Integer getAction(Event event) {
-        /**
-         * Do not generate actions, the {@link Event2Handler} is in charge of that.
-         */
-        return null;
+        return search2EventManager.getActionForEvent(event, documentProducer);
     }
 
     @Override
     public boolean matches(Event event) {
-        /**
-         * Do not match any event, the {@link Event2Handler} is in charge of that.
-         */
-        return false;
+        return search2EventManager.isProducerForEvent(event, documentProducer);
     }
 
     /**

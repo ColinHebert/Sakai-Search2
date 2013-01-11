@@ -9,6 +9,7 @@ import org.sakaiproject.search.model.SearchBuilderItem;
 import uk.ac.ox.oucs.search2.compatibility.document.Search1EntityContentProducer;
 import uk.ac.ox.oucs.search2.compatibility.document.Search2DocumentProducer;
 import uk.ac.ox.oucs.search2.compatibility.event.Search2EventHandler;
+import uk.ac.ox.oucs.search2.compatibility.event.Search2EventManager;
 import uk.ac.ox.oucs.search2.document.DocumentProducer;
 import uk.ac.ox.oucs.search2.document.DocumentProducerRegistry;
 import uk.ac.ox.oucs.search2.event.IndexEventHandler;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class Search1SearchIndexBuilder implements SearchIndexBuilder {
     private Search2EventHandler search2EventHandler;
+    private Search2EventManager search2EventManager;
     private DocumentProducerRegistry documentProducerRegistry;
     private EventTrackingService eventTrackingService;
     private boolean excludeUserSites;
@@ -60,7 +62,7 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
             @Override
             public EntityContentProducer get(int index) {
-                return new Search1EntityContentProducer(documentProducers.get(index));
+                return new Search1EntityContentProducer(documentProducers.get(index), search2EventManager);
             }
 
             @Override
@@ -101,7 +103,12 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     @Override
     public EntityContentProducer newEntityContentProducer(String ref) {
-        return new Search1EntityContentProducer(documentProducerRegistry.getDocumentProducer(ref));
+        DocumentProducer documentProducer = documentProducerRegistry.getDocumentProducer(ref);
+        if (documentProducer != null) {
+            return new Search1EntityContentProducer(documentProducer, search2EventManager);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -134,6 +141,10 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     public void setSearch2EventHandler(Search2EventHandler search2EventHandler) {
         this.search2EventHandler = search2EventHandler;
+    }
+
+    public void setSearch2EventManager(Search2EventManager search2EventManager) {
+        this.search2EventManager = search2EventManager;
     }
 
     public void setDocumentProducerRegistry(DocumentProducerRegistry documentProducerRegistry) {
