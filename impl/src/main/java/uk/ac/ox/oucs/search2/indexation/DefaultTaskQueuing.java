@@ -73,7 +73,7 @@ public class DefaultTaskQueuing extends AbstractTaskRunner implements TaskQueuin
     /**
      * Runnable class generated for each task and queued in the {@link ExecutorService}.
      */
-    private class RunnableTask implements Runnable {
+    private final class RunnableTask implements Runnable {
         private final Task task;
 
         private RunnableTask(Task task) {

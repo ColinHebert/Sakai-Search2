@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * @author Colin Hebert
  */
-public class EmptySearchResultList extends AbstractSearchResultList<Object> {
-    public static SearchResultList instance = new EmptySearchResultList();
+public final class EmptySearchResultList extends AbstractSearchResultList<Object> {
+    private static SearchResultList instance = new EmptySearchResultList();
 
     private EmptySearchResultList() {
         super(null);
@@ -33,5 +33,9 @@ public class EmptySearchResultList extends AbstractSearchResultList<Object> {
     @Override
     public String getSpellCheck() {
         return null;
+    }
+
+    public static SearchResultList getInstance() {
+        return instance;
     }
 }

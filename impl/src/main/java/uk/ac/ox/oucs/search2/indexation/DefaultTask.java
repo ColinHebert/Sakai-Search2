@@ -29,11 +29,11 @@ public class DefaultTask implements Task {
     /**
      * Property name for the reference of a document.
      */
-    public final static String DOCUMENT_REFERENCE = DefaultTask.class.getCanonicalName() + ".documentReference";
+    public static final String DOCUMENT_REFERENCE = DefaultTask.class.getCanonicalName() + ".documentReference";
     /**
      * Property name for the unique identifier of a site.
      */
-    public final static String SITE_ID = DefaultTask.class.getCanonicalName() + ".siteId";
+    public static final String SITE_ID = DefaultTask.class.getCanonicalName() + ".siteId";
     private final String type;
     private final DateTime creationDate;
     private final Map<String, String> properties = new HashMap<String, String>();

@@ -18,7 +18,7 @@ import uk.ac.ox.oucs.search2.result.SearchResult;
  */
 public class SecurityResultFilter implements ResultFilter {
     private static final Logger logger = LoggerFactory.getLogger(ResultFilter.class);
-    private static final SearchResult censoredSearchResult = new SearchResult.CensoredSearchResult();
+    private static final SearchResult CENSORED_SEARCH_RESULT = new SearchResult.CensoredSearchResult();
     private DocumentProducerRegistry documentProducerRegistry;
 
     @Override
@@ -32,7 +32,7 @@ public class SecurityResultFilter implements ResultFilter {
         if (documentProducer == null || !documentProducer.isReadable(document.getReference())) {
             if (logger.isDebugEnabled())
                 logger.debug("The document '" + document + "' has been censored.");
-            return censoredSearchResult;
+            return CENSORED_SEARCH_RESULT;
         } else {
             return filterChain.filter(searchResult);
         }

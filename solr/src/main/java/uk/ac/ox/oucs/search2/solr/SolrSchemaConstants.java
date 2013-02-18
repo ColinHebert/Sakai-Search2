@@ -4,6 +4,9 @@ package uk.ac.ox.oucs.search2.solr;
  * @author Colin Hebert
  */
 public final class SolrSchemaConstants {
+    private SolrSchemaConstants(){
+    }
+
     public static final String ID_FIELD = "id";
     public static final String TITLE_FIELD = "title";
     public static final String REFERENCE_FIELD = "reference";
