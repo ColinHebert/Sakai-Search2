@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import static uk.ac.ox.oucs.search2.indexation.DefaultTask.Type.*;
+import static uk.ac.ox.oucs.search2.solr.SolrSchemaConstants.*;
 import static uk.ac.ox.oucs.search2.solr.indexation.SolrTask.Type.COMMIT;
 import static uk.ac.ox.oucs.search2.solr.indexation.SolrTask.Type.OPTIMISE;
 
@@ -356,21 +357,21 @@ public class SolrTaskHandler extends AbstractTaskHandler {
      */
     private SolrInputDocument generateSolrBaseDocument(Document document, DateTime taskCreationDate) {
         SolrInputDocument solrDocument = new SolrInputDocument();
-        solrDocument.addField(SolrSchemaConstants.ID_FIELD, document.getId());
-        solrDocument.addField(SolrSchemaConstants.TITLE_FIELD, document.getTitle());
-        solrDocument.addField(SolrSchemaConstants.REFERENCE_FIELD, document.getReference());
-        solrDocument.addField(SolrSchemaConstants.SITE_ID_FIELD, document.getSiteId());
-        solrDocument.addField(SolrSchemaConstants.TOOL_FIELD, document.getTool());
-        solrDocument.addField(SolrSchemaConstants.CONTAINER_FIELD, document.getContainer());
-        solrDocument.addField(SolrSchemaConstants.TYPE_FIELD, document.getType());
-        solrDocument.addField(SolrSchemaConstants.SUBTYPE_FIELD, document.getSubtype());
-        solrDocument.addField(SolrSchemaConstants.URL_FIELD, document.getUrl());
-        solrDocument.addField(SolrSchemaConstants.PORTAL_URL_FIELD, document.isPortalUrl());
-        solrDocument.addField(SolrSchemaConstants.TIMESTAMP_FIELD, DATE_TIME_FORMATTER.print(taskCreationDate));
+        solrDocument.addField(ID_FIELD, document.getId());
+        solrDocument.addField(TITLE_FIELD, document.getTitle());
+        solrDocument.addField(REFERENCE_FIELD, document.getReference());
+        solrDocument.addField(SITE_ID_FIELD, document.getSiteId());
+        solrDocument.addField(TOOL_FIELD, document.getTool());
+        solrDocument.addField(CONTAINER_FIELD, document.getContainer());
+        solrDocument.addField(TYPE_FIELD, document.getType());
+        solrDocument.addField(SUBTYPE_FIELD, document.getSubtype());
+        solrDocument.addField(URL_FIELD, document.getUrl());
+        solrDocument.addField(PORTAL_URL_FIELD, document.isPortalUrl());
+        solrDocument.addField(TIMESTAMP_FIELD, DATE_TIME_FORMATTER.print(taskCreationDate));
 
         // Add the custom properties
         for (Map.Entry<String, Collection<String>> entry : document.getProperties().entrySet()) {
-            solrDocument.addField(SolrSchemaConstants.PROPERTY_PREFIX + toSolrFieldName(entry.getKey()), entry.getValue());
+            solrDocument.addField(PROPERTY_PREFIX + toSolrFieldName(entry.getKey()), entry.getValue());
         }
         return solrDocument;
     }
@@ -408,12 +409,12 @@ public class SolrTaskHandler extends AbstractTaskHandler {
         if (document instanceof ReaderDocument) {
             if (logger.isDebugEnabled())
                 logger.debug("Create a request with a Reader");
-            solrDocument.addField(SolrSchemaConstants.CONTENT_FIELD, ((ReaderDocument) document).getContent());
+            solrDocument.addField(CONTENT_FIELD, ((ReaderDocument) document).getContent());
             indexRequest = new ReaderUpdateRequest().add(solrDocument);
         } else if (document instanceof StringDocument) {
             if (logger.isDebugEnabled())
                 logger.debug("Create a request based on a String");
-            solrDocument.addField(SolrSchemaConstants.CONTENT_FIELD, ((StringDocument) document).getContent());
+            solrDocument.addField(CONTENT_FIELD, ((StringDocument) document).getContent());
             indexRequest = new UpdateRequest().add(solrDocument);
         } else {
             throw new TaskException("Impossible to index '" + document + "'");
@@ -445,10 +446,12 @@ public class SolrTaskHandler extends AbstractTaskHandler {
      * @param solrDocument   solr document
      * @return
      */
-    private ContentStreamUpdateRequest getStreamIndexRequest(final StreamDocument streamDocument, SolrInputDocument solrDocument) {
-        ContentStreamUpdateRequest contentStreamUpdateRequest = new ContentStreamUpdateRequest(SolrSchemaConstants.SOLR_CELL_PATH);
-        contentStreamUpdateRequest.setParam("fmap.content", SolrSchemaConstants.CONTENT_FIELD);
-        contentStreamUpdateRequest.setParam("uprefix", SolrSchemaConstants.SOLR_CELL_UPREFIX);
+    private ContentStreamUpdateRequest getStreamIndexRequest(final StreamDocument streamDocument,
+                                                             SolrInputDocument solrDocument) {
+        ContentStreamUpdateRequest contentStreamUpdateRequest =
+                new ContentStreamUpdateRequest(SOLR_CELL_PATH);
+        contentStreamUpdateRequest.setParam("fmap.content", CONTENT_FIELD);
+        contentStreamUpdateRequest.setParam("uprefix", SOLR_CELL_UPREFIX);
         if (streamDocument.getContentName() != null)
             contentStreamUpdateRequest.setParam("resource.name", streamDocument.getContentName());
         if (streamDocument.getContentType() != null)
@@ -468,7 +471,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
         for (SolrInputField field : solrDocument) {
             contentStreamUpdateRequest.setParam("fmap.sakai_" + field.getName(), field.getName());
             for (Object o : field) {
-                contentStreamUpdateRequest.setParam(SolrSchemaConstants.SOLR_CELL_LITERAL + "sakai_" + field.getName(), o.toString());
+                contentStreamUpdateRequest.setParam(SOLR_CELL_LITERAL + "sakai_" + field.getName(),
+                        o.toString());
             }
         }
         return contentStreamUpdateRequest;
