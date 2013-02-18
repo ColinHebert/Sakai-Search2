@@ -27,7 +27,6 @@ import uk.ac.ox.oucs.search2.indexation.exception.MultipleTasksException;
 import uk.ac.ox.oucs.search2.indexation.exception.TaskException;
 import uk.ac.ox.oucs.search2.indexation.exception.TemporaryTaskException;
 import uk.ac.ox.oucs.search2.indexation.exception.UnsupportedTaskException;
-import uk.ac.ox.oucs.search2.solr.SolrSchemaConstants;
 import uk.ac.ox.oucs.search2.solr.request.ReaderUpdateRequest;
 import uk.ac.ox.oucs.search2.tika.document.TikaDocument;
 
@@ -139,8 +138,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
             logger.debug("Remove '" + documentReference + "' from the index");
 
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.REFERENCE_FIELD + ":" + ClientUtils.escapeQueryChars(documentReference) + " AND " +
-                    SolrSchemaConstants.TIMESTAMP_FIELD + ":{* TO " + DATE_TIME_FORMATTER.print(taskCreationDate) + "}");
+            solrServer.deleteByQuery(REFERENCE_FIELD + ":"+ ClientUtils.escapeQueryChars(documentReference)
+                            + " AND " + TIMESTAMP_FIELD + ":" + solrDateRange(null, taskCreationDate, false));
         } catch (Exception e) {
             Task task = new DefaultTask(UNINDEX_DOCUMENT, taskCreationDate)
                     .setProperty(DefaultTask.DOCUMENT_REFERENCE, documentReference);
@@ -188,8 +187,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
         logger.info("Remove old documents from '" + siteId + "'");
 
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.SITE_ID_FIELD + ":" + ClientUtils.escapeQueryChars(siteId) + " AND " +
-                    SolrSchemaConstants.TIMESTAMP_FIELD + ":{* TO " + DATE_TIME_FORMATTER.print(taskCreationDate) + "}");
+            solrServer.deleteByQuery(SITE_ID_FIELD + ":" + ClientUtils.escapeQueryChars(siteId)
+                    + " AND " + TIMESTAMP_FIELD + ":" + solrDateRange(null, taskCreationDate, false));
         } catch (Exception e) {
             Task task = new DefaultTask(UNINDEX_SITE, taskCreationDate).setProperty(DefaultTask.SITE_ID, siteId);
             throw wrapException(e, "An exception occurred while unindexing the site '" + siteId + "'", task);
@@ -240,7 +239,7 @@ public class SolrTaskHandler extends AbstractTaskHandler {
     protected void unindexAll(DateTime taskCreationDate) {
         logger.info("Remove old documents from every sites");
         try {
-            solrServer.deleteByQuery(SolrSchemaConstants.TIMESTAMP_FIELD + ":{* TO " + DATE_TIME_FORMATTER.print(taskCreationDate) + "}");
+            solrServer.deleteByQuery(TIMESTAMP_FIELD + ":" + solrDateRange(null, taskCreationDate, false));
             optimise();
         } catch (Exception e) {
             Task task = new DefaultTask(UNINDEX_ALL, taskCreationDate);
@@ -336,11 +335,23 @@ public class SolrTaskHandler extends AbstractTaskHandler {
         // Count the number of documents with an indexation date after the task creation date
         // and with the same reference.
         SolrQuery query = new SolrQuery()
-                .setQuery(SolrSchemaConstants.REFERENCE_FIELD + ":" + ClientUtils.escapeQueryChars(document.getReference()) + " AND " +
-                        SolrSchemaConstants.TIMESTAMP_FIELD + ":[" + DATE_TIME_FORMATTER.print(taskCreationDate) + " TO *]")
+                .setQuery(REFERENCE_FIELD + ":" + ClientUtils.escapeQueryChars(document.getReference())
+                        + " AND " + TIMESTAMP_FIELD + ":" + solrDateRange(taskCreationDate, null, true))
                 .setRows(0);
         // If there is a result, then the document is already up to date.
         return solrServer.query(query).getResults().getNumFound() != 0;
+    }
+
+    /**
+     *
+     */
+    private String solrDateRange(DateTime from, DateTime to, boolean inclusive) {
+        String fromAsString = (from != null) ? DATE_TIME_FORMATTER.print(from) : "*";
+        String toAsString = (from != null) ? DATE_TIME_FORMATTER.print(to) : "*";
+        if (inclusive)
+            return "[" + fromAsString + " TO " + toAsString + "]";
+        else
+            return "{" + fromAsString + " TO " + toAsString + "}";
     }
 
     /**
