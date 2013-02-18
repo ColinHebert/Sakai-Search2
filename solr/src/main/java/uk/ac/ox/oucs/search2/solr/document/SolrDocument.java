@@ -59,11 +59,6 @@ public class SolrDocument implements Document {
     }
 
     @Override
-    public String getSubtype() {
-        return (String) document.getFieldValue(SolrSchemaConstants.SUBTYPE_FIELD);
-    }
-
-    @Override
     public String getTool() {
         return (String) document.getFieldValue(SolrSchemaConstants.TOOL_FIELD);
     }

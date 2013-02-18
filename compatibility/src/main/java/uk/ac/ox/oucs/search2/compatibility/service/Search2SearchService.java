@@ -26,7 +26,7 @@ public class Search2SearchService extends AbstractSearchService {
             return new Search2SearchResultList(searchService.search(searchQuery, new ArrayList<String>(contexts), (int) start, (int) (start + length)));
         } catch (InvalidSearchQueryException e) {
             logger.error("Couldn't get a result from the search query '" + searchQuery + "'", e);
-            return EmptySearchResultList.instance;
+            return EmptySearchResultList.getInstance();
         }
     }
 

@@ -83,11 +83,6 @@ public class Search2SearchResult implements SearchResult {
         }
 
         @Override
-        public String getSubtype() {
-            return getPropertyValue(SearchService.FIELD_SUBTYPE);
-        }
-
-        @Override
         public String getSiteId() {
             return searchResult.getSiteId();
         }

@@ -70,11 +70,6 @@ public interface Document {
     String getType();
 
     /**
-     * Gets the document subtype, optional.
-     */
-    String getSubtype();
-
-    /**
      * Gets the site hosting the document.
      */
     String getSiteId();

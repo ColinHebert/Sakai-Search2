@@ -167,7 +167,7 @@ public class Search1EntityContentProducer implements EntityContentProducer {
 
     @Override
     public String getSubType(String ref) {
-        return documentProducer.getDocument(ref).getSubtype();
+        return null;
     }
 
     @Override

@@ -152,11 +152,6 @@ public class TikaDocument implements StringDocument {
     }
 
     @Override
-    public String getSubtype() {
-        return streamDocument.getSubtype();
-    }
-
-    @Override
     public String getSiteId() {
         return streamDocument.getSiteId();
     }

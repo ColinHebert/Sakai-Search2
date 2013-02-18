@@ -67,11 +67,6 @@ public class Search2Document implements Document {
     }
 
     @Override
-    public String getSubtype() {
-        return entityContentProducer.getSubType(reference);
-    }
-
-    @Override
     public String getSiteId() {
         return entityContentProducer.getSiteId(reference);
     }

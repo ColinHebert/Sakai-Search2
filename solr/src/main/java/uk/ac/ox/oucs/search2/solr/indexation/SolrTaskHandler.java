@@ -375,7 +375,6 @@ public class SolrTaskHandler extends AbstractTaskHandler {
         solrDocument.addField(TOOL_FIELD, document.getTool());
         solrDocument.addField(CONTAINER_FIELD, document.getContainer());
         solrDocument.addField(TYPE_FIELD, document.getType());
-        solrDocument.addField(SUBTYPE_FIELD, document.getSubtype());
         solrDocument.addField(URL_FIELD, document.getUrl());
         solrDocument.addField(PORTAL_URL_FIELD, document.isPortalUrl());
         solrDocument.addField(TIMESTAMP_FIELD, DATE_TIME_FORMATTER.print(taskCreationDate));

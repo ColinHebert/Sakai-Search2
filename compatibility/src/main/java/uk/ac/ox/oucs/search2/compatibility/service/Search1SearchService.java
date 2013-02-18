@@ -174,6 +174,12 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
     }
 
     @Override
+    public String[] getSearchSuggestions(String searchString, String currentSite, boolean allMySites) {
+        String suggestion = getSearchSuggestion(searchString);
+        return (suggestion != null) ? new String[]{searchString} : new String[0];
+    }
+
+    @Override
     public void enableDiagnostics() {
     }
 
@@ -184,6 +190,11 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
     @Override
     public boolean hasDiagnostics() {
         return false;
+    }
+
+    @Override
+    public boolean isSearchServer() {
+        return true;
     }
 
     public void setActualSearchService(SearchService actualSearchService) {
