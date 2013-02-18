@@ -48,12 +48,12 @@ public class DefaultEventManager extends AbstractEventManager {
 
     @Override
     protected void notify(Event event) {
-        Collection<EventHandler> eventHandlers = this.eventHandlers.get(event.getEvent());
+        Collection<EventHandler> eventHandlersForCurrentEvent = eventHandlers.get(event.getEvent());
 
         if (logger.isDebugEnabled())
-            logger.debug("The EventHandlers '" + eventHandlers + "' match the event '" + event + "'");
+            logger.debug("The EventHandlers '" + eventHandlersForCurrentEvent + "' match the event '" + event + "'");
 
-        for (EventHandler eventHandler : eventHandlers) {
+        for (EventHandler eventHandler : eventHandlersForCurrentEvent) {
             if (eventHandler.isHandled(event)) {
                 queueTask(eventHandler.getTask(event));
             } else if (logger.isDebugEnabled()) {
