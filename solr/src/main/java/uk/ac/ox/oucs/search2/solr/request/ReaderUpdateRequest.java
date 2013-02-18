@@ -48,8 +48,8 @@ public class ReaderUpdateRequest extends AbstractUpdateRequest {
         return this;
     }
 
-    //--------------------------------------------------------------------------
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
     @Override
     public Collection<ContentStream> getContentStreams() throws IOException {
@@ -75,8 +75,8 @@ public class ReaderUpdateRequest extends AbstractUpdateRequest {
         return CharStreams.join(readers).getInput();
     }
 
-    //--------------------------------------------------------------------------
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
 
     public List<SolrInputDocument> getDocuments() {
         return documents;

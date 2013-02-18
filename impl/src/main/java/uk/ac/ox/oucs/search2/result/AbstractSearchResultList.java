@@ -47,9 +47,9 @@ public abstract class AbstractSearchResultList<T> implements SearchResultList {
      */
     protected abstract List<? extends SearchResult> getSearchResults(T result, Iterable<ResultFilter> filters);
 
-    //----------------------------------------
+    // ----------------------------------------
     // Methods from List delegated internally
-    //----------------------------------------
+    // ----------------------------------------
 
     @Override
     public int size() {

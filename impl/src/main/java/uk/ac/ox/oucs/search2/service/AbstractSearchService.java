@@ -26,7 +26,7 @@ public abstract class AbstractSearchService implements SearchService {
 
     @Override
     public SearchResultList search(String searchQuery) {
-        //TODO: Think of using an infinite searchResultList, creating solr requests on the fly if needed?
+        // TODO: Think of using an infinite searchResultList, creating solr requests on the fly if needed?
         return search(searchQuery, getContextSiteIds(Context.EVERY_SITES), 0, defaultLength, searchFilters);
     }
 
@@ -91,8 +91,8 @@ public abstract class AbstractSearchService implements SearchService {
     private Collection<String> getAllViewableSites() {
         try {
             logger.info("Finding every site the current user can browse.");
-            //TODO: Check that PUBVIEW and ACCESS aren't redundant
             List<Site> publicSites = siteService.getSites(SiteService.SelectionType.PUBVIEW, null, null, null, null, null);
+            // TODO: Check that PUBVIEW and ACCESS aren't redundant
             Collection<String> siteIds = new HashSet<String>(getAllSubscribedSites());
             for (Site site : publicSites) {
                 siteIds.add(site.getId());

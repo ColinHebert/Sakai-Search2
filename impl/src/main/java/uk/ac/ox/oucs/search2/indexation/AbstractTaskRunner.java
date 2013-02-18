@@ -52,12 +52,12 @@ public abstract class AbstractTaskRunner implements TaskRunner {
     public void runTask(Task task) {
         try {
             checkLockdown();
-            //Unlock permissions so every resource is accessible
+            // Unlock permissions so every resource is accessible
             unlockPermissions();
 
             try {
                 taskHandler.executeTask(task);
-                //The indexation was successful, reset the waiting time
+                // The indexation was successful, reset the waiting time
                 waitingTime = BASE_WAITING_TIME;
             } catch (MultipleTasksException e) {
                 logger.warn("Some exceptions happened during the execution of '" + task + "'.", e);
@@ -74,9 +74,9 @@ public abstract class AbstractTaskRunner implements TaskRunner {
                 lockdown();
             }
         } finally {
-            //Empties the content of the localThread
+            // Empties the content of the localThread
             cleanLocalThread();
-            //Lock permissions as they're not used anymore
+            // Lock permissions as they're not used anymore
             lockPermissions();
         }
     }
@@ -90,7 +90,7 @@ public abstract class AbstractTaskRunner implements TaskRunner {
                 logger.debug("Check if the taskRunnerLock is open");
             try {
                 while (taskRunnerLock.isLocked()) {
-                    //Stop for a while because some tasks failed and should be run again.
+                    // Stop for a while because some tasks failed and should be run again.
                     logger.info("TaskRunner on lockdown, waiting for a while.");
                     taskRunnerLock.wait();
                 }
@@ -104,14 +104,15 @@ public abstract class AbstractTaskRunner implements TaskRunner {
      * Starts and stop a lockdown.
      * <p>
      * A lockdown is often started when a {@link TemporaryTaskException} occured.<br />
-     * Prevents other threads from polling from the queue for a while, leaving some time to recover from the TemporaryTaskException.
+     * Prevents other threads from polling from the queue for a while, leaving some time to recover from the
+     * TemporaryTaskException.
      * </p>
      */
     private void lockdown() {
         try {
             logger.info("Tasks runner on lockdown, waiting " + waitingTime + "ms");
             Thread.sleep(waitingTime);
-            //Multiply the waiting time by two
+            // Multiply the waiting time by two
             if (waitingTime <= maximumWaitingTime)
                 waitingTime <<= 1;
         } catch (InterruptedException e) {

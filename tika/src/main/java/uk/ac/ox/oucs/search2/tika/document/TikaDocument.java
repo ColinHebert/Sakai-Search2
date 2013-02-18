@@ -55,12 +55,12 @@ public class TikaDocument implements StringDocument {
     private String getStreamDocumentContent(StreamDocument streamDocument, Metadata metadata) {
         String documentContent = "";
         try {
-            //Sets the document name to attempt to determine the content type based on the file extension
+            // Sets the document name to attempt to determine the content type based on the file extension
             String contentName = streamDocument.getContentName();
             if (contentName != null)
                 metadata.add(Metadata.RESOURCE_NAME_KEY, contentName);
 
-            //Sets the content type to simplify type detection
+            // Sets the content type to simplify type detection
             String contentType = streamDocument.getContentType();
             if (contentType != null)
                 metadata.add(Metadata.CONTENT_TYPE, contentType);
@@ -87,8 +87,8 @@ public class TikaDocument implements StringDocument {
      * @return
      */
     private Map<String, Collection<String>> extractProperties(StreamDocument streamDocument, Metadata metadata) {
-        //The original properties map could be unmodifiable, it would be better to make a copy of it.
-        //We assume that the Collection is still mutable.
+        // The original properties map could be unmodifiable, it would be better to make a copy of it.
+        // We assume that the Collection is still mutable.
         Map<String, Collection<String>> properties = new HashMap<String, Collection<String>>(streamDocument.getProperties());
         for (String metadataName : metadata.names()) {
             for (String metadataValue : metadata.getValues(metadataName)) {
@@ -114,7 +114,7 @@ public class TikaDocument implements StringDocument {
         return documentContent;
     }
 
-    //Delegated methods
+    // Delegated methods
 
     @Override
     public String getReference() {

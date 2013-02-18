@@ -31,7 +31,7 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
 
     @Override
     public SearchList search(String searchTerms, List<String> contexts, int start, int end, String filterName, String sorterName) throws InvalidSearchQueryException {
-        //Filters and sorters don't apply here.
+        // Filters and sorters don't apply here.
         return search(searchTerms, contexts, start, end);
     }
 
@@ -71,12 +71,12 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
 
     @Override
     public int getNDocs() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public int getPendingDocs() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

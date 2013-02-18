@@ -61,9 +61,9 @@ public abstract class AbstractEventManager implements EventManager {
      */
     protected abstract void notify(Event event);
 
-    //-------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
     //  The following methods aren't relevant for the EventManager
-    //-------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
 
     @Override
     public void set(Element element) {

@@ -30,7 +30,7 @@ public class Search2EventHandler implements EventHandler {
     public void addEventType(String eventType) {
         if (!eventTypes.containsKey(eventType)){
             eventTypes.put(eventType, new LinkedList<EntityContentProducer>());
-            //Update the event handler with the new events to watch
+            // Update the event handler with the new events to watch
             eventManager.addEventHandlerForEvent(this, eventType);
         }
     }
@@ -54,10 +54,10 @@ public class Search2EventHandler implements EventHandler {
 
         DefaultTask.Type taskType;
         switch (entityProducer.getAction(event)) {
-            case 1: //SearchBuilderItem.ACTION_ADD
+            case 1: // SearchBuilderItem.ACTION_ADD
                 taskType = DefaultTask.Type.INDEX_DOCUMENT;
                 break;
-            case 2: //SearchBuilderItem.ACTION_DELETE
+            case 2: // SearchBuilderItem.ACTION_DELETE
                 taskType = DefaultTask.Type.INDEX_DOCUMENT;
                 break;
             default:
@@ -86,13 +86,13 @@ public class Search2EventHandler implements EventHandler {
      */
     private EntityContentProducer getEntityContentProducerForEvent(Event event) {
         Collection<EntityContentProducer> contentProducers = eventTypes.get(event.getEvent());
-        //Look through already matched content producers
+        // Look through already matched content producers
         for (EntityContentProducer contentProducer : contentProducers) {
             if (contentProducer.matches(event))
                 return contentProducer;
         }
 
-        //Look through not yet matched content producers (slower but we shouldn't hit this part often).
+        // Look through not yet matched content producers (slower but we shouldn't hit this part often).
         for (EntityContentProducer contentProducer : entityContentProducers) {
             if (contentProducer.matches(event)) {
                 contentProducers.add(contentProducer);

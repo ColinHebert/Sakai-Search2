@@ -110,7 +110,7 @@ public class Search1SearchResult implements SearchResult {
 
     @Override
     public void setUrl(String newUrl) {
-        //TODO: Check when this method is called and if it's relevant to change the URL.
+        // TODO: Check when this method is called and if it's relevant to change the URL.
     }
 
     @Override

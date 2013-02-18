@@ -31,7 +31,7 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     @Override
     public void addResource(Notification notification, Event event) {
-        //Events are captured by Search2
+        // Events are captured by Search2
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     @Override
     public boolean isBuildQueueEmpty() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     @Override
     public int getPendingDocuments() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
