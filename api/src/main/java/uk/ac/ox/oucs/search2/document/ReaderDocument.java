@@ -10,6 +10,8 @@ import java.io.Reader;
 public interface ReaderDocument extends Document {
     /**
      * Gets the document's content.
+     *
+     * @return the content of the document as a Reader.
      */
     Reader getContent();
 }

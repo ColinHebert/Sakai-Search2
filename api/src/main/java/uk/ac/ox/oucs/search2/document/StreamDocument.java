@@ -14,6 +14,8 @@ import java.io.InputStream;
 public interface StreamDocument extends Document {
     /**
      * Gets the document's content.
+     *
+     * @return the content of the document as a Stream.
      */
     InputStream getContent();
 

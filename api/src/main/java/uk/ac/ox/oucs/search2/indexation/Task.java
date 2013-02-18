@@ -12,7 +12,6 @@ import java.util.Date;
  * For this reason, a Task should always contain the minimum amount of information and be {@link Serializable}
  * (do not create a Task as an anonymous or inner class).
  * </p>
- * TODO: Update the task system to work with sequential unique identifiers across the sakai instance (snowflake?)
  *
  * @author Colin Hebert
  */

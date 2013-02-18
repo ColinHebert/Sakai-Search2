@@ -19,6 +19,8 @@ public interface Document {
      * This reference is considered as unique across the entire Sakai instance.
      * It could and should be used as the primary key of the indexed document.
      * </p>
+     *
+     * @return the reference of the document.
      */
     String getReference();
 
@@ -28,11 +30,15 @@ public interface Document {
      * This identifier is the one provided by the service in charge of those elements and might not be unique accross
      * the Sakai instance.
      * </p>
+     *
+     * @return the identifier to the document.
      */
     String getId();
 
     /**
      * Gets the title of the indexed element.
+     *
+     * @return the title of the document.
      */
     String getTitle();
 
@@ -46,6 +52,8 @@ public interface Document {
      * <p>
      * The return URL must be relative if the document is on the same server as the Sakai instance.
      * </p>
+     *
+     * @return the URL of the document.
      */
     String getUrl();
 
@@ -58,6 +66,8 @@ public interface Document {
 
     /**
      * Gets the tool in which the document is managed.
+     *
+     * @return the tool in which the document is.
      */
     String getTool();
 
@@ -66,16 +76,22 @@ public interface Document {
      * <p>
      * Usually the type of document is related to the tool in which the document is.
      * </p>
+     *
+     * @return the type of the document.
      */
     String getType();
 
     /**
      * Gets the site hosting the document.
+     *
+     * @return the identifier of the site in which the document is hosted.
      */
     String getSiteId();
 
     /**
      * Gets the container in which the document can be found.
+     *
+     * @return the container in which the document is available.
      */
     String getContainer();
 
@@ -84,6 +100,8 @@ public interface Document {
      * <p>
      * Those properties are expected to be unmodifiable.
      * </p>
+     *
+     * @return an unmodifiable map of properties.
      */
     Map<String, Collection<String>> getProperties();
 }

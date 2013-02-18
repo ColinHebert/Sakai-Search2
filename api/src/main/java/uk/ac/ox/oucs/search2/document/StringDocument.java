@@ -8,6 +8,8 @@ package uk.ac.ox.oucs.search2.document;
 public interface StringDocument extends Document {
     /**
      * Gets the document's content.
+     *
+     * @return the content of the document as a String.
      */
     String getContent();
 }
