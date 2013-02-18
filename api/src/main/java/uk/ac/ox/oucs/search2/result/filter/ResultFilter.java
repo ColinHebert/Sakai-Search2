@@ -5,7 +5,8 @@ import uk.ac.ox.oucs.search2.result.SearchResult;
 /**
  * Filter intercepting SearchResults and wrapping them to change their behaviour if necessary.
  * <p>
- * Multiple filters are applied on the result, each of them applied in a specific order thanks to the {@link FilterChain}.
+ * Multiple filters are applied on the result, each of them applied in a specific order thanks to the
+ * {@link FilterChain}.<br />
  * Each filter can intercept the {@link SearchResult} wrap it or interact with it before it's returned to the user.
  * </p>
  *

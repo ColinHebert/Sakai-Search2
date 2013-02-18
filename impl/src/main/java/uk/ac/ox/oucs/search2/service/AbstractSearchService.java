@@ -55,7 +55,8 @@ public abstract class AbstractSearchService implements SearchService {
         return search(searchQuery, getContextSiteIds(context), start, length, searchFilters);
     }
 
-    protected abstract SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<ResultFilter> filterChain);
+    protected abstract SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length,
+                                               Iterable<ResultFilter> filterChain);
 
     @Override
     public String getSpellCheck(String searchQuery) {
@@ -91,8 +92,9 @@ public abstract class AbstractSearchService implements SearchService {
     private Collection<String> getAllViewableSites() {
         try {
             logger.info("Finding every site the current user can browse.");
-            List<Site> publicSites = siteService.getSites(SiteService.SelectionType.PUBVIEW, null, null, null, null, null);
             // TODO: Check that PUBVIEW and ACCESS aren't redundant
+            List<Site> publicSites = siteService.getSites(SiteService.SelectionType.PUBVIEW,
+                    null, null, null, null, null);
             Collection<String> siteIds = new HashSet<String>(getAllSubscribedSites());
             for (Site site : publicSites) {
                 siteIds.add(site.getId());
@@ -114,7 +116,8 @@ public abstract class AbstractSearchService implements SearchService {
     private Collection<String> getAllSubscribedSites() {
         try {
             logger.info("Finding every site in which the current user is a member.");
-            List<Site> subscribedSites = siteService.getSites(SiteService.SelectionType.ACCESS, null, null, null, null, null);
+            List<Site> subscribedSites = siteService.getSites(SiteService.SelectionType.ACCESS,
+                    null, null, null, null, null);
             List<String> siteIds = new ArrayList<String>(subscribedSites.size() + 1);
             for (Site site : subscribedSites) {
                 siteIds.add(site.getId());

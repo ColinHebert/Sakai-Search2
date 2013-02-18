@@ -12,14 +12,17 @@ import uk.ac.ox.oucs.search2.indexation.exception.TemporaryTaskException;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Task runner putting the polling system on hold if a TemporaryTaskException has been caught and requeuing the failed task.
+ * Task runner putting the polling system on hold if a TemporaryTaskException has been caught and
+ * requeuing the failed task.
  * <p>
  * Assuming that every {@link Task} should be successfully executed or completely fail, a {@link TemporaryTaskException}
  * could mean that the {@link TaskHandler} can't process new tasks at the moment.
  * </p>
  * <p>
- * This TaskRunner will put every thread that attempt to run a indexation on hold each time a TemporaryTaskHandlingException is caught.<br />
- * The waiting time is doubled each time a Task fails with a TemporaryTaskHandlingException until it reaches the {@link #maximumWaitingTime}.<br />
+ * This TaskRunner will put every thread that attempt to run a indexation on hold each time a
+ * TemporaryTaskHandlingException is caught.<br />
+ * The waiting time is doubled each time a Task fails with a TemporaryTaskHandlingException until it reaches
+ * the {@link #maximumWaitingTime}.<br />
  * The waiting time is reset each time a indexation is successfully executed.
  * </p>
  *

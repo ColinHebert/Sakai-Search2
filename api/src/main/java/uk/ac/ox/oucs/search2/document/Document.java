@@ -40,7 +40,8 @@ public interface Document {
      * Gets an URL for a direct access to the document.
      * <p>
      * The URL might be a portal URL, meaning that the document is accessible through Sakai, or an external URL,
-     * meaning that the document is accessible through another site. This status is accessible through {@link #isPortalUrl()}.
+     * meaning that the document is accessible through another site.<br />
+     * This status is accessible through {@link #isPortalUrl()}.
      * </p>
      * <p>
      * The return URL must be relative if the document is on the same server as the Sakai instance.

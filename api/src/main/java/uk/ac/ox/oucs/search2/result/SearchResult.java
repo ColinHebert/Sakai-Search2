@@ -14,8 +14,9 @@ public interface SearchResult extends Serializable {
      * Gets the indexed document.
      * <p>
      * Gets the {@link Document} indexed and found as a result for a query.<br />
-     * The document can either be generated from its reference with a {@link uk.ac.ox.oucs.search2.document.DocumentProducer}
-     * or if every useful information is already available, from the result returned by the search engine.
+     * The document can either be generated from its reference with a
+     * {@link uk.ac.ox.oucs.search2.document.DocumentProducer}, or if every useful information is already available
+     * from the result returned by the search engine.
      * </p>
      *
      * @return The Document found as a result for a query.

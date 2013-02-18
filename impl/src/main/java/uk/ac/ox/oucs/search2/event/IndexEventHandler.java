@@ -14,11 +14,16 @@ import java.util.Collection;
  * @author Colin Hebert
  */
 public class IndexEventHandler implements EventHandler {
-    public static final String INDEX_SITE_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".indexSiteEvent");
-    public static final String UNINDEX_SITE_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexSiteEvent");
-    public static final String INDEX_ALL_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".indexAllEvent");
-    public static final String UNINDEX_ALL_EVENT = truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexAllEvent");
-    private static final Collection<String> HANDLED_EVENTS = Arrays.asList(INDEX_SITE_EVENT, UNINDEX_SITE_EVENT, INDEX_ALL_EVENT, UNINDEX_ALL_EVENT);
+    public static final String INDEX_SITE_EVENT =
+            truncateEventName(IndexEventHandler.class.getCanonicalName() + ".indexSiteEvent");
+    public static final String UNINDEX_SITE_EVENT =
+            truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexSiteEvent");
+    public static final String INDEX_ALL_EVENT =
+            truncateEventName(IndexEventHandler.class.getCanonicalName() + ".indexAllEvent");
+    public static final String UNINDEX_ALL_EVENT =
+            truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexAllEvent");
+    private static final Collection<String> HANDLED_EVENTS =
+            Arrays.asList(INDEX_SITE_EVENT, UNINDEX_SITE_EVENT, INDEX_ALL_EVENT, UNINDEX_ALL_EVENT);
 
     /**
      * Truncates an event name to be 32 chars max
@@ -39,9 +44,11 @@ public class IndexEventHandler implements EventHandler {
     public Task getTask(Event event) {
         DateTime creationDate = new DateTime(event.getEventTime());
         if (INDEX_SITE_EVENT.equals(event.getEvent()))
-            return new DefaultTask(DefaultTask.Type.INDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, event.getResource());
+            return new DefaultTask(DefaultTask.Type.INDEX_SITE, creationDate)
+                    .setProperty(DefaultTask.SITE_ID, event.getResource());
         else if (UNINDEX_SITE_EVENT.equals(event.getEvent()))
-            return new DefaultTask(DefaultTask.Type.UNINDEX_SITE, creationDate).setProperty(DefaultTask.SITE_ID, event.getResource());
+            return new DefaultTask(DefaultTask.Type.UNINDEX_SITE, creationDate)
+                    .setProperty(DefaultTask.SITE_ID, event.getResource());
         else if (INDEX_ALL_EVENT.equals(event.getEvent()))
             return new DefaultTask(DefaultTask.Type.INDEX_ALL, creationDate);
         else if (UNINDEX_ALL_EVENT.equals(event.getEvent()))

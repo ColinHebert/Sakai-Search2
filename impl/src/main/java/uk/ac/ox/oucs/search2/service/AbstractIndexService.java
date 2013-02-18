@@ -7,6 +7,7 @@ import uk.ac.ox.oucs.search2.document.DocumentProducerRegistry;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Colin Hebert
@@ -28,7 +29,9 @@ public abstract class AbstractIndexService implements IndexService {
     @Override
     public Collection<String> getIndexableSiteIds() {
         Collection<String> indexableSiteIds = new LinkedList<String>();
-        for (Site s : siteService.getSites(SiteService.SelectionType.ANY, null, null, null, SiteService.SortType.NONE, null)) {
+        List<Site> siteList = siteService.getSites(SiteService.SelectionType.ANY, null, null, null,
+                SiteService.SortType.NONE, null);
+        for (Site s : siteList) {
             if (isSiteIndexable(s)) {
                 indexableSiteIds.add(s.getId());
             }

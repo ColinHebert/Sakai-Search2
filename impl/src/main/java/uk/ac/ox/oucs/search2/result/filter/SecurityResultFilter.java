@@ -10,7 +10,8 @@ import uk.ac.ox.oucs.search2.result.SearchResult;
 /**
  * Result filter based on the user's rights to access a document.
  * <p>
- * This filter checks that a user as indeed the right to access a document, censoring every document that shouldn't be displayed.
+ * This filter checks that a user as indeed the right to access a document, censoring every document
+ * that shouldn't be displayed.
  * </p>
  *
  * @author Colin Hebert

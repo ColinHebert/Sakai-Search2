@@ -1,7 +1,8 @@
 package uk.ac.ox.oucs.search2.indexation.exception;
 
 /**
- * Exception thrown whenever a {@link uk.ac.ox.oucs.search2.indexation.Task} not supported by a {@link uk.ac.ox.oucs.search2.indexation.TaskHandler}.
+ * Exception thrown whenever a {@link uk.ac.ox.oucs.search2.indexation.Task} not supported
+ * by a {@link uk.ac.ox.oucs.search2.indexation.TaskHandler}.
  *
  * @author Colin Hebert
  */

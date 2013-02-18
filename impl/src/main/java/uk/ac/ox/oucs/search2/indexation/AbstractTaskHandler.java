@@ -86,7 +86,8 @@ public abstract class AbstractTaskHandler implements TaskHandler {
      */
     protected void indexSite(String siteId, DateTime taskCreationDate) {
         logger.info("Rebuilding the index for '" + siteId + "'");
-        MultipleTasksException nthe = new MultipleTasksException("An exception occurred while indexing the site '" + siteId + "'");
+        MultipleTasksException nthe =
+                new MultipleTasksException("An exception occurred while indexing the site '" + siteId + "'");
 
         for (Document document : indexService.getIndexableDocumentsForSite(siteId)) {
             indexDocument(document, taskCreationDate);
@@ -107,7 +108,8 @@ public abstract class AbstractTaskHandler implements TaskHandler {
      */
     protected void unindexSite(String siteId, DateTime taskCreationDate) {
         logger.info("Removing documents from the index for the site '" + siteId + "'");
-        MultipleTasksException nthe = new MultipleTasksException("An exception occurred while unindexing the site '" + siteId + "'");
+        MultipleTasksException nthe =
+                new MultipleTasksException("An exception occurred while unindexing the site '" + siteId + "'");
 
         for (Document document : indexService.getIndexableDocumentsForSite(siteId)) {
             unindexDocument(document.getReference(), taskCreationDate);

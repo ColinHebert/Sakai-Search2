@@ -41,7 +41,8 @@ public interface SearchService {
     /**
      * Obtains a list of results matching a search query within a limited context.
      * <p>
-     * Similar to {@link #search(String, java.util.Collection)} but pre existing {@link Context} can be provided instead.
+     * Similar to {@link #search(String, java.util.Collection)} but pre existing {@link Context}
+     * can be provided instead.
      * </p>
      *
      * @param searchQuery a full text query.
@@ -67,7 +68,8 @@ public interface SearchService {
     SearchResultList search(String searchQuery, long start, long length);
 
     /**
-     * Obtains a list of results matching a search query within a specific context and delimited by a start and a number of entries.
+     * Obtains a list of results matching a search query within a specific context and delimited by a start
+     * and a number of entries.
      * <p>
      * It is expected that the implementation block results that are not accessible by the current user.
      * </p>
@@ -81,7 +83,8 @@ public interface SearchService {
     SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length);
 
     /**
-     * Obtains a list of results matching a search query within a specific context and delimited by a start and a number of entries.
+     * Obtains a list of results matching a search query within a specific context and delimited by a start
+     * and a number of entries.
      *
      * @param searchQuery full text query.
      * @param context     context (scope) in which the search is done.

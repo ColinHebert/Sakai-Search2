@@ -8,7 +8,8 @@ import org.w3c.dom.Element;
 /**
  * Abstract implementation of {@link EventManager}, handles the registration to events and their interception.
  * <p>
- * This class removes the complexity of {@link NotificationAction} and automatically registers itself for relevant events.
+ * This class removes the complexity of {@link NotificationAction} and automatically registers itself
+ * for relevant events.
  * </p>
  *
  * @author Colin Hebert

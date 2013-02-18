@@ -6,7 +6,8 @@ import java.util.Date;
 /**
  * Indexation task executed by a {@link TaskHandler}.
  * <p>
- * Tasks are lightweight objects representing indexation orders that can be either executed right away or deferred to later.<br />
+ * Tasks are lightweight objects representing indexation orders that can be either executed right away
+ * or deferred to later.<br />
  * They can be sent across the network to be executed by other servers or to be stored before being executed.<br />
  * For this reason, a Task should always contain the minimum amount of information and be {@link Serializable}
  * (do not create a Task as an anonymous or inner class).
@@ -17,7 +18,8 @@ import java.util.Date;
  */
 public interface Task extends Serializable {
     /**
-     * Gets the type of the task, usually a simple unique String, allowing to the TaskHandler to determine what should be done.
+     * Gets the type of the task, usually a simple unique String, allowing to the TaskHandler to determine
+     * what should be done.
      *
      * @return the type of the task which value depends on the search implementation used.
      */

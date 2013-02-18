@@ -116,8 +116,10 @@ public class SolrTaskHandler extends AbstractTaskHandler {
             logger.debug("Executing the following request '" + indexRequest + "'");
             solrServer.request(indexRequest);
         } catch (Exception e) {
-            Task task = new DefaultTask(INDEX_DOCUMENT, taskCreationDate).setProperty(DefaultTask.DOCUMENT_REFERENCE, document.getReference());
-            throw wrapException(e, "An exception occurred while indexing the document '" + document.getReference() + "'", task);
+            Task task = new DefaultTask(INDEX_DOCUMENT, taskCreationDate)
+                    .setProperty(DefaultTask.DOCUMENT_REFERENCE, document.getReference());
+            throw wrapException(e,
+                    "An exception occurred while indexing the document '" + document.getReference() + "'", task);
         }
     }
 
@@ -139,8 +141,10 @@ public class SolrTaskHandler extends AbstractTaskHandler {
             solrServer.deleteByQuery(SolrSchemaConstants.REFERENCE_FIELD + ":" + ClientUtils.escapeQueryChars(documentReference) + " AND " +
                     SolrSchemaConstants.TIMESTAMP_FIELD + ":{* TO " + DATE_TIME_FORMATTER.print(taskCreationDate) + "}");
         } catch (Exception e) {
-            Task task = new DefaultTask(UNINDEX_DOCUMENT, taskCreationDate).setProperty(DefaultTask.DOCUMENT_REFERENCE, documentReference);
-            throw wrapException(e, "An exception occurred while unindexing the document '" + documentReference + "'", task);
+            Task task = new DefaultTask(UNINDEX_DOCUMENT, taskCreationDate)
+                    .setProperty(DefaultTask.DOCUMENT_REFERENCE, documentReference);
+            throw wrapException(e,
+                    "An exception occurred while unindexing the document '" + documentReference + "'", task);
         }
     }
 
@@ -152,7 +156,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
      */
     @Override
     protected void indexSite(String siteId, DateTime taskCreationDate) {
-        MultipleTasksException mte = new MultipleTasksException("An exception occurred while indexing the site '" + siteId + "'");
+        MultipleTasksException mte = new MultipleTasksException(
+                "An exception occurred while indexing the site '" + siteId + "'");
         try {
             super.indexSite(siteId, taskCreationDate);
         } catch (TaskException e) {
@@ -245,7 +250,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
     /**
      * Optimises the Solr index.
      * <p>
-     * Forces an <a href="http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22">optimisation</a>
+     * Forces an
+     * <a href="http://wiki.apache.org/solr/UpdateXmlMessages#A.22commit.22_and_.22optimize.22">optimisation</a>
      * of the Solr index.
      * </p>
      */
@@ -280,7 +286,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
     /**
      * Wraps any type of exception in a {@link TaskException}.
      * <p>
-     * Some exceptions can be considered as temporary and are wrapped in a {@link TemporaryTaskException} with a {@link Task} to run later.<br />
+     * Some exceptions can be considered as temporary and are wrapped in a {@link TemporaryTaskException}
+     * with a {@link Task} to run later.<br />
      * Such exceptions are :
      * <ul>
      * <li>{@link IOException} which are due to a connection problem between the Solr server and Sakai</li>
@@ -301,7 +308,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
     private TaskException wrapException(Exception e, String message, Task newTask) {
         if (e instanceof SolrServerException && ((SolrServerException) e).getRootCause() instanceof IOException) {
             return new TemporaryTaskException(message, e, newTask);
-        } else if (e instanceof SolrException && ((SolrException) e).code() == SolrException.ErrorCode.SERVICE_UNAVAILABLE.code) {
+        } else if (e instanceof SolrException
+                && ((SolrException) e).code() == SolrException.ErrorCode.SERVICE_UNAVAILABLE.code) {
             return new TemporaryTaskException(message, e, newTask);
         } else if (e instanceof IOException) {
             return new TemporaryTaskException(message, e, newTask);

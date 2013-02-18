@@ -10,11 +10,14 @@ import java.util.Map;
  * Default implementation of Task, handle basic index operations.
  * <p>
  * This implementation should be the parent class of every other implementations of {@link Task}.<br />
- * It provides a way to set properties during the Task creation, and uses internally the Joda-Time library for creationDate management.
+ * It provides a way to set properties during the Task creation, and uses internally the Joda-Time library
+ * for creationDate management.
  * </p>
  * <p>
- * An enum {@code Type} is recommended in subclasses of DefaultTask, providing a limited set of possibilities for new Tasks.<br />
- * Even if {@link #getType()} returns a {@code String}, an enumeration provides a type safety when new Tasks are created.
+ * An enum {@code Type} is recommended in subclasses of DefaultTask, providing a limited set of possibilities
+ * for new Tasks.<br />
+ * Even if {@link #getType()} returns a {@code String}, an enumeration provides a type safety
+ * when new Tasks are created.
  * </p>
  * <p>
  * It's recommended to create constants for property names, allowing to retrieve the values without any risk of typo.

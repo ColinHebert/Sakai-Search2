@@ -9,8 +9,8 @@ import java.util.LinkedList;
  * <p>
  * Some Tasks (such as a complete reindexation) can be composed of multiple smaller Tasks.<br />
  * When one of the smaller subTasks fails, the system is expected to continue to process the subTasks left.<br />
- * In order to keep track of failed subTasks, a MultipleTasksException can be generated, filled with the {@link TaskException}s
- * and thrown.
+ * In order to keep track of failed subTasks, a MultipleTasksException can be generated, filled with the
+ * {@link TaskException}s and thrown.
  * </p>
  *
  * @author Colin Hebert
@@ -39,7 +39,8 @@ public class MultipleTasksException extends TaskException {
     /**
      * Adds an exception to the list of recorded ones.
      * <p>
-     * If the exception is a MultipleTasksException itself, the list of exceptions of the provided exception is copied into this exception.
+     * If the exception is a MultipleTasksException itself, the list of exceptions of the provided exception is
+     * copied into this exception.
      * </p>
      *
      * @param taskException Caught exception stored for later.
