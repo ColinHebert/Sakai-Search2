@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author Colin Hebert
  */
 public class Search2SearchService extends AbstractSearchService {
-    private final static Logger logger = LoggerFactory.getLogger(Search2SearchService.class);
+    private static final Logger logger = LoggerFactory.getLogger(Search2SearchService.class);
     private SearchService searchService;
 
     @Override

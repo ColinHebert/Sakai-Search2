@@ -14,8 +14,8 @@ import java.util.*;
 /**
  * @author Colin Hebert
  */
-public class Search2Document implements Document {
-    private final static Logger logger = LoggerFactory.getLogger(Search2Document.class);
+public final class Search2Document implements Document {
+    private static final Logger logger = LoggerFactory.getLogger(Search2Document.class);
     private final EntityContentProducer entityContentProducer;
     private final String reference;
 
@@ -110,7 +110,7 @@ public class Search2Document implements Document {
         return properties;
     }
 
-    public static class ReaderSearch2Document extends Search2Document implements ReaderDocument {
+    public static final class ReaderSearch2Document extends Search2Document implements ReaderDocument {
 
         private ReaderSearch2Document(EntityContentProducer entityContentProducer, String reference) {
             super(entityContentProducer, reference);
@@ -122,7 +122,7 @@ public class Search2Document implements Document {
         }
     }
 
-    public static class StringSearch2Document extends Search2Document implements StringDocument {
+    public static final class StringSearch2Document extends Search2Document implements StringDocument {
 
         private StringSearch2Document(EntityContentProducer entityContentProducer, String reference) {
             super(entityContentProducer, reference);

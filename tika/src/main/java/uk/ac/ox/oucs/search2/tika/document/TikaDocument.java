@@ -52,7 +52,7 @@ public class TikaDocument implements StringDocument {
      * @param metadata       metadata, automatically filled by Tika when the document content is parsed.
      * @return the parsed content, or an empty String if the document can't be parsed.
      */
-    private String getStreamDocumentContent(StreamDocument streamDocument, Metadata metadata) {
+    private static String getStreamDocumentContent(StreamDocument streamDocument, Metadata metadata) {
         String documentContent = "";
         try {
             // Sets the document name to attempt to determine the content type based on the file extension
@@ -86,7 +86,7 @@ public class TikaDocument implements StringDocument {
      * @param metadata       metadata obtained during {@link #getStreamDocumentContent(StreamDocument, Metadata)}.
      * @return
      */
-    private Map<String, Collection<String>> extractProperties(StreamDocument streamDocument, Metadata metadata) {
+    private static Map<String, Collection<String>> extractProperties(StreamDocument streamDocument, Metadata metadata) {
         // The original properties map could be unmodifiable, it would be better to make a copy of it.
         // We assume that the Collection is still mutable.
         Map<String, Collection<String>> properties = new HashMap<String, Collection<String>>(streamDocument.getProperties());

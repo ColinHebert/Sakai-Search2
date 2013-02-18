@@ -19,7 +19,7 @@ import java.util.Queue;
  * @author Colin Hebert
  */
 public class Search1EntityContentProducer implements EntityContentProducer {
-    private final static Logger logger = LoggerFactory.getLogger(Search1EntityContentProducer.class);
+    private static final Logger logger = LoggerFactory.getLogger(Search1EntityContentProducer.class);
     private final DocumentProducer documentProducer;
     private final Search2EventManager search2EventManager;
 

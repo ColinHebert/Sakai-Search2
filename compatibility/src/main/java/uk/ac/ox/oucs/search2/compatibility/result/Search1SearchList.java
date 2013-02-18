@@ -164,7 +164,7 @@ public class Search1SearchList implements SearchList {
         return iterator;
     }
 
-    private class SearchResultIterator implements ListIterator<SearchResult> {
+    private final class SearchResultIterator implements ListIterator<SearchResult> {
         private final ListIterator<uk.ac.ox.oucs.search2.result.SearchResult> iterator;
 
         private SearchResultIterator(ListIterator<uk.ac.ox.oucs.search2.result.SearchResult> iterator) {
