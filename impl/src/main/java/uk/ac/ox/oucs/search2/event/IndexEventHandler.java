@@ -24,15 +24,18 @@ public class IndexEventHandler implements EventHandler {
             truncateEventName(IndexEventHandler.class.getCanonicalName() + ".unindexAllEvent");
     private static final Collection<String> HANDLED_EVENTS =
             Arrays.asList(INDEX_SITE_EVENT, UNINDEX_SITE_EVENT, INDEX_ALL_EVENT, UNINDEX_ALL_EVENT);
+    public static final int EVENT_NAME_MAX_LENGTH = 32;
 
     /**
-     * Truncates an event name to be 32 chars max
+     * Truncates an event name to be {@link #EVENT_NAME_MAX_LENGTH} chars max.
      *
      * @param eventName eventName to truncate
      * @return
      */
     private static String truncateEventName(String eventName) {
-        return (eventName.length() > 32) ? eventName.substring(eventName.length() - 32) : eventName;
+        return (eventName.length() > EVENT_NAME_MAX_LENGTH)
+                ? eventName.substring(eventName.length() - EVENT_NAME_MAX_LENGTH)
+                : eventName;
     }
 
     @Override
