@@ -5,7 +5,7 @@ import uk.ac.ox.oucs.search2.document.Document;
 import java.io.Serializable;
 
 /**
- * One entry in the results returned for a search
+ * One entry in the results returned for a search.
  *
  * @author Colin Hebert
  */

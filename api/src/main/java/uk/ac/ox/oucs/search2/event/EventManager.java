@@ -6,7 +6,7 @@ import org.sakaiproject.event.api.NotificationAction;
 
 /**
  * Component in charge of obtaining events and dispatching them.
- * <p/>
+ * <p>
  * The EventManager is expected to act as a register for {@link EventHandler} and forward relevant events
  * to each EventHandler.
  * </p>

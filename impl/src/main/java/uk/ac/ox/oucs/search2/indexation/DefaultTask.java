@@ -27,11 +27,11 @@ import java.util.Map;
  */
 public class DefaultTask implements Task {
     /**
-     * Property name for the reference of a document
+     * Property name for the reference of a document.
      */
     public final static String DOCUMENT_REFERENCE = DefaultTask.class.getCanonicalName() + ".documentReference";
     /**
-     * Property name for the unique identifier of a site
+     * Property name for the unique identifier of a site.
      */
     public final static String SITE_ID = DefaultTask.class.getCanonicalName() + ".siteId";
     private final String type;
@@ -113,7 +113,7 @@ public class DefaultTask implements Task {
          */
         INDEX_DOCUMENT,
         /**
-         * Remove a content from the index
+         * Remove a content from the index.
          */
         UNINDEX_DOCUMENT,
 

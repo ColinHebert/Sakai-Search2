@@ -59,7 +59,7 @@ public class DefaultIndexService extends AbstractIndexService {
     }
 
     /**
-     * Add a new {@link Task} by either sending it to a {@link TaskHandler} or a {@link TaskQueuing}
+     * Adds a new {@link Task} by either sending it to a {@link TaskHandler} or a {@link TaskQueuing}.
      *
      * @param task Task to add to the system.
      * @param now  true if the task should be handler right away, false if it can wait in the queue.

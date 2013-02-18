@@ -95,6 +95,7 @@ public interface IndexService {
     /**
      * Obtains the indexable documents present in a site.
      *
+     * @param siteId site in which the documents are.
      * @return a collection of indexable documents in a site. An empty collection if the site isn't indexable.
      */
     Collection<Document> getIndexableDocumentsForSite(String siteId);

@@ -16,7 +16,8 @@ import java.util.concurrent.ExecutorService;
  * In this scenario, expanding every task into a single Executor would mean that at some point the queue contains
  * every possible documents. The second executor is here to take the load from the first one, avoiding a queue with
  * too many elements.<br />
- * For this reason, the {@link #simpleTasksExecutor} must have a bigger queue and work faster than {@link #heavyTasksExecutor}
+ * For this reason, the {@link #simpleTasksExecutor} must have a bigger queue and work faster than
+ * {@link #heavyTasksExecutor}
  * </p>
  *
  * @author Colin Hebert
@@ -42,7 +43,7 @@ public class DefaultTaskQueuing extends AbstractTaskRunner implements TaskQueuin
 
     /**
      * {@inheritDoc}
-     * <p/>
+     * <p>
      * The Task is added to the right executor depending on the type of of Task.
      * </p>
      *
