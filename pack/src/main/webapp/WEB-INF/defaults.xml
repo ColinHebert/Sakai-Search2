@@ -85,7 +85,7 @@
 
     <bean id="uk.ac.ox.oucs.search2.service.DefaultIndexService"
           class="uk.ac.ox.oucs.search2.service.DefaultIndexService"
-            parent="uk.ac.ox.oucs.search2.service.AbstractIndexService">
+          parent="uk.ac.ox.oucs.search2.service.AbstractIndexService">
         <property name="taskHandler" ref="uk.ac.ox.oucs.search2.indexation.TaskHandler"/>
         <property name="taskQueuing" ref="uk.ac.ox.oucs.search2.indexation.TaskQueuing"/>
     </bean>

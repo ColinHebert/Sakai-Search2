@@ -8,7 +8,7 @@
           class="uk.ac.ox.oucs.search2.compatibility.service.Search1SearchIndexBuilder">
         <property name="eventTrackingService" ref="org.sakaiproject.event.api.EventTrackingService"/>
         <property name="search2EventHandler" ref="search2EventHandler"/>
-        <property name="search2EventManager" ref="uk.ac.ox.oucs.search2.compatibility.event.Search2EventManager" />
+        <property name="search2EventManager" ref="uk.ac.ox.oucs.search2.compatibility.event.Search2EventManager"/>
         <property name="documentProducerRegistry" ref="uk.ac.ox.oucs.search2.DocumentProducerRegistry"/>
         <property name="excludeUserSites" value="${search.usersites.ignored}"/>
         <property name="onlyIndexSearchToolSites" value="${search.tool.required}"/>
