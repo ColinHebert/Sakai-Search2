@@ -35,20 +35,23 @@ public class SolrSearchResultList extends AbstractSearchResultList<QueryResponse
     }
 
     @Override
-    protected List<? extends SearchResult> getSearchResults(QueryResponse queryResponse, Iterable<ResultFilter> filters) {
+    protected List<? extends SearchResult> getSearchResults(QueryResponse queryResponse,
+                                                            Iterable<ResultFilter> filters) {
         List<SearchResult> searchResults = new ArrayList<SearchResult>(queryResponse.getResults().size());
         long index = 0;
 
         for (org.apache.solr.common.SolrDocument document : queryResponse.getResults()) {
             String reference = (String) document.getFieldValue(SolrSchemaConstants.REFERENCE_FIELD);
-            SolrSearchResult solrResult = extractResult(index++, document, queryResponse.getHighlighting().get(reference));
+            SolrSearchResult solrResult = extractResult(index++, document,
+                    queryResponse.getHighlighting().get(reference));
             SearchResult searchResult = new FilterChain(filters).filter(solrResult);
             searchResults.add(searchResult);
         }
         return searchResults;
     }
 
-    private SolrSearchResult extractResult(long index, org.apache.solr.common.SolrDocument solrDocument, Map<String, List<String>> highlights) {
+    private SolrSearchResult extractResult(long index, org.apache.solr.common.SolrDocument solrDocument,
+                                           Map<String, List<String>> highlights) {
         Document document = new SolrDocument(solrDocument);
         double score = (Double) solrDocument.getFieldValue(SolrSchemaConstants.SCORE_FIELD);
         String highlightedText = getText(highlights.get(SolrSchemaConstants.CONTENT_FIELD));

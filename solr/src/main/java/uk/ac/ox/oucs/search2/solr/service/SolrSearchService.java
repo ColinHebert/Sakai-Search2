@@ -27,7 +27,8 @@ public class SolrSearchService extends AbstractSearchService {
     private SolrServer solrServer;
 
     @Override
-    protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<ResultFilter> filterChain) {
+    protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length,
+                                      Iterable<ResultFilter> filterChain) {
         try {
             SolrQuery query = new SolrQuery();
 

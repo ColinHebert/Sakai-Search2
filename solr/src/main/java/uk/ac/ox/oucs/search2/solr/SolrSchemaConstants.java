@@ -4,9 +4,6 @@ package uk.ac.ox.oucs.search2.solr;
  * @author Colin Hebert
  */
 public final class SolrSchemaConstants {
-    private SolrSchemaConstants(){
-    }
-
     public static final String ID_FIELD = "id";
     public static final String TITLE_FIELD = "title";
     public static final String REFERENCE_FIELD = "reference";
@@ -23,4 +20,7 @@ public final class SolrSchemaConstants {
     public static final String SOLR_CELL_UPREFIX = "tika_";
     public static final String SOLR_CELL_LITERAL = "literal.";
     public static final String SOLR_CELL_PATH = "/update/extract";
+
+    private SolrSchemaConstants() {
+    }
 }

@@ -7,7 +7,7 @@ import uk.ac.ox.oucs.search2.result.SearchResultList;
 import java.util.*;
 
 /**
- * Transforms a result list of Search2 into a result of Search1
+ * Transforms a result list of Search2 into a result of Search1.
  *
  * @author Colin Hebert
  */

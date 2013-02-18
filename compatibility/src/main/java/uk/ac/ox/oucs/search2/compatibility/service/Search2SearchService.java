@@ -21,9 +21,11 @@ public class Search2SearchService extends AbstractSearchService {
     private SearchService searchService;
 
     @Override
-    protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length, Iterable<ResultFilter> filterChain) {
+    protected SearchResultList search(String searchQuery, Collection<String> contexts, long start, long length,
+                                      Iterable<ResultFilter> filterChain) {
         try {
-            return new Search2SearchResultList(searchService.search(searchQuery, new ArrayList<String>(contexts), (int) start, (int) (start + length)));
+            return new Search2SearchResultList(searchService.search(searchQuery, new ArrayList<String>(contexts),
+                    (int) start, (int) (start + length)));
         } catch (InvalidSearchQueryException e) {
             logger.error("Couldn't get a result from the search query '" + searchQuery + "'", e);
             return EmptySearchResultList.getInstance();

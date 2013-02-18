@@ -58,7 +58,8 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
     @Override
     public List<EntityContentProducer> getContentProducers() {
         return new AbstractList<EntityContentProducer>() {
-            private List<DocumentProducer> documentProducers = new ArrayList<DocumentProducer>(documentProducerRegistry.getDocumentProducers());
+            private List<DocumentProducer> documentProducers =
+                    new ArrayList<DocumentProducer>(documentProducerRegistry.getDocumentProducers());
 
             @Override
             public EntityContentProducer get(int index) {
@@ -83,7 +84,8 @@ public class Search1SearchIndexBuilder implements SearchIndexBuilder {
 
     @Override
     public void rebuildIndex(String currentSiteId) {
-        eventTrackingService.post(eventTrackingService.newEvent(IndexEventHandler.INDEX_SITE_EVENT, currentSiteId, false));
+        eventTrackingService.post(
+                eventTrackingService.newEvent(IndexEventHandler.INDEX_SITE_EVENT, currentSiteId, false));
     }
 
     @Override

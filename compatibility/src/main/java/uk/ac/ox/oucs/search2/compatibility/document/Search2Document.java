@@ -100,7 +100,8 @@ public final class Search2Document implements Document {
                 for (Object originalPropertySubValue : originalPropertyValues)
                     propertyValue.add(originalPropertySubValue.toString());
             } else {
-                logger.info("Couldn't find what the value for '" + originalProperty.getKey() + "' was. The String version has been used instead: " + originalPropertyValue);
+                logger.info("Couldn't find what the value for '" + originalProperty.getKey() + "' was. "
+                        + "The String version has been used instead: " + originalPropertyValue);
                 propertyValue = Collections.singleton(originalPropertyValue.toString());
             }
 

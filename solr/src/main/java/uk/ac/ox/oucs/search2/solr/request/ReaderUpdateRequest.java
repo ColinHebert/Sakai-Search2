@@ -125,7 +125,7 @@ public class ReaderUpdateRequest extends AbstractUpdateRequest {
     }
 
     /**
-     * escapes character data in reader
+     * escapes character data in reader.
      */
     public static Reader getFieldContentReaderXml(String tag, Reader fieldContent, Object... attrs) throws IOException {
         List<InputSupplier<? extends Reader>> readers = new LinkedList<InputSupplier<? extends Reader>>();

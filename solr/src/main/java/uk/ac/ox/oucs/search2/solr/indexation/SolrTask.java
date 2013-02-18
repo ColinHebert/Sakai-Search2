@@ -36,7 +36,7 @@ public class SolrTask extends DefaultTask {
     }
 
     /**
-     * Task types specific to Solr
+     * Task types specific to Solr.
      */
     public static enum Type {
         /**

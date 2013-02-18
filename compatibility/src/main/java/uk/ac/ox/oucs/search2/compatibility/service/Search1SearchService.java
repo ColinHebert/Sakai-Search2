@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Intercepts calls to the Search1 API and redirects them to the Search2 API
+ * Intercepts calls to the Search1 API and redirects them to the Search2 API.
  *
  * @author Colin Hebert
  */
@@ -24,13 +24,17 @@ public class Search1SearchService implements org.sakaiproject.search.api.SearchS
 
 
     @Override
-    public SearchList search(String searchTerms, List<String> contexts, int searchStart, int searchEnd) throws InvalidSearchQueryException {
-        SearchResultList searchResults = actualSearchService.search(searchTerms, contexts, searchStart, searchEnd - searchStart);
+    public SearchList search(String searchTerms, List<String> contexts, int searchStart, int searchEnd)
+            throws InvalidSearchQueryException {
+        SearchResultList searchResults = actualSearchService.search(searchTerms, contexts,
+                searchStart, searchEnd - searchStart);
         return new Search1SearchList(searchResults);
     }
 
     @Override
-    public SearchList search(String searchTerms, List<String> contexts, int start, int end, String filterName, String sorterName) throws InvalidSearchQueryException {
+    public SearchList search(String searchTerms, List<String> contexts, int start, int end,
+                             String filterName, String sorterName)
+            throws InvalidSearchQueryException {
         // Filters and sorters don't apply here.
         return search(searchTerms, contexts, start, end);
     }

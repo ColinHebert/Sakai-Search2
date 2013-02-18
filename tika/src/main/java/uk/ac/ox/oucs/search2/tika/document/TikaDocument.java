@@ -13,7 +13,8 @@ import java.util.*;
  * This {@link uk.ac.ox.oucs.search2.document.Document} is a wrapper for {@link StreamDocument} allowing to parse the
  * binary document on the fly.
  * <p>
- * Using {@link Tika} parsers, the {@code Document} provided as an {@code java.io.InputStream} is automatically parsed.<br />
+ * Using {@link Tika} parsers, the {@code Document} provided as an {@code java.io.InputStream}
+ * is automatically parsed.<br />
  * The {@link #getProperties()} contains the original properties and the metadata extracted from the {@code Document}.
  * </p>
  *
@@ -43,7 +44,8 @@ public class TikaDocument implements StringDocument {
      * <p>
      * Using the {@link Tika}, this method will try to parse the document and its metadata.<br />
      * To make the type detection easier, Tika will rely on the document name that can be provided with
-     * {@link StreamDocument#getContentName()} and on the type content provided by {@link StreamDocument#getContentType()}.<br />
+     * {@link StreamDocument#getContentName()} and on the type content provided b
+     * {@link StreamDocument#getContentType()}.<br />
      * Those methods are optional, if nothing is provided, Tika will try to figure out the content type itself.<br />
      * If Tika can't parse the document, the content will be an empty {@code String}.
      * </p>
@@ -75,12 +77,13 @@ public class TikaDocument implements StringDocument {
     /**
      * Extracts properties of the document and merge with the metadata.
      * <p>
-     * The properties of the document are now the properties of the previous document plus the potential metadata extracted
-     * during the call to {@link #getStreamDocumentContent(StreamDocument, Metadata)}.
+     * The properties of the document are now the properties of the previous document plus the potential metadata
+     * extracted during the call to {@link #getStreamDocumentContent(StreamDocument, Metadata)}.
      * </p>
      * TODO: The properties in the parent are expected to be immutable, but the content is expected to be modifiable.
      * TODO: This is probably a mistake. Either both should be immutable or neither.
-     * TODO: Make a decision, and either make a deep copy of the existing properties or make the collections immutable too.
+     * TODO: Make a decision, and either make a deep copy of the existing properties
+     * TODO: or make the collections immutable too.
      *
      * @param streamDocument original document containing some properties.
      * @param metadata       metadata obtained during {@link #getStreamDocumentContent(StreamDocument, Metadata)}.
@@ -89,7 +92,8 @@ public class TikaDocument implements StringDocument {
     private static Map<String, Collection<String>> extractProperties(StreamDocument streamDocument, Metadata metadata) {
         // The original properties map could be unmodifiable, it would be better to make a copy of it.
         // We assume that the Collection is still mutable.
-        Map<String, Collection<String>> properties = new HashMap<String, Collection<String>>(streamDocument.getProperties());
+        Map<String, Collection<String>> properties =
+                new HashMap<String, Collection<String>>(streamDocument.getProperties());
         for (String metadataName : metadata.names()) {
             for (String metadataValue : metadata.getValues(metadataName)) {
                 Collection<String> property = properties.get(metadataName);

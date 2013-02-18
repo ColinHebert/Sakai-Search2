@@ -15,7 +15,8 @@ public class Search2DocumentProducerRegistry extends DefaultDocumentProducerRegi
     @Override
     public void registerDocumentProducer(DocumentProducer documentProducer) {
         super.registerDocumentProducer(documentProducer);
-        searchIndexBuilder.registerEntityContentProducer(new Search1EntityContentProducer(documentProducer, search2EventManager));
+        searchIndexBuilder.registerEntityContentProducer(
+                new Search1EntityContentProducer(documentProducer, search2EventManager));
     }
 
     public void setSearchIndexBuilder(SearchIndexBuilder searchIndexBuilder) {

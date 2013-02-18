@@ -69,7 +69,8 @@ public class Search2EventManager extends AbstractEventManager {
             searchIndexBuilder.rebuildIndex(task.getProperty(DefaultTask.SITE_ID));
         else if (DefaultTask.Type.INDEX_ALL.getTypeName().equals(task.getType()))
             searchIndexBuilder.rebuildIndex();
-        else if (DefaultTask.Type.INDEX_DOCUMENT.getTypeName().equals(task.getType()) || DefaultTask.Type.UNINDEX_DOCUMENT.getTypeName().equals(task.getType()))
+        else if (DefaultTask.Type.INDEX_DOCUMENT.getTypeName().equals(task.getType())
+                || DefaultTask.Type.UNINDEX_DOCUMENT.getTypeName().equals(task.getType()))
             searchIndexBuilder.addResource(null, event);
     }
 
@@ -80,7 +81,7 @@ public class Search2EventManager extends AbstractEventManager {
     public int getActionForEvent(Event event, DocumentProducer documentProducer) {
         Task task = getTaskForEventAndDocumentProducer(event, documentProducer);
 
-        if(task == null)
+        if (task == null)
             return SearchBuilderItem.ACTION_UNKNOWN;
 
         if (DefaultTask.Type.INDEX_DOCUMENT.getTypeName().equals(task.getType())) {
@@ -97,7 +98,7 @@ public class Search2EventManager extends AbstractEventManager {
             if (eventHandler.isHandled(event)) {
                 Task task = eventHandler.getTask(event);
                 String reference = task.getProperty(DefaultTask.DOCUMENT_REFERENCE);
-                if(documentProducer.isHandled(reference))
+                if (documentProducer.isHandled(reference))
                     return task;
             }
         }

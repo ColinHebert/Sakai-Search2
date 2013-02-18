@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Queue;
 
 /**
- * Wraps an {@link EntityContentProducer} from the Search1 API into a {@link DocumentProducer}
+ * Wraps an {@link EntityContentProducer} from the Search1 API into a {@link DocumentProducer}.
  *
  * @author Colin Hebert
  */

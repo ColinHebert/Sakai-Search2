@@ -138,8 +138,8 @@ public class SolrTaskHandler extends AbstractTaskHandler {
             logger.debug("Remove '" + documentReference + "' from the index");
 
         try {
-            solrServer.deleteByQuery(REFERENCE_FIELD + ":"+ ClientUtils.escapeQueryChars(documentReference)
-                            + " AND " + TIMESTAMP_FIELD + ":" + solrDateRange(null, taskCreationDate, false));
+            solrServer.deleteByQuery(REFERENCE_FIELD + ":" + ClientUtils.escapeQueryChars(documentReference)
+                    + " AND " + TIMESTAMP_FIELD + ":" + solrDateRange(null, taskCreationDate, false));
         } catch (Exception e) {
             Task task = new DefaultTask(UNINDEX_DOCUMENT, taskCreationDate)
                     .setProperty(DefaultTask.DOCUMENT_REFERENCE, documentReference);

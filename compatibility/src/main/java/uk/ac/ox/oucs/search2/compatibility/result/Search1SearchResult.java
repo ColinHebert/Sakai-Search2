@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Transforms a result from search2 into a result for search1
+ * Transforms a result from search2 into a result for search1.
  *
  * @author Colin Hebert
  */

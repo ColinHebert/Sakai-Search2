@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import org.sakaiproject.event.api.Event;
 import org.sakaiproject.search.api.EntityContentProducer;
 import uk.ac.ox.oucs.search2.event.EventHandler;
-import uk.ac.ox.oucs.search2.event.EventManager;
 import uk.ac.ox.oucs.search2.indexation.DefaultTask;
 import uk.ac.ox.oucs.search2.indexation.Task;
 
@@ -14,21 +13,23 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /**
- * Captures event for Search1 registered EntityContentProducers and tries to associate it with the right content producer.
+ * Captures event for Search1 registered EntityContentProducers and tries to associate it with
+ * the right content producer.
  *
  * @author Colin Hebert
  */
 public class Search2EventHandler implements EventHandler {
-    private Map<String, Collection<EntityContentProducer>> eventTypes = new HashMap<String, Collection<EntityContentProducer>>();
+    private Map<String, Collection<EntityContentProducer>> eventTypes =
+            new HashMap<String, Collection<EntityContentProducer>>();
     private Collection<EntityContentProducer> entityContentProducers = new LinkedList<EntityContentProducer>();
     private Search2EventManager eventManager;
 
-    public void init(){
+    public void init() {
         eventManager.addEventHandler(this);
     }
 
     public void addEventType(String eventType) {
-        if (!eventTypes.containsKey(eventType)){
+        if (!eventTypes.containsKey(eventType)) {
             eventTypes.put(eventType, new LinkedList<EntityContentProducer>());
             // Update the event handler with the new events to watch
             eventManager.addEventHandlerForEvent(this, eventType);
@@ -70,9 +71,7 @@ public class Search2EventHandler implements EventHandler {
 
     @Override
     public boolean isHandled(Event event) {
-        if (!getSupportedEventTypes().contains(event.getEvent()))
-            return false;
-        return getEntityContentProducerForEvent(event) != null ? true : false;
+        return getSupportedEventTypes().contains(event.getEvent()) && getEntityContentProducerForEvent(event) != null;
     }
 
     /**
